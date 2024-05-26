@@ -62,14 +62,14 @@ WORKDIR /app
 COPY yarn.lock package.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
-COPY plugins/ ./plugins/
+# COPY plugins/ plugins/
 RUN yarn install --immutable
 
 COPY tsconfig.json ./
 COPY lerna.json ./
 COPY backstage.json ./
 COPY packages/ packages/
-COPY plugins/ plugins/
+# COPY plugins/ plugins/
 RUN yarn tsc
 
 COPY app-config.yaml ./
