@@ -25,7 +25,7 @@ GitHub | Integration with GitHub for insights, pull requests, actions and more
 
 ## 🚀 Getting Started
 
-To run the Backstage Showcase locally:
+To run the web app locally:
 
 1. Clone the repository
    ```
