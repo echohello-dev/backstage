@@ -6,6 +6,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 7007:7007
-    env_file:
-      - .env
-      - .env.secrets
+    # env_file:
+    #   - .env
+    #   - .env.secrets
