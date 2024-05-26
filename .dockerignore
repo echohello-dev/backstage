@@ -3,5 +3,10 @@
 .yarn/install-state.gz
 node_modules
 packages/*/node_modules
-plugins
 *.local.yaml
+charts/
+.kube/config
+.env.secrets
+chart/**/*.dec
+*.enc
+*.dec
