@@ -1,6 +1,9 @@
 -include .env
 export
 
+login-github:
+	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
+
 init:
 	cp .env.example .env
 	cp app-config.example.yaml app-config.local.yaml
