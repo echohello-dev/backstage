@@ -1,6 +1,7 @@
 # Backstage
 
 ![](https://img.shields.io/github/license/echohello-dev/backstage)
+[![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/build.yml?label=Build)](https://github.com/echohello-dev/backstage/actions/workflows/build.yml)
 [![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/deploy.yml?label=Deploy)](https://github.com/echohello-dev/backstage/actions/workflows/deploy.yml)
 
 ## Purpose
