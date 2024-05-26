@@ -25,6 +25,12 @@ GitHub | Integration with GitHub for insights, pull requests, actions and more
 
 ## 🚀 Getting Started
 
+### Prerequisites
+
+- [asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
+
+### Setup
+
 To run the web app locally:
 
 1. Clone the repository
