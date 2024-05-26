@@ -1,104 +1,36 @@
 # [Backstage](https://backstage.io)
 
-## Getting Started
+## 🚀 Getting Started
 
-Copy local environment files from the example files.
+To run the Backstage Showcase locally:
 
-```bash
-make init
-```
+1. Clone the repository
+   ```
+   git clone https://github.com/echohello-dev/backstage.git
+   ```
+2. Install dependencies
+   ```
+   make install
+   ```
+3. Start the app
+   ```
+   make dev
+   ```
+4. Open http://localhost:3000 in your browser
 
-Start the Backstage server.
+## 🧑‍💻 Development
 
-```bash
-make dev
-```
+Common development tasks can be executed using `make` commands:
 
-## Development
-
-Installs the Kubeconfig to the host after decrypting it.
-
-```bash
-make login-kubernetes
-```
-
-Logs into GitHub's Docker registry using the provided GitHub username and token.
-
-```bash
-make login-github
-```
-
-Copies the example environment and application configuration files to actual configuration files after decrypting the environment.
-
-```bash
-make init
-```
-
-Installs the required Python and Node.js versions if they are not already installed, and then installs the necessary JavaScript packages.
-
-```bash
-make install
-```
-
-Starts the server at http://localhost:3000 after installing the necessary packages.
-
-```bash
-make dev
-```
-
-Starts the server at http://localhost:7007 and opens this URL in the default web browser. It then starts the Docker Compose services in detached mode.
-
-```bash
-make up
-```
-
-Stops and removes the Docker Compose services.
-
-```bash
-make down
-```
-
-Builds the Docker Compose service named "backstage".
-
-```bash
-make build
-```
-
-Builds and pushes the Docker Compose service named "backstage" after logging into GitHub.
-
-```bash
-make push
-```
-
-Deploys the application using Skaffold after logging into Kubernetes.
-
-```bash
-make deploy
-```
-
-Encrypts the environment variable file `.env.secrets` using SOPS and saves the encrypted content to `.env.secrets.enc`.
-
-```bash
-make encrypt-env
-```
-
-Encrypts the Helm chart secrets file `chart/secrets.prod.yaml` using Helm secrets.
-
-```bash
-make encrypt-chart
-```
-
-Decrypts the `.env.secrets.enc` file using SOPS and saves the decrypted content to `.env.secrets`.
-
-```bash
-make decrypt-env
-```
-
-Decrypts the `.kube/config.enc` file using SOPS and saves the decrypted content to `.kube/config`.
-
-```bash
-make decrypt-kubeconfig
-```
+| Command        | Description                             |
+| -------------- | --------------------------------------- |
+| `make login`   | Authenticate with Kubernetes and GitHub |
+| `make dev`     | Start a local development server        |
+| `make test`    | Run tests                               |
+| `make build`   | Build a Docker image                    |
+| `make deploy`  | Deploy to Kubernetes                    |
+| `make encrypt` | Encrypt sensitive files                 |
+| `make decrypt` | Decrypt sensitive files                 |
 
 ## Upgrading Backstage
 
