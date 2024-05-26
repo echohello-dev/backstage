@@ -2,7 +2,7 @@
 
 [![Backstage Documentation](https://img.shields.io/badge/Backstage-TechDocs-blue)](https://backstage.echohello.dev/docs/components/backstage)
 
-Welcome to EchoHello's Backstage Showcase repository! This project demonstrates the power and versatility of the [Backstage](https://backstage.io) developer portal platform.
+Welcome to our Backstage Showcase repository! This project demonstrates the power and versatility of the [Backstage](https://backstage.io) developer portal platform.
 
 ## 🎯 Purpose
 
@@ -44,6 +44,7 @@ To run the Backstage Showcase locally:
 ## Workflows
 
 [![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/build.yml?label=Build)](https://github.com/echohello-dev/backstage/actions/workflows/build.yml)
+[![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/publish.yml?label=Publish)](https://github.com/echohello-dev/backstage/actions/workflows/publish.yml)
 [![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/deploy.yml?label=Deploy)](https://github.com/echohello-dev/backstage/actions/workflows/deploy.yml)
 
 ## Star History
