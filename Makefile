@@ -26,6 +26,9 @@ login-github:
 init: decrypt-env
 	cp .env.example .env
 	cp app-config.example.yaml app-config.local.yaml
+ifneq ($(shell which asdf),)
+	asdf install
+endif
 
 install:
 	yarn install --immutable
