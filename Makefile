@@ -21,7 +21,7 @@ login-kubernetes: decrypt-kubeconfig
 
 login-github:
 	@echo "Login to GitHub"
-	docker login ghcr.io -u $(GITHUB_USERNAME) -p $(GITHUB_TOKEN)
+	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init: decrypt-env
 	cp .env.example .env
@@ -57,7 +57,7 @@ down:
 build:
 	docker compose build backstage
 
-push: login-github
+publish: login-github
 	docker compose build --push backstage
 
 deploy: login
