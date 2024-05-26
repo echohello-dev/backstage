@@ -16,21 +16,22 @@ To run the Backstage Showcase locally:
    ```
    make dev
    ```
-4. Open http://localhost:3000 in your browser
+4. Open [`localhost:3000`](http://localhost:3000) in your browser
 
 ## 🧑‍💻 Development
 
 Common development tasks can be executed using `make` commands:
 
-| Command        | Description                             |
-| -------------- | --------------------------------------- |
-| `make login`   | Authenticate with Kubernetes and GitHub |
-| `make dev`     | Start a local development server        |
-| `make test`    | Run tests                               |
-| `make build`   | Build a Docker image                    |
-| `make deploy`  | Deploy to Kubernetes                    |
-| `make encrypt` | Encrypt sensitive files                 |
-| `make decrypt` | Decrypt sensitive files                 |
+<!-- prettier-ignore -->
+Command | Description
+-|-
+`make login` | Authenticate with Kubernetes and GitHub
+`make dev` | Start a local development server
+`make test` | Run tests
+`make build` | Build a Docker image
+`make deploy` | Deploy to Kubernetes
+`make encrypt` | Encrypt sensitive files
+`make decrypt` | Decrypt sensitive files
 
 ## Upgrading Backstage
 
