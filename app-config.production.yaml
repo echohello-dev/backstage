@@ -13,6 +13,10 @@ backend:
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
 
+  auth:
+    # For demo purposes
+    dangerouslyAllowOutsideDevelopment: true
+
 auth:
   providers:
     guest: {}
