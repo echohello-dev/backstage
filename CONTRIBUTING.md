@@ -1,13 +1,23 @@
 # Contributing
 
-To install the project and its dependencies, run:
+Please feel free to contribute to the Backstage Showcase! We welcome all contributions, including bug fixes, new features, and documentation improvements.
 
-```bash
-make init
-```
+## Getting Started
 
-To publish container images to the GitHub Container Registry, run:
+This is similar to other open source projects. Here are the steps to get started:
 
-```bash
-make publish
-```
+- Fork the repository
+- Clone the repository
+  ```
+  git clone
+  ```
+- Install dependencies
+  ```
+  make install
+  ```
+- Start the app
+  ```
+  make dev
+  ```
+
+Check out our [Development](./docs/development.md) guide to learn how to set up your development environment and start contributing.
