@@ -1,4 +1,3 @@
-TAG := $(shell git describe --tags --abbrev=0)
 VERSION ?= $(shell git describe --tags --always)
 
 -include .env
@@ -25,6 +24,9 @@ test: install
 
 dev: install
 	@echo "Starting the server at http://localhost:3000"
+	yarn dev
+
+docker-dev:
 	yarn dev
 
 logs:
