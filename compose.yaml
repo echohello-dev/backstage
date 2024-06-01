@@ -1,6 +1,6 @@
 services:
   backstage:
-    image: ghcr.io/echohello-dev/backstage:latest
+    image: ghcr.io/echohello-dev/backstage:${VERSION:-latest}
     build:
       context: .
       dockerfile: Dockerfile
