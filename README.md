@@ -47,6 +47,10 @@ To run the web app locally:
    ```
 4. Open [`localhost:3000`](http://localhost:3000) in your browser
 
+## Contributing
+
+We welcome contributions to the Backstage Showcase! Please see our [Contributing Guide](CONTRIBUTING.md) for more information.
+
 ## Workflows
 
 [![](https://img.shields.io/github/actions/workflow/status/echohello-dev/backstage/build.yml?label=Build)](https://github.com/echohello-dev/backstage/actions/workflows/build.yml)

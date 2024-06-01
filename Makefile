@@ -1,7 +1,13 @@
+TAG := $(shell git describe --tags --abbrev=0)
+VERSION ?= $(shell git describe --tags --always)
+
 -include .env
 export
 
 login-github:
+ifndef GITHUB_TOKEN
+	$(error GITHUB_TOKEN is not set)
+endif
 	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init:
