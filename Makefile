@@ -27,7 +27,7 @@ dev: install
 	yarn dev
 
 docker-dev:
-	yarn dev
+	docker compose up
 
 logs:
 	docker compose logs -f
