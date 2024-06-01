@@ -46,3 +46,4 @@ build:
 
 publish: login-github
 	docker compose build --push backstage
+	VERSION=latest docker compose build --push backstage
