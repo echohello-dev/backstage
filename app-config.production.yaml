@@ -13,13 +13,10 @@ backend:
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
 
-  auth:
-    # For demo purposes
-    dangerouslyAllowOutsideDevelopment: true
-
 auth:
   providers:
-    guest: {}
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
 catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.
   # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
