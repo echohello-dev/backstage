@@ -24,8 +24,8 @@ import {
   useSidebarOpenState,
   Link,
 } from '@backstage/core-components';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import Menu from '@mui/icons-material/Menu';
+import Search from '@mui/icons-material/Search';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 const SidebarLogoRoot = styled('div')(({ theme }) => ({
@@ -58,11 +58,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <Sidebar>
       <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+      <SidebarGroup label="Search" icon={<Search />} to="/search">
         <SidebarSearchModal />
       </SidebarGroup>
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+      <SidebarGroup label="Menu" icon={<Menu />}>
         {/* Global nav, not org-specific */}
         <SidebarItem icon={Home as IconComponent} to="catalog" text="Home" />
         <SidebarItem
