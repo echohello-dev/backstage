@@ -63,8 +63,8 @@ const app = createApp({
   },
   themes: [
     {
-      id: 'my-theme',
-      title: 'My Custom Theme',
+      id: 'default',
+      title: 'Default',
       variant: 'light',
       icon: <AcUnitIcon />,
       Provider: ({ children }) => (
