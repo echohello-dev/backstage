@@ -39,7 +39,7 @@ const SidebarLogoRoot = styled('div')(() => ({
 
 const SidebarLogoLink = styled(Link)(() => ({
   width: sidebarConfig.drawerWidthClosed,
-  marginLeft: 24,
+  paddingLeft: '24px',
 }));
 
 const SidebarLogo = () => {
