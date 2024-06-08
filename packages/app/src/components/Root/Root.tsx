@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import MapIcon from '@material-ui/icons/MyLocation';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+import { styled } from '@mui/material/styles';
+import Home from '@mui/icons-material/Home';
+import Extension from '@mui/icons-material/Extension';
+import Map from '@mui/icons-material/MyLocation';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
+import CreateComponent from '@mui/icons-material/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import {
@@ -24,34 +24,33 @@ import {
   useSidebarOpenState,
   Link,
 } from '@backstage/core-components';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
+import Menu from '@mui/icons-material/Menu';
+import Search from '@mui/icons-material/Search';
+import { IconComponent } from '@backstage/core-plugin-api';
 
-const useSidebarLogoStyles = makeStyles({
-  root: {
-    width: sidebarConfig.drawerWidthClosed,
-    height: 3 * sidebarConfig.logoHeight,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: -14,
-  },
-  link: {
-    width: sidebarConfig.drawerWidthClosed,
-    marginLeft: 24,
-  },
-});
+const SidebarLogoRoot = styled('div')(() => ({
+  width: sidebarConfig.drawerWidthClosed,
+  height: 3 * sidebarConfig.logoHeight,
+  display: 'flex',
+  flexFlow: 'row nowrap',
+  alignItems: 'center',
+  marginBottom: -14,
+}));
+
+const SidebarLogoLink = styled(Link)(() => ({
+  width: sidebarConfig.drawerWidthClosed,
+  marginLeft: 24,
+}));
 
 const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
 
   return (
-    <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
+    <SidebarLogoRoot>
+      <SidebarLogoLink to="/" underline="none" aria-label="Home">
         {isOpen ? <LogoFull /> : <LogoIcon />}
-      </Link>
-    </div>
+      </SidebarLogoLink>
+    </SidebarLogoRoot>
   );
 };
 
@@ -59,20 +58,36 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <Sidebar>
       <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+      <SidebarGroup label="Search" icon={<Search />} to="/search">
         <SidebarSearchModal />
       </SidebarGroup>
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+      <SidebarGroup label="Menu" icon={<Menu />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        <SidebarItem icon={Home as IconComponent} to="catalog" text="Home" />
+        <SidebarItem
+          icon={Extension as IconComponent}
+          to="api-docs"
+          text="APIs"
+        />
+        <SidebarItem
+          icon={LibraryBooks as IconComponent}
+          to="docs"
+          text="Docs"
+        />
+        <SidebarItem
+          icon={CreateComponent as IconComponent}
+          to="create"
+          text="Create..."
+        />
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
-          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
+          <SidebarItem
+            icon={Map as IconComponent}
+            to="tech-radar"
+            text="Tech Radar"
+          />
         </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />

@@ -26,6 +26,12 @@ dev: install
 	@echo "Starting the server at http://localhost:3000"
 	yarn dev
 
+dev-app:
+	yarn workspace app start
+
+dev-backend:
+	yarn workspace backend start
+
 docker-dev:
 	docker compose up
 
