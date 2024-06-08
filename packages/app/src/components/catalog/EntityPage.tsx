@@ -250,12 +250,12 @@ const apiPage = (
         <Grid item md={6} xs padding={1} marginBottom={-1}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
-        <Grid container spacing={0} item md={12}>
-          <Grid item md={6} xs padding={1}>
-            <EntityProvidingComponentsCard />
+        <Grid container spacing={0} item md={8}>
+          <Grid item md={12} xs padding={1}>
+            <EntityProvidingComponentsCard variant="gridItem" />
           </Grid>
-          <Grid item md={6} xs padding={1}>
-            <EntityConsumingComponentsCard />
+          <Grid item md={12} xs padding={1}>
+            <EntityConsumingComponentsCard variant="gridItem" />
           </Grid>
         </Grid>
         <Grid item md={4} xs padding={1}>
