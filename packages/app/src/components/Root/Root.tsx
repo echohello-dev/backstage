@@ -28,7 +28,7 @@ import Menu from '@mui/icons-material/Menu';
 import Search from '@mui/icons-material/Search';
 import { IconComponent } from '@backstage/core-plugin-api';
 
-const SidebarLogoRoot = styled('div')(({ theme }) => ({
+const SidebarLogoRoot = styled('div')(() => ({
   width: sidebarConfig.drawerWidthClosed,
   height: 3 * sidebarConfig.logoHeight,
   display: 'flex',
@@ -37,7 +37,7 @@ const SidebarLogoRoot = styled('div')(({ theme }) => ({
   marginBottom: -14,
 }));
 
-const SidebarLogoLink = styled(Link)(({ theme }) => ({
+const SidebarLogoLink = styled(Link)(() => ({
   width: sidebarConfig.drawerWidthClosed,
   marginLeft: 24,
 }));
