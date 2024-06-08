@@ -265,8 +265,8 @@ const apiPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/definition" title="Definition">
-      <Grid container>
-        <Grid item xs padding={1}>
+      <Grid container spacing={0}>
+        <Grid item xs>
           <EntityApiDefinitionCard />
         </Grid>
       </Grid>
