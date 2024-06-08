@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, Grid } from '@material-ui/core';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
@@ -53,6 +52,8 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 const techdocsContent = (
   <EntityTechdocsContent>
