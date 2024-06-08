@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Theme, Grid, Paper } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 
 import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
@@ -24,24 +24,31 @@ import {
   Page,
 } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  bar: {
-    padding: theme.spacing(1, 0),
+const Bar = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1, 0),
+}));
+
+const Filters = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(2),
+}));
+
+const SearchFilterSelect = styled(SearchFilter.Select)(({ theme }) => ({
+  '& + &': {
+    marginTop: theme.spacing(2.5),
   },
-  filters: {
-    padding: theme.spacing(2),
-    marginTop: theme.spacing(2),
-  },
-  filter: {
-    '& + &': {
-      marginTop: theme.spacing(2.5),
-    },
+}));
+
+const SearchFilterCheckbox = styled(SearchFilter.Checkbox)(({ theme }) => ({
+  '& + &': {
+    marginTop: theme.spacing(2.5),
   },
 }));
 
 const SearchPage = () => {
-  const classes = useStyles();
   const { types } = useSearch();
   const catalogApi = useApi(catalogApiRef);
 
@@ -51,9 +58,9 @@ const SearchPage = () => {
       <Content>
         <Grid container direction="row">
           <Grid item xs={12}>
-            <Paper className={classes.bar}>
+            <Bar>
               <SearchBar />
-            </Paper>
+            </Bar>
           </Grid>
           <Grid item xs={3}>
             <SearchType.Accordion
@@ -72,10 +79,9 @@ const SearchPage = () => {
                 },
               ]}
             />
-            <Paper className={classes.filters}>
+            <Filters>
               {types.includes('techdocs') && (
-                <SearchFilter.Select
-                  className={classes.filter}
+                <SearchFilterSelect
                   label="Entity"
                   name="name"
                   values={async () => {
@@ -94,19 +100,17 @@ const SearchPage = () => {
                   }}
                 />
               )}
-              <SearchFilter.Select
-                className={classes.filter}
+              <SearchFilterSelect
                 label="Kind"
                 name="kind"
                 values={['Component', 'Template']}
               />
-              <SearchFilter.Checkbox
-                className={classes.filter}
+              <SearchFilterCheckbox
                 label="Lifecycle"
                 name="lifecycle"
                 values={['experimental', 'production']}
               />
-            </Paper>
+            </Filters>
           </Grid>
           <Grid item xs={9}>
             <SearchPagination />
