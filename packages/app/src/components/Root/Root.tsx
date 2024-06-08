@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { styled } from '@mui/material/styles';
-import HomeIcon from '@mui/icons-material/Home';
-import ExtensionIcon from '@mui/icons-material/Extension';
-import MapIcon from '@mui/icons-material/MyLocation';
+import Home from '@mui/icons-material/Home';
+import Extension from '@mui/icons-material/Extension';
+import Map from '@mui/icons-material/MyLocation';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import CreateComponentIcon from '@mui/icons-material/AddCircleOutline';
+import CreateComponent from '@mui/icons-material/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import {
@@ -26,6 +26,7 @@ import {
 } from '@backstage/core-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { IconComponent } from '@backstage/core-plugin-api';
 
 const SidebarLogoRoot = styled('div')(({ theme }) => ({
   width: sidebarConfig.drawerWidthClosed,
@@ -63,14 +64,30 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        <SidebarItem icon={Home as IconComponent} to="catalog" text="Home" />
+        <SidebarItem
+          icon={Extension as IconComponent}
+          to="api-docs"
+          text="APIs"
+        />
+        <SidebarItem
+          icon={LibraryBooks as IconComponent}
+          to="docs"
+          text="Docs"
+        />
+        <SidebarItem
+          icon={CreateComponent as IconComponent}
+          to="create"
+          text="Create..."
+        />
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
-          <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
+          <SidebarItem
+            icon={Map as IconComponent}
+            to="tech-radar"
+            text="Tech Radar"
+          />
         </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />
