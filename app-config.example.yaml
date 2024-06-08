@@ -1,1 +1,9 @@
-# Backstage override configuration for your local development environment
+backend:
+  auth:
+    keys:
+      - secret: super-secret
+
+auth:
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
