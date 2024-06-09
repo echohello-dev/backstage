@@ -1,9 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { styled } from '@mui/material/styles';
 import Home from '@mui/icons-material/Home';
-import Extension from '@mui/icons-material/Extension';
-import Map from '@mui/icons-material/MyLocation';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
 import CreateComponent from '@mui/icons-material/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
@@ -19,13 +16,15 @@ import {
   SidebarGroup,
   SidebarItem,
   SidebarPage,
-  SidebarScrollWrapper,
   SidebarSpace,
   useSidebarOpenState,
   Link,
 } from '@backstage/core-components';
-import Menu from '@mui/icons-material/Menu';
-import Search from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import FortRoundedIcon from '@mui/icons-material/FortRounded';
+import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 const SidebarLogoRoot = styled('div')(() => ({
@@ -39,7 +38,7 @@ const SidebarLogoRoot = styled('div')(() => ({
 
 const SidebarLogoLink = styled(Link)(() => ({
   width: sidebarConfig.drawerWidthClosed,
-  marginLeft: 24,
+  paddingLeft: '24px',
 }));
 
 const SidebarLogo = () => {
@@ -58,20 +57,25 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <Sidebar>
       <SidebarLogo />
-      <SidebarGroup label="Search" icon={<Search />} to="/search">
+      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
         <SidebarSearchModal />
       </SidebarGroup>
       <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<Menu />}>
+      <SidebarGroup label="Menu" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={Home as IconComponent} to="catalog" text="Home" />
+        <SidebarItem icon={Home as IconComponent} to="/" text="Home" />
         <SidebarItem
-          icon={Extension as IconComponent}
+          icon={FortRoundedIcon as IconComponent}
+          to="catalog"
+          text="Catalog"
+        />
+        <SidebarItem
+          icon={ExtensionRoundedIcon as IconComponent}
           to="api-docs"
           text="APIs"
         />
         <SidebarItem
-          icon={LibraryBooks as IconComponent}
+          icon={MenuBookRoundedIcon as IconComponent}
           to="docs"
           text="Docs"
         />
@@ -80,15 +84,6 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
           to="create"
           text="Create..."
         />
-        {/* End global nav */}
-        <SidebarDivider />
-        <SidebarScrollWrapper>
-          <SidebarItem
-            icon={Map as IconComponent}
-            to="tech-radar"
-            text="Tech Radar"
-          />
-        </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />
