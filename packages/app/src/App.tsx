@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -37,7 +37,9 @@ import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { themes, UnifiedThemeProvider } from '@backstage/theme';
+import { UnifiedThemeProvider } from '@backstage/theme';
+import { HomePage } from './components/home/HomePage';
+import { HelloWorld } from './theme/HelloWorld';
 
 const app = createApp({
   apis,
@@ -63,12 +65,12 @@ const app = createApp({
   },
   themes: [
     {
-      id: 'my-theme',
-      title: 'My Custom Theme',
+      id: 'default',
+      title: 'Default',
       variant: 'light',
       icon: <AcUnitIcon />,
       Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={themes.light} children={children} />
+        <UnifiedThemeProvider theme={HelloWorld} children={children} />
       ),
     },
   ],
@@ -76,7 +78,7 @@ const app = createApp({
 
 const routes = (
   <FlatRoutes>
-    <Route path="/" element={<Navigate to="catalog" />} />
+    <Route path="/" element={<HomePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
