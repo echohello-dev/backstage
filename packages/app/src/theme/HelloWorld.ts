@@ -6,16 +6,47 @@ import {
   palettes,
   shapes,
 } from '@backstage/theme';
+import { extendTheme } from '@mui/joy/styles';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/700.css';
 
-export const HelloWorld = createUnifiedTheme({
+const colors = {
+  darkTangerine: '#FFA217',
+  gold: '#EBC387',
+  pastelOrange: '#F9B249',
+  floralWhite: '#FEF8EF',
+  rootBeer: '#1D1301',
+};
+
+const fontFamily = 'Inter, Roboto, Helvetica, Arial, sans-serif';
+
+export const joyTheme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+        },
+      },
+    },
+  },
+  fontFamily: {
+    display: fontFamily,
+    body: fontFamily,
+  },
+});
+
+export const backstageTheme = createUnifiedTheme({
   ...createBaseThemeOptions({
     palette: {
       ...palettes.light,
       primary: {
-        main: '#FFA217',
+        main: colors.darkTangerine,
       },
       secondary: {
-        main: '#F9B249',
+        main: colors.pastelOrange,
       },
       error: {
         main: '#da1313',
@@ -25,16 +56,50 @@ export const HelloWorld = createUnifiedTheme({
       },
       navigation: {
         background: '#171717',
-        indicator: '#F9B249',
+        indicator: colors.pastelOrange,
         color: '#d5d6db',
         selectedColor: '#ffffff',
       },
       background: {
-        default: '#f7f3f1',
+        default: colors.floralWhite,
       },
     },
   }),
   defaultPageTheme: 'home',
+  typography: {
+    htmlFontSize: 16 * 1.333,
+    fontFamily: fontFamily,
+    h1: {
+      fontSize: 32 * 1.333,
+      fontWeight: 600,
+      marginBottom: 16 * 1.333,
+    },
+    h2: {
+      fontSize: 24 * 1.333,
+      fontWeight: 600,
+      marginBottom: 12 * 1.333,
+    },
+    h3: {
+      fontSize: 20 * 1.333,
+      fontWeight: 600,
+      marginBottom: 8 * 1.333,
+    },
+    h4: {
+      fontSize: 16 * 1.333,
+      fontWeight: 600,
+      marginBottom: 4 * 1.333,
+    },
+    h5: {
+      fontSize: 14 * 1.333,
+      fontWeight: 600,
+      marginBottom: 2 * 1.333,
+    },
+    h6: {
+      fontSize: 12 * 1.333,
+      fontWeight: 600,
+      marginBottom: 1 * 1.333,
+    },
+  },
   components: {
     MuiTypography: {
       styleOverrides: {
@@ -46,7 +111,10 @@ export const HelloWorld = createUnifiedTheme({
     },
   },
   pageTheme: {
-    home: genPageTheme({ colors: ['#FFA217', '#F9B249'], shape: shapes.wave }),
+    home: genPageTheme({
+      colors: ['#FFA217', colors.pastelOrange],
+      shape: shapes.wave,
+    }),
     documentation: genPageTheme({
       colors: colorVariants.toastyOrange,
       shape: shapes.wave2,
