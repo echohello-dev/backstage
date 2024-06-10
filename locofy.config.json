@@ -1,0 +1,7 @@
+{
+    "components": [
+        "./packages/app/src/components/Root/LogoFull.tsx",
+        "./packages/app/src/components/Root/LogoIcon.tsx",
+        "./packages/app/src/components/catalog/EntityPage.tsx"
+    ]
+}
