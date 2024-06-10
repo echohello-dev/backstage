@@ -38,8 +38,9 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { UnifiedThemeProvider } from '@backstage/theme';
-import { HomePage } from './components/home/HomePage';
-import { HelloWorld } from './theme/HelloWorld';
+import { backstageTheme } from './theme/HelloWorld';
+import { Homepage } from './components/home/Homepage';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const app = createApp({
   apis,
@@ -70,7 +71,10 @@ const app = createApp({
       variant: 'light',
       icon: <AcUnitIcon />,
       Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={HelloWorld} children={children} />
+        <UnifiedThemeProvider theme={backstageTheme}>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
       ),
     },
   ],
@@ -78,7 +82,7 @@ const app = createApp({
 
 const routes = (
   <FlatRoutes>
-    <Route path="/" element={<HomePage />} />
+    <Route path="/" element={<Homepage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
