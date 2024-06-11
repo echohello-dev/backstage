@@ -1,13 +1,25 @@
 import {
+  BackstageTypography,
   colorVariants,
-  createUnifiedTheme,
+  createBaseThemeOptions,
+  defaultComponentThemes,
   genPageTheme,
+  PageTheme,
   palettes,
   shapes,
+  SupportedThemes,
+  SupportedVersions,
+  UnifiedTheme,
 } from '@backstage/theme';
 import { extendTheme } from '@mui/joy/styles';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
+import {
+  createTheme,
+  PaletteOptions,
+  Theme,
+  ThemeOptions,
+} from '@mui/material/styles';
 
 const colors = {
   darkTangerine: '#FFA217',
@@ -16,9 +28,60 @@ const colors = {
   floralWhite: '#FEF8EF',
   rootBeer: '#1D1301',
 };
-const DEFAULT_PAGE_THEME = 'hello-world';
+const DEFAULT_PAGE_THEME = 'home';
 const DEFAULT_HTML_FONT_SIZE = 16;
 const DEFAULT_FONT_FAMILY = 'Inter, Roboto, Helvetica, Arial, sans-serif';
+
+/**
+ * Options for creating a new {@link UnifiedTheme}.
+ *
+ * @public
+ */
+interface UnifiedThemeOptions {
+  palette: PaletteOptions;
+  defaultPageTheme?: string;
+  pageTheme?: Record<string, PageTheme>;
+  fontFamily?: string;
+  htmlFontSize?: number;
+  shape?: ThemeOptions['shape'];
+  components?: ThemeOptions['components'];
+  typography?: BackstageTypography;
+}
+
+/**
+ * A container of one theme for multiple different Material UI versions.
+ *
+ * Currently known keys are 'v4' and 'v5'.
+ *
+ * @public
+ */
+export class UnifiedThemeHolder implements UnifiedTheme {
+  #themes = new Map<SupportedVersions, SupportedThemes>();
+
+  constructor(theme: Theme) {
+    this.#themes.set('v4', theme);
+    this.#themes.set('v5', theme);
+  }
+
+  getTheme(version: SupportedVersions): SupportedThemes | undefined {
+    return this.#themes.get(version);
+  }
+}
+
+/**
+ * Create a new {@link UnifiedTheme} from the given options.
+ *
+ * @public
+ */
+export function creatBackstageTheme(
+  options: UnifiedThemeOptions,
+): UnifiedTheme {
+  const themeOptions = createBaseThemeOptions(options);
+  const components = { ...defaultComponentThemes, ...options.components };
+  const theme = createTheme({ ...themeOptions, components });
+
+  return new UnifiedThemeHolder(theme);
+}
 
 export const joyTheme = extendTheme({
   colorSchemes: {
@@ -38,7 +101,10 @@ export const joyTheme = extendTheme({
   },
 });
 
-export const backstageTheme = createUnifiedTheme({
+export const backstageTheme = creatBackstageTheme({
+  shape: {
+    borderRadius: 10,
+  },
   palette: {
     ...palettes.light,
     primary: {
