@@ -1,6 +1,5 @@
 import {
   colorVariants,
-  createBaseThemeOptions,
   createUnifiedTheme,
   genPageTheme,
   palettes,
@@ -17,8 +16,9 @@ const colors = {
   floralWhite: '#FEF8EF',
   rootBeer: '#1D1301',
 };
-
-const fontFamily = 'Inter, Roboto, Helvetica, Arial, sans-serif';
+const DEFAULT_PAGE_THEME = 'hello-world';
+const DEFAULT_HTML_FONT_SIZE = 16;
+const DEFAULT_FONT_FAMILY = 'Inter, Roboto, Helvetica, Arial, sans-serif';
 
 export const joyTheme = extendTheme({
   colorSchemes: {
@@ -33,42 +33,40 @@ export const joyTheme = extendTheme({
     },
   },
   fontFamily: {
-    display: fontFamily,
-    body: fontFamily,
+    display: DEFAULT_FONT_FAMILY,
+    body: DEFAULT_FONT_FAMILY,
   },
 });
 
 export const backstageTheme = createUnifiedTheme({
-  ...createBaseThemeOptions({
-    palette: {
-      ...palettes.light,
-      primary: {
-        main: colors.darkTangerine,
-      },
-      secondary: {
-        main: colors.pastelOrange,
-      },
-      error: {
-        main: '#da1313',
-      },
-      success: {
-        main: '#4AB749',
-      },
-      navigation: {
-        background: '#171717',
-        indicator: colors.pastelOrange,
-        color: '#d5d6db',
-        selectedColor: '#ffffff',
-      },
-      background: {
-        default: colors.floralWhite,
-      },
+  palette: {
+    ...palettes.light,
+    primary: {
+      main: colors.darkTangerine,
     },
-  }),
-  defaultPageTheme: 'home',
+    secondary: {
+      main: colors.pastelOrange,
+    },
+    error: {
+      main: '#da1313',
+    },
+    success: {
+      main: '#4AB749',
+    },
+    navigation: {
+      background: '#171717',
+      indicator: colors.pastelOrange,
+      color: '#d5d6db',
+      selectedColor: '#ffffff',
+    },
+    background: {
+      default: colors.floralWhite,
+    },
+  },
+  defaultPageTheme: DEFAULT_PAGE_THEME,
   typography: {
-    htmlFontSize: 16 * 1.333,
-    fontFamily: fontFamily,
+    htmlFontSize: DEFAULT_HTML_FONT_SIZE,
+    fontFamily: DEFAULT_FONT_FAMILY,
     h1: {
       fontSize: 32 * 1.333,
       fontWeight: 600,

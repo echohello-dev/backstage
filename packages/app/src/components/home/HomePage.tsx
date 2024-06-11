@@ -17,7 +17,7 @@ import Button from '@mui/joy/Button';
 import CardActions from '@mui/material/CardActions';
 import ToggleButtonGroup from '@mui/joy/ToggleButtonGroup';
 import { joyTheme } from '../../theme/HelloWorld';
-import { CssVarsProvider } from '@mui/joy/styles/CssVarsProvider';
+import { CssVarsProvider } from '@mui/joy/styles';
 
 const coverageData = [
   {
