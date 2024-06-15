@@ -39,7 +39,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { backstageTheme } from './theme/HelloWorld';
-import { Homepage } from './components/home/Homepage';
+import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 
 const app = createApp({
@@ -82,7 +82,7 @@ const app = createApp({
 
 const routes = (
   <FlatRoutes>
-    <Route path="/" element={<Homepage />} />
+    <Route path="/" element={<HomePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
