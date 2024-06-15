@@ -1,5 +1,4 @@
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
@@ -18,6 +17,7 @@ import CardActions from '@mui/material/CardActions';
 import ToggleButtonGroup from '@mui/joy/ToggleButtonGroup';
 import { joyTheme } from '../../theme/HelloWorld';
 import { CssVarsProvider } from '@mui/joy/styles';
+import Input from '@mui/material/Input';
 
 const coverageData = [
   {
@@ -91,8 +91,6 @@ const CoverageCard: React.FC<{ data: (typeof coverageData)[0] }> = ({
         component="div"
         sx={{
           color: 'var(--UI-Black, #000)',
-          fontFeatureSettings: "'clig' off, 'liga' off",
-          letterSpacing: '-0.25px',
           fontWeight: 700,
           fontSize: '24px',
           lineHeight: '133%',
@@ -104,8 +102,6 @@ const CoverageCard: React.FC<{ data: (typeof coverageData)[0] }> = ({
         component="div"
         sx={{
           color: 'var(--UI-Gray-40, #616161)',
-          fontFeatureSettings: "'clig' off, 'liga' off",
-          letterSpacing: '0.25px',
           fontWeight: 500,
           fontSize: '12px',
           lineHeight: '167%',
@@ -135,8 +131,6 @@ const CoverageCard: React.FC<{ data: (typeof coverageData)[0] }> = ({
             component="div"
             sx={{
               color: data.color || '#000',
-              fontFeatureSettings: "'clig' off, 'liga' off",
-              letterSpacing: '-1px',
               alignSelf: 'center',
               fontWeight: 700,
               fontSize: data.img ? '48px' : '40px',
@@ -152,8 +146,6 @@ const CoverageCard: React.FC<{ data: (typeof coverageData)[0] }> = ({
     <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
       <Link
         sx={{
-          fontFeatureSettings: "'clig' off, 'liga' off",
-          letterSpacing: '1px',
           fontWeight: 700,
           color: 'var(--UI-Gray-10, #181818)',
         }}
@@ -188,116 +180,129 @@ const Header = styled('div')(({ theme }) => ({
   },
 }));
 
-const WelcomeMessage = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  color: '#FFF',
-});
-
-const WelcomeTitle = styled('div')({
-  fontFeatureSettings: "'clig' off, 'liga' off",
-  letterSpacing: '-0.5px',
-  font: '700 32px Helvetica Neue, sans-serif',
-});
-
-const WelcomeSubtitle = styled('div')({
-  fontFeatureSettings: "'clig' off, 'liga' off",
-  font: '500 14px/143% Helvetica Neue, sans-serif',
-});
-
-const OptionsContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: '10px',
-  margin: 'auto 0',
-  [theme.breakpoints.down('md')]: {
-    flexWrap: 'wrap',
-  },
-}));
-
-const Option = styled(Paper)(({ theme }) => ({
-  borderRadius: '10px',
-  borderColor: 'rgba(97, 97, 97, 1)',
-  borderStyle: 'solid',
-  borderWidth: '1px',
-  backgroundColor: '#FFF',
-  display: 'flex',
-  gap: '16px',
-  padding: '16px',
-  [theme.breakpoints.down('md')]: {
-    flexWrap: 'wrap',
-  },
-}));
-
-const IconWrapper = styled('div')({
-  alignItems: 'center',
-  display: 'flex',
-  justifyContent: 'center',
-});
-
 const OptionText = styled('div')(({ theme }) => ({
   color: '#1D1301',
-  fontFeatureSettings: "'clig' off, 'liga' off",
-  letterSpacing: '-0.25px',
   flex: '1',
   margin: 'auto 0',
-  font: '400 18px/144% Helvetica Neue, sans-serif',
   [theme.breakpoints.down('md')]: {
     maxWidth: '100%',
   },
 }));
 
-const HighlightedOption = styled('div')({
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '10px',
-  backgroundColor: '#FFA217',
-  alignSelf: 'start',
-  display: 'flex',
-  padding: '13px 16px',
-});
+const PageHeading: React.FC<{ icon: React.ReactNode; title: string }> = ({
+  icon,
+  title,
+}) => (
+  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    {icon}
+    <Typography variant="h2" sx={{ paddingLeft: '.5rem', marginBottom: 0 }}>
+      {title}
+    </Typography>
+  </Box>
+);
 
-export const Homepage = () => {
+export const HomePage = () => {
   const [value, setValue] = React.useState(['default']);
+  const theme = useTheme();
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
       <Header>
-        <WelcomeMessage>
-          <WelcomeTitle>Welcome John!</WelcomeTitle>
-          <WelcomeSubtitle>Backstage, the Developer Portal!</WelcomeSubtitle>
-        </WelcomeMessage>
-        <OptionsContainer>
-          <Option>
-            <IconWrapper>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            color: '#FFF',
+          }}
+        >
+          <Typography variant="h2">Welcome John!</Typography>
+          <Typography variant="subtitle1">
+            Backstage, the Developer Portal!
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '10px',
+            margin: 'auto 0',
+            [theme.breakpoints.down('md')]: {
+              flexWrap: 'wrap',
+            },
+          }}
+        >
+          <Box
+            sx={{
+              borderRadius: theme.shape.borderRadius,
+              borderColor: 'rgba(97, 97, 97, 1)',
+              borderStyle: 'solid',
+              borderWidth: '1px',
+              backgroundColor: '#FFF',
+              display: 'flex',
+              gap: '1rem',
+              padding: '1rem',
+              [theme.breakpoints.down('md')]: {
+                flexWrap: 'wrap',
+              },
+            }}
+          >
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <SearchIcon />
-            </IconWrapper>
-            <OptionText>Search</OptionText>
-          </Option>
-          <HighlightedOption>
+              <Input
+                placeholder="Search"
+                sx={{
+                  width: '50vh',
+                }}
+              />
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: theme.shape.borderRadius,
+              backgroundColor: theme.palette.primary.main,
+              alignSelf: 'start',
+              display: 'flex',
+              padding: '1rem',
+            }}
+          >
             <AutoAwesomeIcon />
-          </HighlightedOption>
-        </OptionsContainer>
+          </Box>
+        </Box>
       </Header>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          minHeight: '100vh',
+          flex: 1,
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            flex: 1,
+            gap: '2rem',
+            padding: '2rem',
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Box sx={{ display: 'flex' }}>
-              <TrackChangesIcon sx={{ width: '48px', height: '48px' }} />
-              <Typography variant="h2" sx={{ paddingLeft: '5px' }}>
-                Squad Metrics
-              </Typography>
-            </Box>
+            <PageHeading
+              icon={<TrackChangesIcon sx={{ width: '3rem', height: '3rem' }} />}
+              title="Squad Metrics"
+            />
             <CssVarsProvider theme={joyTheme}>
               <ToggleButtonGroup
                 value={value}
