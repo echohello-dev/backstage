@@ -9,7 +9,6 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
 import HomeIcon from '@mui/icons-material/Home';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import React, { useRef } from 'react';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
@@ -22,7 +21,14 @@ import ToggleButton from '@mui/material/ToggleButton';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import SlackIcon from '../icons/Slack';
+import GrafanaIcon from '../icons/Grafana';
+import ConfluenceIcon from '../icons/Confluence';
+import BitbucketIcon from '../icons/Bitbucket';
+import AwsIcon from '../icons/Aws';
+import AzureIcon from '../icons/Azure';
+import DiscordIcon from '../icons/Discord';
+import Button from '@mui/material/Button/Button';
 
 const SearchTextField = styled(TextField)(({ theme }) => {
   return {
@@ -243,7 +249,10 @@ export const HomePage = () => {
           <Box
             sx={{
               position: 'relative',
-              width: '900px',
+              width: '960px',
+              [theme.breakpoints.down('lg')]: {
+                width: '768px',
+              },
             }}
           >
             <Box
@@ -264,7 +273,10 @@ export const HomePage = () => {
                 overflowY: 'scroll',
                 overflowX: 'visible',
                 paddingBottom: '2px',
-                width: '900px',
+                width: '960px',
+                [theme.breakpoints.down('lg')]: {
+                  width: '768px',
+                },
                 scrollBehavior: 'smooth',
                 '&::-webkit-scrollbar': {
                   display: 'none',
@@ -439,18 +451,55 @@ export const HomePage = () => {
             borderLeft: '1px solid #e0e0e0',
           }}
         >
-          <Link href="https://backstage.io" target="_blank">
-            <HomeIcon />
-          </Link>
-          <Link href="https://backstage.io" target="_blank">
-            <HomeIcon />
-          </Link>
-          <Link href="https://backstage.io" target="_blank">
-            <HomeIcon />
-          </Link>
-          <Link href="https://backstage.io" target="_blank">
-            <HomeIcon />
-          </Link>
+          <Button
+            href="https://example.echohello.dev/slack"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <SlackIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://example.echohello.dev/slack"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <DiscordIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://backstage.io"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <GrafanaIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://backstage.io"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <ConfluenceIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://backstage.io"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <BitbucketIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://backstage.io"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <AwsIcon width={32} height={32} />
+          </Button>
+          <Button
+            href="https://backstage.io"
+            target="_blank"
+            sx={{ padding: '1rem' }}
+          >
+            <AzureIcon width={32} height={32} />
+          </Button>
         </Box>
       </Box>
     </Box>
