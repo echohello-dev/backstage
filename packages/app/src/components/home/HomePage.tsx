@@ -1,5 +1,9 @@
-import { styled, useTheme } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
+import {
+  createTheme,
+  styled,
+  ThemeProvider,
+  useTheme,
+} from '@mui/material/styles';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
@@ -11,98 +15,48 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import Input from '@mui/material/Input';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
-
-const coverageData = [
-  {
-    title: 'Test Certified',
-    subtitle: 'Test Coverage',
-    percentage: '87%',
-  },
-  {
-    title: 'Security Issues',
-    subtitle: 'Number of issues',
-    value: '234',
-  },
-  {
-    title: 'Incidents',
-    subtitle: 'Past 30 Days',
-    value: '3',
-  },
-  {
-    title: 'Deployment Time',
-    subtitle: 'Number of successful attempts',
-  },
-];
+import { PieChart } from '@mui/x-charts/PieChart';
+import { LineChart } from '@mui/x-charts/LineChart';
+import TextField from '@mui/material/TextField';
 
 interface CoverageCardProps {
   title: string;
   subtitle: string;
-  value?: string;
+  value?: number;
   percentage?: number | null;
+  pie?: boolean;
 }
 
-const CoverageCard: React.FC<{ data: CoverageCardProps }> = ({ data }) => (
-  <Card
-    sx={{
-      borderRadius: '10px',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      maxHeight: '350px',
-      width: '280px',
-    }}
-  >
-    <CardContent>
-      <Typography
-        sx={{
-          fontWeight: 700,
-          fontSize: '24px',
-          lineHeight: '133%',
-        }}
-      >
-        {data.title}
-      </Typography>
-      <Typography
-        sx={{
-          fontWeight: 500,
-          fontSize: '12px',
-          lineHeight: '167%',
-          mt: '11px',
-        }}
-      >
-        {data.subtitle}
-      </Typography>
-      {data.percentage ||
-        (data.value && (
-          <Typography
-            component="div"
-            sx={{
-              color: '#000',
-              alignSelf: 'center',
-              fontWeight: 700,
-              lineHeight: '117%',
-              textAlign: 'center',
-            }}
-          >
-            {data.percentage || data.value}
-          </Typography>
-        ))}
-    </CardContent>
-    <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Link
-        sx={{
-          fontWeight: 700,
-          color: 'var(--UI-Gray-10, #181818)',
-        }}
-      >
-        Read more
-      </Link>
-    </CardActions>
-  </Card>
-);
+const customTheme = () =>
+  createTheme({
+    components: {
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            '&::before, &::after': {
+              borderBottom: 'none',
+            },
+            '&:hover:not(.Mui-disabled, .Mui-error):before': {
+              borderBottom: 'none',
+            },
+            '&.Mui-focused:after': {
+              borderBottom: 'none',
+            },
+          },
+        },
+      },
+    },
+  });
+
+const SearchTextField = styled(TextField)(({ theme }) => {
+  return {
+    width: '50vh',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: '#FFF',
+  };
+});
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -129,8 +83,64 @@ const PageHeading: React.FC<{ icon: React.ReactNode; title: string }> = ({
 );
 
 export const HomePage = () => {
-  const [value, setValue] = React.useState(['default']);
+  const [isSquad, setIsSquad] = React.useState(true);
   const theme = useTheme();
+
+  const codeCoverageData = [
+    { id: 0, value: 10, label: 'Covered' },
+    { id: 1, value: 15, label: 'Uncovered' },
+    { id: 2, value: 20, label: 'Partially Covered' },
+  ];
+
+  const months = [
+    new Date(2021, 7, 1),
+    new Date(2021, 8, 1),
+    new Date(2021, 9, 1),
+    new Date(2021, 10, 1),
+    new Date(2021, 11, 1),
+  ];
+
+  const serviceHealthSeries = [
+    {
+      data: [
+        { id: 0, value: 10, label: 'series A' },
+        { id: 1, value: 15, label: 'series B' },
+        { id: 2, value: 20, label: 'series C' },
+      ],
+      innerRadius: 30,
+      outerRadius: 100,
+      paddingAngle: 5,
+      cornerRadius: 5,
+    },
+  ];
+
+  const costSeries = [
+    {
+      label: 'Compute',
+      data: [1000, 2000, 7000, 6500, 8000],
+      stack: 'total',
+      area: true,
+      showMark: false,
+      valueFormatter: (value: number | bigint) =>
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(value),
+    },
+    {
+      label: 'Databases',
+      data: [2000, 4000, 8000, 7500, 9000],
+      stack: 'total',
+      area: true,
+      showMark: false,
+      valueFormatter: (value: number | bigint) =>
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(value),
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -157,44 +167,15 @@ export const HomePage = () => {
         <Box
           sx={{
             display: 'flex',
-            gap: '10px',
             margin: 'auto 0',
             [theme.breakpoints.down('md')]: {
               flexWrap: 'wrap',
             },
           }}
         >
-          <Box
-            sx={{
-              borderRadius: theme.shape.borderRadius,
-              borderColor: 'rgba(97, 97, 97, 1)',
-              borderStyle: 'solid',
-              borderWidth: '1px',
-              backgroundColor: '#FFF',
-              display: 'flex',
-              gap: '1rem',
-              padding: '1rem',
-              [theme.breakpoints.down('md')]: {
-                flexWrap: 'wrap',
-              },
-            }}
-          >
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <SearchIcon />
-              <Input
-                placeholder="Search"
-                sx={{
-                  width: '50vh',
-                }}
-              />
-            </Box>
-          </Box>
+          <ThemeProvider theme={customTheme}>
+            <SearchTextField label="Search" variant="filled" />
+          </ThemeProvider>
         </Box>
       </Header>
       <Box
@@ -221,9 +202,9 @@ export const HomePage = () => {
             />
             <ToggleButtonGroup
               exclusive
-              value={value}
+              value={isSquad}
               onChange={(_, newValue) => {
-                setValue(newValue);
+                setIsSquad(newValue);
               }}
             >
               <ToggleButton
@@ -231,7 +212,7 @@ export const HomePage = () => {
                   borderTopLeftRadius: 10,
                   borderBottomLeftRadius: 10,
                 }}
-                value={0}
+                value
               >
                 <GroupIcon sx={{ width: 32, height: 32 }} />
                 <Typography sx={{ paddingLeft: '10px' }}>Squad</Typography>
@@ -241,7 +222,7 @@ export const HomePage = () => {
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
                 }}
-                value={1}
+                value={false}
               >
                 <Groups3Icon sx={{ width: 32, height: 32 }} />
                 <Typography sx={{ paddingLeft: '10px' }}>Everyone</Typography>
@@ -256,9 +237,139 @@ export const HomePage = () => {
               gap: '20px',
             }}
           >
-            {coverageData.map((item, index) => (
-              <CoverageCard data={item} />
-            ))}
+            <Card
+              sx={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                maxHeight: '350px',
+                width: '280px',
+              }}
+            >
+              <CardContent>
+                <Typography variant="h5">Incidents</Typography>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                  }}
+                >
+                  3
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Link
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="subtitle2">View more</Typography>
+                </Link>
+              </CardActions>
+            </Card>
+            <Card
+              sx={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                maxHeight: '350px',
+                width: '280px',
+              }}
+            >
+              <CardContent>
+                <Typography variant="h5">Deployment Time</Typography>
+                <Typography variant="h2" component="div">
+                  3 days
+                </Typography>
+                <Typography variant="subtitle1" component="div">
+                  Since the last deployment
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Link
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="subtitle2">View more</Typography>
+                </Link>
+              </CardActions>
+            </Card>
+            <Card
+              sx={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                maxHeight: '350px',
+                width: '280px',
+              }}
+            >
+              <CardContent>
+                <Typography variant="h5">Service Health</Typography>
+                <PieChart
+                  series={serviceHealthSeries}
+                  margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                  slotProps={{ legend: { hidden: true } }}
+                  height={200}
+                />
+              </CardContent>
+              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Link
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="subtitle2">View more</Typography>
+                </Link>
+              </CardActions>
+            </Card>
+            <Card
+              sx={{
+                borderRadius: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                width: '280px',
+              }}
+            >
+              <CardContent>
+                <Typography variant="h5">Cost Overview</Typography>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                  }}
+                >
+                  <LineChart
+                    xAxis={[
+                      {
+                        id: 'Months',
+                        data: months,
+                        scaleType: 'time',
+                        valueFormatter: date => date.getMonth().toString(),
+                      },
+                    ]}
+                    // @ts-ignore
+                    series={costSeries}
+                    height={280}
+                    leftAxis={null}
+                    bottomAxis={null}
+                    slotProps={{ legend: { hidden: true } }}
+                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                  />
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Link
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  <Typography variant="subtitle2">View more</Typography>
+                </Link>
+              </CardActions>
+            </Card>
           </Box>
         </Box>
         <Box
