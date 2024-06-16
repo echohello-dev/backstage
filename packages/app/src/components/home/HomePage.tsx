@@ -1,6 +1,7 @@
 import {
   createTheme,
   styled,
+  Theme,
   ThemeProvider,
   useTheme,
 } from '@mui/material/styles';
@@ -8,7 +9,8 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
 import HomeIcon from '@mui/icons-material/Home';
-import React from 'react';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import React, { useRef } from 'react';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,35 +22,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import TextField from '@mui/material/TextField';
-
-interface CoverageCardProps {
-  title: string;
-  subtitle: string;
-  value?: number;
-  percentage?: number | null;
-  pie?: boolean;
-}
-
-const customTheme = () =>
-  createTheme({
-    components: {
-      MuiFilledInput: {
-        styleOverrides: {
-          root: {
-            '&::before, &::after': {
-              borderBottom: 'none',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: 'none',
-            },
-            '&.Mui-focused:after': {
-              borderBottom: 'none',
-            },
-          },
-        },
-      },
-    },
-  });
+import Button from '@mui/material/Button';
 
 const SearchTextField = styled(TextField)(({ theme }) => {
   return {
@@ -86,11 +60,25 @@ export const HomePage = () => {
   const [isSquad, setIsSquad] = React.useState(true);
   const theme = useTheme();
 
-  const codeCoverageData = [
-    { id: 0, value: 10, label: 'Covered' },
-    { id: 1, value: 15, label: 'Uncovered' },
-    { id: 2, value: 20, label: 'Partially Covered' },
-  ];
+  const scrollContainerRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -300, // Adjust the scroll amount as needed
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 300, // Adjust the scroll amount as needed
+        behavior: 'smooth',
+      });
+    }
+  };
 
   const months = [
     new Date(2021, 7, 1),
@@ -168,12 +156,35 @@ export const HomePage = () => {
           sx={{
             display: 'flex',
             margin: 'auto 0',
-            [theme.breakpoints.down('md')]: {
-              flexWrap: 'wrap',
+            [theme.breakpoints.down('lg')]: {
+              display: 'none',
             },
           }}
         >
-          <ThemeProvider theme={customTheme}>
+          <ThemeProvider
+            theme={(parentTheme: Theme) =>
+              createTheme({
+                ...parentTheme,
+                components: {
+                  MuiFilledInput: {
+                    styleOverrides: {
+                      root: {
+                        '&::before, &::after': {
+                          borderBottom: 'none',
+                        },
+                        '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                          borderBottom: 'none',
+                        },
+                        '&.Mui-focused:after': {
+                          borderBottom: 'none',
+                        },
+                      },
+                    },
+                  },
+                },
+              })
+            }
+          >
             <SearchTextField label="Search" variant="filled" />
           </ThemeProvider>
         </Box>
@@ -231,145 +242,193 @@ export const HomePage = () => {
           </Box>
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              gap: '20px',
+              position: 'relative',
+              width: '900px',
             }}
           >
-            <Card
+            <Box
               sx={{
-                borderRadius: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                maxHeight: '350px',
-                width: '280px',
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: '128px',
+                pointerEvents: 'none',
+                background: `linear-gradient(to left, ${theme.palette.background.default}, transparent)`,
+                zIndex: 2,
+              }}
+            />
+            <Box
+              sx={{
+                position: 'relative',
+                overflowY: 'scroll',
+                overflowX: 'visible',
+                paddingBottom: '2px',
+                width: '900px',
+                scrollBehavior: 'smooth',
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+                msOverflowStyle: 'none', // IE and Edge
+                scrollbarWidth: 'none', // Firefox
               }}
             >
-              <CardContent>
-                <Typography variant="h5">Incidents</Typography>
-                <Typography
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  flexDirection: 'row',
+                  flexWrap: 'nowrap',
+                  gap: '20px',
+                }}
+              >
+                <Card
                   sx={{
-                    fontWeight: 500,
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flex: '1',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    width: '280px',
+                    zIndex: 1,
                   }}
                 >
-                  3
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Link
+                  <CardContent>
+                    <Typography variant="h5">Incidents</Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: 500,
+                      }}
+                    >
+                      3
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Link
+                      sx={{
+                        fontWeight: 700,
+                      }}
+                    >
+                      <Typography variant="subtitle2">View more</Typography>
+                    </Link>
+                  </CardActions>
+                </Card>
+                <Card
                   sx={{
-                    fontWeight: 700,
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flex: '1',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    width: '280px',
+                    zIndex: 1,
                   }}
                 >
-                  <Typography variant="subtitle2">View more</Typography>
-                </Link>
-              </CardActions>
-            </Card>
-            <Card
-              sx={{
-                borderRadius: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                maxHeight: '350px',
-                width: '280px',
-              }}
-            >
-              <CardContent>
-                <Typography variant="h5">Deployment Time</Typography>
-                <Typography variant="h2" component="div">
-                  3 days
-                </Typography>
-                <Typography variant="subtitle1" component="div">
-                  Since the last deployment
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Link
+                  <CardContent>
+                    <Typography variant="h5">Deployment Time</Typography>
+                    <Typography variant="h2" component="div">
+                      3 days
+                    </Typography>
+                    <Typography variant="subtitle1" component="div">
+                      Since the last deployment
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Link
+                      sx={{
+                        fontWeight: 700,
+                      }}
+                    >
+                      <Typography variant="subtitle2">View more</Typography>
+                    </Link>
+                  </CardActions>
+                </Card>
+                <Card
                   sx={{
-                    fontWeight: 700,
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flex: '1',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    width: '280px',
+                    zIndex: 1,
                   }}
                 >
-                  <Typography variant="subtitle2">View more</Typography>
-                </Link>
-              </CardActions>
-            </Card>
-            <Card
-              sx={{
-                borderRadius: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                maxHeight: '350px',
-                width: '280px',
-              }}
-            >
-              <CardContent>
-                <Typography variant="h5">Service Health</Typography>
-                <PieChart
-                  series={serviceHealthSeries}
-                  margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                  slotProps={{ legend: { hidden: true } }}
-                  height={200}
-                />
-              </CardContent>
-              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Link
+                  <CardContent>
+                    <Typography variant="h5">Service Health</Typography>
+                    <PieChart
+                      series={serviceHealthSeries}
+                      margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                      slotProps={{ legend: { hidden: true } }}
+                      height={200}
+                    />
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Link
+                      sx={{
+                        fontWeight: 700,
+                      }}
+                    >
+                      <Typography variant="subtitle2">View more</Typography>
+                    </Link>
+                  </CardActions>
+                </Card>
+                <Card
                   sx={{
-                    fontWeight: 700,
+                    borderRadius: '10px',
+                    display: 'flex',
+                    flex: '1',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    width: '280px',
+                    zIndex: 1,
                   }}
                 >
-                  <Typography variant="subtitle2">View more</Typography>
-                </Link>
-              </CardActions>
-            </Card>
-            <Card
-              sx={{
-                borderRadius: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                width: '280px',
-              }}
-            >
-              <CardContent>
-                <Typography variant="h5">Cost Overview</Typography>
-                <Typography
-                  sx={{
-                    fontWeight: 500,
-                  }}
-                >
-                  <LineChart
-                    xAxis={[
-                      {
-                        id: 'Months',
-                        data: months,
-                        scaleType: 'time',
-                        valueFormatter: date => date.getMonth().toString(),
-                      },
-                    ]}
-                    // @ts-ignore
-                    series={costSeries}
-                    height={280}
-                    leftAxis={null}
-                    bottomAxis={null}
-                    slotProps={{ legend: { hidden: true } }}
-                    margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                  />
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Link
-                  sx={{
-                    fontWeight: 700,
-                  }}
-                >
-                  <Typography variant="subtitle2">View more</Typography>
-                </Link>
-              </CardActions>
-            </Card>
+                  <CardContent>
+                    <Typography variant="h5">Cost Overview</Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: 500,
+                      }}
+                    >
+                      <LineChart
+                        xAxis={[
+                          {
+                            id: 'Months',
+                            data: months,
+                            scaleType: 'time',
+                            valueFormatter: date => date.getMonth().toString(),
+                          },
+                        ]}
+                        // @ts-ignore
+                        series={costSeries}
+                        height={280}
+                        leftAxis={null}
+                        bottomAxis={null}
+                        slotProps={{ legend: { hidden: true } }}
+                        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                      />
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Link
+                      sx={{
+                        fontWeight: 700,
+                      }}
+                    >
+                      <Typography variant="subtitle2">View more</Typography>
+                    </Link>
+                  </CardActions>
+                </Card>
+              </Box>
+            </Box>
           </Box>
         </Box>
         <Box
