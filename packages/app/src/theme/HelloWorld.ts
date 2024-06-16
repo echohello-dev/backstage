@@ -18,7 +18,7 @@ import {
   createTheme,
   PaletteOptions,
   Theme,
-  ThemeOptions,
+  ThemeOptions as MuiThemeOptions,
 } from '@mui/material/styles';
 
 const colors = {
@@ -37,14 +37,14 @@ const DEFAULT_FONT_FAMILY = 'Inter, Roboto, Helvetica, Arial, sans-serif';
  *
  * @public
  */
-interface UnifiedThemeOptions {
+interface ThemeOptions {
   palette: PaletteOptions;
   defaultPageTheme?: string;
   pageTheme?: Record<string, PageTheme>;
   fontFamily?: string;
   htmlFontSize?: number;
-  shape?: ThemeOptions['shape'];
-  components?: ThemeOptions['components'];
+  shape?: MuiThemeOptions['shape'];
+  components?: MuiThemeOptions['components'];
   typography?: BackstageTypography;
 }
 
@@ -69,16 +69,29 @@ export class UnifiedThemeHolder implements UnifiedTheme {
 }
 
 /**
- * Create a new {@link UnifiedTheme} from the given options.
+ * Create a Backstage theme.
  *
  * @public
  */
-export function creatBackstageTheme(
-  options: UnifiedThemeOptions,
-): UnifiedTheme {
+export function creatBackstageTheme(options: ThemeOptions): UnifiedTheme {
+  // Default Backstage theme options
   const themeOptions = createBaseThemeOptions(options);
-  const components = { ...defaultComponentThemes, ...options.components };
-  const theme = createTheme({ ...themeOptions, components });
+
+  // Merge the default theme options with the provided options
+  const components = {
+    ...defaultComponentThemes,
+    ...options.components,
+  };
+
+  // Create the MUI theme
+  const theme = createTheme({
+    ...themeOptions,
+    components,
+    ...{
+      // Explicitly set the shape to the provided value since Backstage base theme doesn't have a shape
+      shape: options.shape,
+    },
+  });
 
   return new UnifiedThemeHolder(theme);
 }
