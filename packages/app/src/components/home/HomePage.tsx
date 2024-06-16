@@ -8,7 +8,7 @@ import {
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
-import HomeIcon from '@mui/icons-material/Home';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import React, { useRef } from 'react';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
@@ -210,6 +210,7 @@ export const HomePage = () => {
             flex: 1,
             gap: '2rem',
             padding: '2rem',
+            overflow: 'hidden',
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -246,15 +247,7 @@ export const HomePage = () => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Box>
-          <Box
-            sx={{
-              position: 'relative',
-              width: '960px',
-              [theme.breakpoints.down('lg')]: {
-                width: '768px',
-              },
-            }}
-          >
+          <Box sx={{ position: 'relative' }}>
             <Box
               sx={{
                 position: 'absolute',
@@ -263,182 +256,188 @@ export const HomePage = () => {
                 bottom: 0,
                 width: '128px',
                 pointerEvents: 'none',
-                background: `linear-gradient(to left, ${theme.palette.background.default}, transparent)`,
+                background: `linear-gradient(to left, ${theme.palette.background.default} 60%, transparent)`,
                 zIndex: 2,
               }}
             />
-            <Box
+            <ArrowForwardIcon
               sx={{
-                position: 'relative',
-                overflowY: 'scroll',
-                overflowX: 'visible',
-                paddingBottom: '2px',
-                width: '960px',
-                [theme.breakpoints.down('lg')]: {
-                  width: '768px',
-                },
-                scrollBehavior: 'smooth',
-                '&::-webkit-scrollbar': {
-                  display: 'none',
-                },
-                msOverflowStyle: 'none', // IE and Edge
-                scrollbarWidth: 'none', // Firefox
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                width: '32px',
+                height: '100%',
+                zIndex: 4,
               }}
-            >
+            />
+            <Box sx={{ width: '100%', overflow: 'hidden' }}>
               <Box
                 sx={{
-                  display: 'inline-flex',
-                  flexDirection: 'row',
-                  flexWrap: 'nowrap',
-                  gap: '20px',
+                  position: 'relative',
+                  display: 'flex',
+                  overflowX: 'auto',
+                  whiteSpace: 'nowrap',
+                  scrollbarWidth: 'none',
+                  paddingBottom: '2px',
                 }}
               >
-                <Card
+                <Box
                   sx={{
-                    borderRadius: '10px',
                     display: 'flex',
-                    flex: '1',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    width: '280px',
-                    zIndex: 1,
+                    flexDirection: 'row',
+                    gap: '20px',
                   }}
                 >
-                  <CardContent>
-                    <Typography variant="h5">Incidents</Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: 500,
-                      }}
-                    >
-                      3
-                    </Typography>
-                  </CardContent>
-                  <CardActions
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                  <Card
+                    sx={{
+                      borderRadius: '10px',
+                      display: 'flex',
+                      flex: '1',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      minWidth: '256px',
+                      flexShrink: 0,
+                    }}
                   >
-                    <Link
-                      sx={{
-                        fontWeight: 700,
-                      }}
+                    <CardContent>
+                      <Typography variant="h5">Incidents</Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: 500,
+                        }}
+                      >
+                        3
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Typography variant="subtitle2">View more</Typography>
-                    </Link>
-                  </CardActions>
-                </Card>
-                <Card
-                  sx={{
-                    borderRadius: '10px',
-                    display: 'flex',
-                    flex: '1',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    width: '280px',
-                    zIndex: 1,
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h5">Deployment Time</Typography>
-                    <Typography variant="h2" component="div">
-                      3 days
-                    </Typography>
-                    <Typography variant="subtitle1" component="div">
-                      Since the last deployment
-                    </Typography>
-                  </CardContent>
-                  <CardActions
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                      <Link
+                        sx={{
+                          fontWeight: 700,
+                        }}
+                      >
+                        <Typography variant="subtitle2">View more</Typography>
+                      </Link>
+                    </CardActions>
+                  </Card>
+                  <Card
+                    sx={{
+                      borderRadius: '10px',
+                      display: 'flex',
+                      flex: '1',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      width: '256px',
+                      zIndex: 1,
+                    }}
                   >
-                    <Link
-                      sx={{
-                        fontWeight: 700,
-                      }}
+                    <CardContent>
+                      <Typography variant="h5">Deployment Time</Typography>
+                      <Typography variant="h2" component="div">
+                        3 days
+                      </Typography>
+                      <Typography variant="subtitle1" component="div">
+                        Since the last deployment
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Typography variant="subtitle2">View more</Typography>
-                    </Link>
-                  </CardActions>
-                </Card>
-                <Card
-                  sx={{
-                    borderRadius: '10px',
-                    display: 'flex',
-                    flex: '1',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    width: '280px',
-                    zIndex: 1,
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h5">Service Health</Typography>
-                    <PieChart
-                      series={serviceHealthSeries}
-                      margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                      slotProps={{ legend: { hidden: true } }}
-                      height={200}
-                    />
-                  </CardContent>
-                  <CardActions
-                    sx={{ display: 'flex', justifyContent: 'center' }}
+                      <Link
+                        sx={{
+                          fontWeight: 700,
+                        }}
+                      >
+                        <Typography variant="subtitle2">View more</Typography>
+                      </Link>
+                    </CardActions>
+                  </Card>
+                  <Card
+                    sx={{
+                      borderRadius: '10px',
+                      display: 'flex',
+                      flex: '1',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      width: '256px',
+                      zIndex: 1,
+                    }}
                   >
-                    <Link
-                      sx={{
-                        fontWeight: 700,
-                      }}
-                    >
-                      <Typography variant="subtitle2">View more</Typography>
-                    </Link>
-                  </CardActions>
-                </Card>
-                <Card
-                  sx={{
-                    borderRadius: '10px',
-                    display: 'flex',
-                    flex: '1',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    width: '280px',
-                    zIndex: 1,
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h5">Cost Overview</Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: 500,
-                      }}
-                    >
-                      <LineChart
-                        xAxis={[
-                          {
-                            id: 'Months',
-                            data: months,
-                            scaleType: 'time',
-                            valueFormatter: date => date.getMonth().toString(),
-                          },
-                        ]}
-                        // @ts-ignore
-                        series={costSeries}
-                        height={280}
-                        leftAxis={null}
-                        bottomAxis={null}
-                        slotProps={{ legend: { hidden: true } }}
+                    <CardContent>
+                      <Typography variant="h5">Service Health</Typography>
+                      <PieChart
+                        series={serviceHealthSeries}
                         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                        slotProps={{ legend: { hidden: true } }}
+                        height={200}
                       />
-                    </Typography>
-                  </CardContent>
-                  <CardActions
-                    sx={{ display: 'flex', justifyContent: 'center' }}
-                  >
-                    <Link
-                      sx={{
-                        fontWeight: 700,
-                      }}
+                    </CardContent>
+                    <CardActions
+                      sx={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Typography variant="subtitle2">View more</Typography>
-                    </Link>
-                  </CardActions>
-                </Card>
+                      <Link
+                        sx={{
+                          fontWeight: 700,
+                        }}
+                      >
+                        <Typography variant="subtitle2">View more</Typography>
+                      </Link>
+                    </CardActions>
+                  </Card>
+                  <Card
+                    sx={{
+                      borderRadius: '10px',
+                      display: 'flex',
+                      flex: '1',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      width: '256px',
+                      zIndex: 1,
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="h5">Cost Overview</Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: 500,
+                        }}
+                      >
+                        <LineChart
+                          xAxis={[
+                            {
+                              id: 'Months',
+                              data: months,
+                              scaleType: 'time',
+                              valueFormatter: date =>
+                                date.getMonth().toString(),
+                            },
+                          ]}
+                          // @ts-ignore
+                          series={costSeries}
+                          height={280}
+                          leftAxis={null}
+                          bottomAxis={null}
+                          slotProps={{ legend: { hidden: true } }}
+                          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                        />
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ display: 'flex', justifyContent: 'start' }}
+                    >
+                      <Button variant="text" sx={{ padding: '1rem' }}>
+                        <Typography
+                          sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                        >
+                          View more
+                        </Typography>
+                        <ArrowForwardIcon />
+                      </Button>
+                    </CardActions>
+                  </Card>
+                  <Box sx={{ width: '256px' }} />
+                </Box>
               </Box>
             </Box>
           </Box>
