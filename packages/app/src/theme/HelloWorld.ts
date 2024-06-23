@@ -189,7 +189,7 @@ export const backstageTheme = creatBackstageTheme({
   },
   pageTheme: {
     home: genPageTheme({
-      colors: ['#FFA217', colors.pastelOrange],
+      colors: [colors.rootBeer, colors.rootBeer],
       shape: shapes.wave,
     }),
     documentation: genPageTheme({
