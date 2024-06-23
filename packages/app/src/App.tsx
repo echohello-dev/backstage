@@ -38,7 +38,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { UnifiedThemeProvider } from '@backstage/theme';
-import { backstageTheme } from './theme/HelloWorld';
+import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 
