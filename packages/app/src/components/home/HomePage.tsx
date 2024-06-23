@@ -70,7 +70,7 @@ export const HomePage = () => {
   const [isSquad, setIsSquad] = React.useState(true);
   const theme = useTheme();
 
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -106,7 +106,6 @@ export const HomePage = () => {
         { id: 2, value: 20, label: 'series C' },
       ],
       innerRadius: 30,
-      outerRadius: 100,
       paddingAngle: 5,
       cornerRadius: 5,
     },
@@ -236,26 +235,51 @@ export const HomePage = () => {
               >
                 <ToggleButton
                   sx={{
+                    paddingLeft: '1.5rem',
+                    paddingRight: '1.5rem',
+                    paddingTop: '.4rem',
+                    paddingBottom: '.4rem',
                     borderTopLeftRadius: 10,
                     borderBottomLeftRadius: 10,
                   }}
                   value
                 >
-                  <GroupIcon sx={{ width: 32, height: 32 }} />
-                  <Typography sx={{ paddingLeft: '10px' }}>Squad</Typography>
+                  <GroupIcon sx={{ width: 24, height: 24 }} />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      paddingLeft: '.5rem',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Squad
+                  </Typography>
                 </ToggleButton>
                 <ToggleButton
                   sx={{
+                    paddingLeft: '1.5rem',
+                    paddingRight: '1.5rem',
+                    paddingTop: '.4rem',
+                    paddingBottom: '.4rem',
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
                   }}
                   value={false}
                 >
                   <Groups3Icon sx={{ width: 32, height: 32 }} />
-                  <Typography sx={{ paddingLeft: '10px' }}>Everyone</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ paddingLeft: '.5rem', fontWeight: 'bold' }}
+                  >
+                    Everyone
+                  </Typography>
                 </ToggleButton>
               </ToggleButtonGroup>
             </Box>
+            <Typography variant="subtitle1">
+              Scores are an aggregate across all software entities owned by your
+              squad.
+            </Typography>
             <Box sx={{ position: 'relative' }}>
               <Box
                 sx={{
@@ -303,7 +327,7 @@ export const HomePage = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        width: '384px',
+                        width: '20rem',
                         [theme.breakpoints.down('lg')]: {
                           width: '256px',
                         },
@@ -321,15 +345,16 @@ export const HomePage = () => {
                         </Typography>
                       </CardContent>
                       <CardActions
-                        sx={{ display: 'flex', justifyContent: 'center' }}
+                        sx={{ display: 'flex', justifyContent: 'start' }}
                       >
-                        <Link
-                          sx={{
-                            fontWeight: 700,
-                          }}
-                        >
-                          <Typography variant="subtitle2">View more</Typography>
-                        </Link>
+                        <Button variant="text" sx={{ padding: '1rem' }}>
+                          <Typography
+                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                          >
+                            View more
+                          </Typography>
+                          <ArrowForwardIcon />
+                        </Button>
                       </CardActions>
                     </Card>
                     <Card
@@ -338,7 +363,7 @@ export const HomePage = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        width: '384px',
+                        width: '20rem',
                         zIndex: 1,
                       }}
                     >
@@ -352,15 +377,16 @@ export const HomePage = () => {
                         </Typography>
                       </CardContent>
                       <CardActions
-                        sx={{ display: 'flex', justifyContent: 'center' }}
+                        sx={{ display: 'flex', justifyContent: 'start' }}
                       >
-                        <Link
-                          sx={{
-                            fontWeight: 700,
-                          }}
-                        >
-                          <Typography variant="subtitle2">View more</Typography>
-                        </Link>
+                        <Button variant="text" sx={{ padding: '1rem' }}>
+                          <Typography
+                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                          >
+                            View more
+                          </Typography>
+                          <ArrowForwardIcon />
+                        </Button>
                       </CardActions>
                     </Card>
                     <Card
@@ -369,29 +395,42 @@ export const HomePage = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        width: '384px',
+                        width: '20rem',
                         zIndex: 1,
                       }}
                     >
-                      <CardContent>
+                      <CardContent
+                        sx={{ display: 'flex', flexDirection: 'column' }}
+                      >
                         <Typography variant="h5">Service Health</Typography>
-                        <PieChart
-                          series={serviceHealthSeries}
-                          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                          slotProps={{ legend: { hidden: true } }}
-                          height={200}
-                        />
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                          }}
+                        >
+                          <PieChart
+                            series={serviceHealthSeries}
+                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                            slotProps={{ legend: { hidden: true } }}
+                            height={140}
+                            width={140}
+                          />
+                        </Box>
                       </CardContent>
                       <CardActions
-                        sx={{ display: 'flex', justifyContent: 'center' }}
+                        sx={{ display: 'flex', justifyContent: 'start' }}
                       >
-                        <Link
-                          sx={{
-                            fontWeight: 700,
-                          }}
-                        >
-                          <Typography variant="subtitle2">View more</Typography>
-                        </Link>
+                        <Button variant="text" sx={{ padding: '1rem' }}>
+                          <Typography
+                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                          >
+                            View more
+                          </Typography>
+                          <ArrowForwardIcon />
+                        </Button>
                       </CardActions>
                     </Card>
                     <Card
@@ -400,11 +439,17 @@ export const HomePage = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        width: '384px',
+                        width: '20rem',
                         zIndex: 1,
                       }}
                     >
-                      <CardContent sx={{ padding: 0 }}>
+                      <CardContent
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                        }}
+                      >
                         <Typography variant="h5">Cost Overview</Typography>
                         <Typography
                           sx={{
@@ -423,7 +468,7 @@ export const HomePage = () => {
                             ]}
                             // @ts-ignore
                             series={costSeries}
-                            height={280}
+                            height={180}
                             leftAxis={null}
                             bottomAxis={null}
                             slotProps={{ legend: { hidden: true } }}
