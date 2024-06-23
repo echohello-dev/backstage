@@ -6,6 +6,10 @@ import {
   useTheme,
 } from '@mui/material/styles';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
+import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
+import MemoryRoundedIcon from '@mui/icons-material/MemoryRounded';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -353,7 +357,7 @@ export const HomePage = () => {
                             alignItems: 'center',
                           }}
                         >
-                          <TrackChangesIcon
+                          <MonitorHeartOutlinedIcon
                             sx={{ width: '1.5rem', height: '1.5rem' }}
                           />
                           <Typography
@@ -674,6 +678,108 @@ export const HomePage = () => {
                   </Box>
                 </Box>
               </Box>
+            </Box>
+            <PageHeading
+              icon={
+                <MenuBookRoundedIcon sx={{ width: '3rem', height: '3rem' }} />
+              }
+              title="Ownership"
+            />
+            <Typography variant="subtitle1">
+              All the things your squad owns in our ecosystem.
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '20px',
+              }}
+            >
+              <Card
+                sx={{
+                  borderRadius: '10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: '20rem',
+                  zIndex: 1,
+                }}
+              >
+                <CardContent
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    pt: '1rem',
+                    pr: '1rem',
+                    pl: '1rem',
+                    pb: 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <MemoryRoundedIcon
+                      sx={{ width: '1.5rem', height: '1.5rem' }}
+                    />
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        pl: '0.4rem',
+                        mb: 0,
+                      }}
+                    >
+                      43 Services
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      pl: '0.4rem',
+                      mb: 0,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    Backend Services
+                  </Typography>
+                </CardContent>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'end',
+                    pt: 0,
+                    pr: '1rem',
+                    pb: '1rem',
+                    pl: '1rem',
+                  }}
+                >
+                  <CircleRoundedIcon
+                    sx={{
+                      width: '1rem',
+                      height: '1rem',
+                      fill: theme.palette.success.main,
+                    }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      paddingLeft: '.4rem',
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    Updated 2 days ago
+                  </Typography>
+                  <Button variant="text" sx={{ padding: '1rem' }}>
+                    <ArrowForwardIcon sx={{ width: '3rem', height: '3rem' }} />
+                  </Button>
+                </CardActions>
+              </Card>
+              <Box sx={{ width: '256px' }} />
             </Box>
           </Box>
           <Box
