@@ -19,7 +19,7 @@ import CardActions from '@mui/material/CardActions';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
 import TextField from '@mui/material/TextField';
 import SlackIcon from '../icons/Slack';
 import GrafanaIcon from '../icons/Grafana';
@@ -113,6 +113,7 @@ export const HomePage = () => {
 
   const costSeries = [
     {
+      id: '1',
       label: 'Compute',
       data: [1000, 2000, 7000, 6500, 8000],
       stack: 'total',
@@ -125,6 +126,7 @@ export const HomePage = () => {
         }).format(value),
     },
     {
+      id: '2',
       label: 'Databases',
       data: [2000, 4000, 8000, 7500, 9000],
       stack: 'total',
@@ -328,6 +330,177 @@ export const HomePage = () => {
                         flexDirection: 'column',
                         justifyContent: 'space-between',
                         width: '20rem',
+                        zIndex: 1,
+                      }}
+                    >
+                      <CardContent
+                        sx={{ display: 'flex', flexDirection: 'column' }}
+                      >
+                        <Typography variant="h5">Service Health</Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                          }}
+                        >
+                          <PieChart
+                            series={serviceHealthSeries}
+                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                            slotProps={{ legend: { hidden: true } }}
+                            height={140}
+                            width={140}
+                          />
+                        </Box>
+                      </CardContent>
+                      <CardActions
+                        sx={{ display: 'flex', justifyContent: 'start' }}
+                      >
+                        <Button variant="text" sx={{ padding: '1rem' }}>
+                          <Typography
+                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                          >
+                            View more
+                          </Typography>
+                          <ArrowForwardIcon />
+                        </Button>
+                      </CardActions>
+                    </Card>
+                    <Card
+                      sx={{
+                        borderRadius: '10px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        width: '20rem',
+                        zIndex: 1,
+                      }}
+                    >
+                      <CardContent
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Typography variant="h5">Cost Overview</Typography>
+                        <Typography
+                          sx={{
+                            fontWeight: 500,
+                          }}
+                        >
+                          <LineChart
+                            xAxis={[
+                              {
+                                id: 'Months',
+                                data: months,
+                                scaleType: 'time',
+                                valueFormatter: date =>
+                                  date.getMonth().toString(),
+                              },
+                            ]}
+                            // @ts-ignore
+                            series={costSeries}
+                            height={180}
+                            leftAxis={null}
+                            bottomAxis={null}
+                            slotProps={{ legend: { hidden: true } }}
+                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+                            sx={{
+                              [`& .${lineElementClasses.root}`]: {
+                                strokeWidth: 4,
+                                borderRadius: 10,
+                              },
+                              '& .v5-MuiLineElement-series-1': {
+                                stroke: theme.palette.primary.main,
+                              },
+                              '& .v5-MuiAreaElement-series-1': {
+                                fill: "url('#gradient1')",
+                              },
+                              '& .v5-MuiLineElement-series-2': {
+                                stroke: theme.palette.success.main,
+                              },
+                              '& .v5-MuiAreaElement-series-2': {
+                                fill: "url('#gradient2')",
+                              },
+                            }}
+                          >
+                            <defs>
+                              <linearGradient
+                                id="gradient1"
+                                gradientTransform="rotate(90)"
+                              >
+                                <stop
+                                  offset="0%"
+                                  stopColor={theme.palette.primary.main}
+                                  stopOpacity="1"
+                                />
+                                <stop
+                                  offset="70%"
+                                  stopColor={theme.palette.primary.main}
+                                  stopOpacity="0.4"
+                                />
+                                <stop
+                                  offset="90%"
+                                  stopColor={theme.palette.primary.main}
+                                  stopOpacity="0.2"
+                                />
+                                <stop
+                                  offset="100%"
+                                  stopColor={theme.palette.primary.main}
+                                  stopOpacity="0.1"
+                                />
+                              </linearGradient>
+                              <linearGradient
+                                id="gradient2"
+                                gradientTransform="rotate(90)"
+                              >
+                                <stop
+                                  offset="0%"
+                                  stopColor={theme.palette.success.main}
+                                  stopOpacity="1"
+                                />
+                                <stop
+                                  offset="70%"
+                                  stopColor={theme.palette.success.main}
+                                  stopOpacity="0.4"
+                                />
+                                <stop
+                                  offset="90%"
+                                  stopColor={theme.palette.success.main}
+                                  stopOpacity="0.2"
+                                />
+                                <stop
+                                  offset="100%"
+                                  stopColor={theme.palette.success.main}
+                                  stopOpacity="0.1"
+                                />
+                              </linearGradient>
+                            </defs>
+                          </LineChart>
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        sx={{ display: 'flex', justifyContent: 'start' }}
+                      >
+                        <Button variant="text" sx={{ padding: '1rem' }}>
+                          <Typography
+                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
+                          >
+                            View more
+                          </Typography>
+                          <ArrowForwardIcon />
+                        </Button>
+                      </CardActions>
+                    </Card>
+                    <Card
+                      sx={{
+                        borderRadius: '10px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        width: '20rem',
                         [theme.breakpoints.down('lg')]: {
                           width: '256px',
                         },
@@ -434,106 +607,7 @@ export const HomePage = () => {
                         </Button>
                       </CardActions>
                     </Card>
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        zIndex: 1,
-                      }}
-                    >
-                      <CardContent
-                        sx={{ display: 'flex', flexDirection: 'column' }}
-                      >
-                        <Typography variant="h5">Service Health</Typography>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flex: 1,
-                          }}
-                        >
-                          <PieChart
-                            series={serviceHealthSeries}
-                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                            slotProps={{ legend: { hidden: true } }}
-                            height={140}
-                            width={140}
-                          />
-                        </Box>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        zIndex: 1,
-                      }}
-                    >
-                      <CardContent
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Typography variant="h5">Cost Overview</Typography>
-                        <Typography
-                          sx={{
-                            fontWeight: 500,
-                          }}
-                        >
-                          <LineChart
-                            xAxis={[
-                              {
-                                id: 'Months',
-                                data: months,
-                                scaleType: 'time',
-                                valueFormatter: date =>
-                                  date.getMonth().toString(),
-                              },
-                            ]}
-                            // @ts-ignore
-                            series={costSeries}
-                            height={180}
-                            leftAxis={null}
-                            bottomAxis={null}
-                            slotProps={{ legend: { hidden: true } }}
-                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                          />
-                        </Typography>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
+
                     <Box sx={{ width: '256px' }} />
                   </Box>
                 </Box>
