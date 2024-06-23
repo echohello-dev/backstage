@@ -334,15 +334,37 @@ export const HomePage = () => {
                         flexShrink: 0,
                       }}
                     >
-                      <CardContent>
+                      <CardContent
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
                         <Typography variant="h5">Incidents</Typography>
-                        <Typography
+                        <Box
                           sx={{
-                            fontWeight: 500,
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
                           }}
                         >
-                          3
-                        </Typography>
+                          <Typography
+                            variant="h2"
+                            component="div"
+                            sx={() => {
+                              return {
+                                color: theme.palette.success.main,
+                              };
+                            }}
+                          >
+                            3
+                          </Typography>
+                          <Typography variant="subtitle1" component="div">
+                            Past 30 days
+                          </Typography>
+                        </Box>
                       </CardContent>
                       <CardActions
                         sx={{ display: 'flex', justifyContent: 'start' }}
@@ -367,14 +389,37 @@ export const HomePage = () => {
                         zIndex: 1,
                       }}
                     >
-                      <CardContent>
+                      <CardContent
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
                         <Typography variant="h5">Deployment Time</Typography>
-                        <Typography variant="h2" component="div">
-                          3 days
-                        </Typography>
-                        <Typography variant="subtitle1" component="div">
-                          Since the last deployment
-                        </Typography>
+                        <Box
+                          sx={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                          }}
+                        >
+                          <Typography
+                            variant="h2"
+                            component="div"
+                            sx={() => {
+                              return {
+                                color: theme.palette.success.main,
+                              };
+                            }}
+                          >
+                            3 days
+                          </Typography>
+                          <Typography variant="subtitle1" component="div">
+                            Since the last deployment
+                          </Typography>
+                        </Box>
                       </CardContent>
                       <CardActions
                         sx={{ display: 'flex', justifyContent: 'start' }}
