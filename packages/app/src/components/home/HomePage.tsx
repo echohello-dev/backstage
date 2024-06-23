@@ -9,8 +9,9 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import GroupIcon from '@mui/icons-material/Group';
 import Groups3Icon from '@mui/icons-material/Groups3';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import React, { useRef } from 'react';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
@@ -30,6 +31,7 @@ import AzureIcon from '../icons/Azure';
 import DiscordIcon from '../icons/Discord';
 import Button from '@mui/material/Button';
 import { Page } from '@backstage/core-components';
+import Chip from '@mui/material/Chip';
 
 const SearchTextField = styled(TextField)(({ theme }) => {
   return {
@@ -101,9 +103,18 @@ export const HomePage = () => {
   const serviceHealthSeries = [
     {
       data: [
-        { id: 0, value: 10, label: 'series A' },
-        { id: 1, value: 15, label: 'series B' },
-        { id: 2, value: 20, label: 'series C' },
+        {
+          id: 0,
+          value: 10,
+          label: 'Uptime',
+          color: theme.palette.success.main,
+        },
+        {
+          id: 1,
+          value: 1,
+          label: 'Downtime',
+          color: theme.palette.error.main,
+        },
       ],
       innerRadius: 30,
       paddingAngle: 5,
@@ -336,7 +347,44 @@ export const HomePage = () => {
                       <CardContent
                         sx={{ display: 'flex', flexDirection: 'column' }}
                       >
-                        <Typography variant="h5">Service Health</Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <TrackChangesIcon
+                            sx={{ width: '1.5rem', height: '1.5rem' }}
+                          />
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              paddingLeft: '0.4rem',
+                            }}
+                          >
+                            Service Health
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ pb: '0.4rem' }}>
+                            Past 7 days
+                          </Typography>
+                          <Chip
+                            color="error"
+                            variant="outlined"
+                            icon={<TrendingDownIcon />}
+                            label="13%"
+                            sx={{
+                              pl: 1,
+                              pr: 1,
+                              mr: 0,
+                              mb: 0,
+                              borderRadius: '0.4rem',
+                              backgroundColor: '#f8bcbc',
+                            }}
+                            size="small"
+                          />
+                        </Box>
                         <Box
                           sx={{
                             display: 'flex',
@@ -385,101 +433,115 @@ export const HomePage = () => {
                         }}
                       >
                         <Typography variant="h5">Cost Overview</Typography>
-                        <Typography
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ pb: '0.4rem' }}>
+                            Past 6 months
+                          </Typography>
+                          <Chip
+                            color="success"
+                            variant="outlined"
+                            icon={<TrendingUpIcon />}
+                            label="3.4%"
+                            sx={{
+                              pl: 1,
+                              pr: 1,
+                              mr: 0,
+                              mb: 0,
+                              borderRadius: '0.4rem',
+                              backgroundColor: '#cff7cf',
+                            }}
+                            size="small"
+                          />
+                        </Box>
+                        <LineChart
+                          xAxis={[
+                            {
+                              id: 'Months',
+                              data: months,
+                              scaleType: 'time',
+                              valueFormatter: date =>
+                                date.getMonth().toString(),
+                            },
+                          ]}
+                          // @ts-ignore
+                          series={costSeries}
+                          height={180}
+                          leftAxis={null}
+                          bottomAxis={null}
+                          slotProps={{ legend: { hidden: true } }}
+                          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                           sx={{
-                            fontWeight: 500,
+                            [`& .${lineElementClasses.root}`]: {
+                              strokeWidth: 4,
+                              borderRadius: 10,
+                            },
+                            '& .v5-MuiLineElement-series-1': {
+                              stroke: theme.palette.primary.main,
+                            },
+                            '& .v5-MuiAreaElement-series-1': {
+                              fill: "url('#gradient1')",
+                            },
+                            '& .v5-MuiLineElement-series-2': {
+                              stroke: theme.palette.success.main,
+                            },
+                            '& .v5-MuiAreaElement-series-2': {
+                              fill: "url('#gradient2')",
+                            },
                           }}
                         >
-                          <LineChart
-                            xAxis={[
-                              {
-                                id: 'Months',
-                                data: months,
-                                scaleType: 'time',
-                                valueFormatter: date =>
-                                  date.getMonth().toString(),
-                              },
-                            ]}
-                            // @ts-ignore
-                            series={costSeries}
-                            height={180}
-                            leftAxis={null}
-                            bottomAxis={null}
-                            slotProps={{ legend: { hidden: true } }}
-                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                            sx={{
-                              [`& .${lineElementClasses.root}`]: {
-                                strokeWidth: 4,
-                                borderRadius: 10,
-                              },
-                              '& .v5-MuiLineElement-series-1': {
-                                stroke: theme.palette.primary.main,
-                              },
-                              '& .v5-MuiAreaElement-series-1': {
-                                fill: "url('#gradient1')",
-                              },
-                              '& .v5-MuiLineElement-series-2': {
-                                stroke: theme.palette.success.main,
-                              },
-                              '& .v5-MuiAreaElement-series-2': {
-                                fill: "url('#gradient2')",
-                              },
-                            }}
-                          >
-                            <defs>
-                              <linearGradient
-                                id="gradient1"
-                                gradientTransform="rotate(90)"
-                              >
-                                <stop
-                                  offset="0%"
-                                  stopColor={theme.palette.primary.main}
-                                  stopOpacity="1"
-                                />
-                                <stop
-                                  offset="70%"
-                                  stopColor={theme.palette.primary.main}
-                                  stopOpacity="0.4"
-                                />
-                                <stop
-                                  offset="90%"
-                                  stopColor={theme.palette.primary.main}
-                                  stopOpacity="0.2"
-                                />
-                                <stop
-                                  offset="100%"
-                                  stopColor={theme.palette.primary.main}
-                                  stopOpacity="0.1"
-                                />
-                              </linearGradient>
-                              <linearGradient
-                                id="gradient2"
-                                gradientTransform="rotate(90)"
-                              >
-                                <stop
-                                  offset="0%"
-                                  stopColor={theme.palette.success.main}
-                                  stopOpacity="1"
-                                />
-                                <stop
-                                  offset="70%"
-                                  stopColor={theme.palette.success.main}
-                                  stopOpacity="0.4"
-                                />
-                                <stop
-                                  offset="90%"
-                                  stopColor={theme.palette.success.main}
-                                  stopOpacity="0.2"
-                                />
-                                <stop
-                                  offset="100%"
-                                  stopColor={theme.palette.success.main}
-                                  stopOpacity="0.1"
-                                />
-                              </linearGradient>
-                            </defs>
-                          </LineChart>
-                        </Typography>
+                          <defs>
+                            <linearGradient
+                              id="gradient1"
+                              gradientTransform="rotate(90)"
+                            >
+                              <stop
+                                offset="0%"
+                                stopColor={theme.palette.primary.main}
+                                stopOpacity="1"
+                              />
+                              <stop
+                                offset="70%"
+                                stopColor={theme.palette.primary.main}
+                                stopOpacity="0.4"
+                              />
+                              <stop
+                                offset="90%"
+                                stopColor={theme.palette.primary.main}
+                                stopOpacity="0.2"
+                              />
+                              <stop
+                                offset="100%"
+                                stopColor={theme.palette.primary.main}
+                                stopOpacity="0.1"
+                              />
+                            </linearGradient>
+                            <linearGradient
+                              id="gradient2"
+                              gradientTransform="rotate(90)"
+                            >
+                              <stop
+                                offset="0%"
+                                stopColor={theme.palette.success.main}
+                                stopOpacity="1"
+                              />
+                              <stop
+                                offset="70%"
+                                stopColor={theme.palette.success.main}
+                                stopOpacity="0.4"
+                              />
+                              <stop
+                                offset="90%"
+                                stopColor={theme.palette.success.main}
+                                stopOpacity="0.2"
+                              />
+                              <stop
+                                offset="100%"
+                                stopColor={theme.palette.success.main}
+                                stopOpacity="0.1"
+                              />
+                            </linearGradient>
+                          </defs>
+                        </LineChart>
                       </CardContent>
                       <CardActions
                         sx={{ display: 'flex', justifyContent: 'start' }}
