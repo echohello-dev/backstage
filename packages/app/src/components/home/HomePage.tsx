@@ -756,25 +756,32 @@ export const HomePage = () => {
                     pl: '1rem',
                   }}
                 >
-                  <CircleRoundedIcon
+                  <Box
                     sx={{
-                      width: '1rem',
-                      height: '1rem',
-                      fill: theme.palette.success.main,
-                    }}
-                  />
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      paddingLeft: '.4rem',
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: '0.875rem',
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
-                    Updated 2 days ago
-                  </Typography>
-                  <Button variant="text" sx={{ padding: '1rem' }}>
+                    <CircleRoundedIcon
+                      sx={{
+                        width: '1rem',
+                        height: '1rem',
+                        fill: theme.palette.success.main,
+                      }}
+                    />
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        paddingLeft: '.4rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      Updated 2 days ago
+                    </Typography>
+                  </Box>
+                  <Button variant="text" sx={{ padding: 0 }}>
                     <ArrowForwardIcon sx={{ width: '3rem', height: '3rem' }} />
                   </Button>
                 </CardActions>
