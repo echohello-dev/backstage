@@ -6,12 +6,13 @@
     "node": "18 || 20"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "concurrently \"yarn start\" \"yarn start-backend\"",
-    "start": "yarn workspace app start",
-    "start-backend": "yarn workspace backend start",
-    "build:backend": "yarn workspace backend build",
+    "start": "pnpm --filter app start",
+    "start-backend": "pnpm --filter backend start",
+    "build:backend": "pnpm --filter backend build",
     "build:all": "backstage-cli repo build --all",
-    "build-image": "yarn workspace backend build-image",
+    "build-image": "pnpm --filter backend build-image",
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false",
     "clean": "backstage-cli repo clean",
@@ -31,7 +32,7 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.26.5",
+    "@backstage/cli": "^0.26.10",
     "@backstage/e2e-test-utils": "^0.1.1",
     "@playwright/test": "^1.32.3",
     "@spotify/prettier-config": "^12.0.0",

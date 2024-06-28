@@ -1,11 +1,11 @@
 ARG NODE_VERSION=18.19.1
-ARG YARN_VERSION=1.22.19
+ARG PNPM_VERSION=9.4.0
 ARG PYTHON_VERSION=3.10.12
 
 FROM debian:12-slim AS build
 
 ARG NODE_VERSION
-ARG YARN_VERSION
+ARG PNPM_VERSION
 ARG PYTHON_VERSION
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -54,7 +54,7 @@ ENV COREPACK_ROOT=/root/.corepack
 ENV PATH=$COREPACK_ROOT:$PATH
 RUN mkdir $COREPACK_ROOT && \
     corepack enable --install-directory $COREPACK_ROOT && \
-    corepack prepare yarn@${YARN_VERSION} --activate && \
+    corepack prepare pnpm@${PNPM_VERSION} --activate && \
     asdf reshim nodejs
 
 WORKDIR /app
@@ -78,7 +78,7 @@ RUN yarn build:backend
 FROM debian:12-slim AS run
 
 ARG NODE_VERSION
-ARG YARN_VERSION
+ARG PNPM_VERSION
 ARG PYTHON_VERSION
 
 # Install dependencies
@@ -125,7 +125,7 @@ ENV COREPACK_ROOT=/root/.corepack
 ENV PATH=$COREPACK_ROOT:$PATH
 RUN mkdir $COREPACK_ROOT && \
     corepack enable --install-directory $COREPACK_ROOT && \
-    corepack prepare yarn@${YARN_VERSION} --activate && \
+    corepack prepare yarn@${PNPM_VERSION} --activate && \
     asdf reshim nodejs
 
 WORKDIR /app
