@@ -73,7 +73,7 @@ export class UnifiedThemeHolder implements UnifiedTheme {
  *
  * @public
  */
-export function creatBackstageTheme(options: ThemeOptions): UnifiedTheme {
+export function createBackstageTheme(options: ThemeOptions): UnifiedTheme {
   // Default Backstage theme options
   const themeOptions = createBaseThemeOptions(options);
 
@@ -114,7 +114,7 @@ export const joyTheme = extendTheme({
   },
 });
 
-export const backstageTheme = creatBackstageTheme({
+export const backstageTheme = createBackstageTheme({
   shape: {
     borderRadius: 10,
   },
@@ -183,6 +183,21 @@ export const backstageTheme = creatBackstageTheme({
         root: {
           wordSpacing: '0.02rem',
           letterSpacing: '0.02rem',
+        },
+      },
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          '&.v5-MuiGrid-container': {
+            margin: 0,
+          },
+          '&.v5-MuiGrid-item': {
+            padding: '.5rem',
+          },
+          '&.MuiGrid-item': {
+            padding: '.5rem',
+          },
         },
       },
     },
