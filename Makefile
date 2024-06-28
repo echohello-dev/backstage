@@ -27,10 +27,10 @@ dev: install
 	yarn dev
 
 dev-app:
-	yarn workspace app start
+	pnpm --filter app start
 
 dev-backend:
-	yarn workspace backend start
+	pnpm --filter backend start
 
 docker-dev:
 	docker compose up
