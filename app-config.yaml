@@ -80,3 +80,5 @@ catalog:
       target: ../../examples/org.yaml
     - type: file
       target: ../../examples/all.yaml
+    - type: file
+      target: ../../examples/acme-corp.yaml
