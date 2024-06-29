@@ -1,0 +1,22 @@
+name: Cleanup Images
+
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+  workflow_dispatch:
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          owner: ${{ github.repository_owner }}
+          name: backstage
+          token: ${{ secrets.GITHUB_TOKEN }}
+          untagged-keep-latest: 3
