@@ -69,17 +69,26 @@ tag:
 
 create-release:
 	@echo "Creating GitHub release ${VERSION}..."
+	@echo "## What's Changed" >> release_notes.tmp
+	@gh pr list --limit 100 --state merged --base main --json number,title,author,mergedAt,url \
+		--jq '.[] | select(.mergedAt > "$(shell git log -1 --format=%aI $(LAST_TAG))") | "* \(.title) @\(.author.login) (#\(.number))"' \
+		>> release_notes.tmp
 	@git log --pretty=format:"- %s" $$(git describe --tags --abbrev=0)..HEAD > release_notes.tmp
 	@echo "Release notes:"
 	@cat release_notes.tmp
 	@gh release create ${VERSION} \
-		--title "Release ${VERSION}" \
+		--title "${VERSION}" \
 		--notes-file release_notes.tmp
 	@rm release_notes.tmp
 	@echo "Release ${VERSION} created successfully."
 
 release: tag create-release
 	@echo "Version ${VERSION} has been tagged, pushed, and released on GitHub."
+
+undo-release:
+	git tag -d ${VERSION}
+	git push origin :refs/tags/${VERSION}
+	gh release delete ${VERSION}
 
 help:
 	@echo "Available commands:"
