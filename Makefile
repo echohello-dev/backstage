@@ -1,4 +1,5 @@
-VERSION ?= $(shell git describe --tags --always)
+COMMIT_COUNT := $(shell git rev-list --count HEAD)
+VERSION := $(shell date +"%Y.%m.%d-${COMMIT_COUNT}")
 
 -include .env
 export
@@ -58,3 +59,49 @@ build:
 publish: login-github
 	docker compose build --push backstage
 	VERSION=latest docker compose build --push backstage
+
+version:
+	@echo "Current version: $(VERSION)"
+
+tag:
+	git tag -a ${VERSION} -m "Release ${VERSION}"
+	git push origin ${VERSION}
+
+push-tag:
+	@echo "Pushing tag $(VERSION) to remote"
+	@git push origin $(VERSION)
+
+create-release:
+	@echo "Creating GitHub release ${VERSION}..."
+	@git log --pretty=format:"- %s" $$(git describe --tags --abbrev=0)..HEAD > release_notes.tmp
+	@echo "Release notes:"
+	@cat release_notes.tmp
+	@gh release create ${VERSION} \
+		--title "Release ${VERSION}" \
+		--notes-file release_notes.tmp
+	@rm release_notes.tmp
+	@echo "Release ${VERSION} created successfully."
+
+release: tag create-release
+	@echo "Version ${VERSION} has been tagged, pushed, and released on GitHub."
+
+help:
+	@echo "Available commands:"
+	@echo "  init: Initialize the project"
+	@echo "  install: Install dependencies"
+	@echo "  test: Run tests"
+	@echo "  dev: Start the development server"
+	@echo "  dev-app: Start the app development server"
+	@echo "  dev-backend: Start the backend development server"
+	@echo "  docker-dev: Start the development server using Docker"
+	@echo "  logs: Show logs"
+	@echo "  exec: Execute a command in the backstage container"
+	@echo "  up: Start the server"
+	@echo "  down: Stop the server"
+	@echo "  build: Build the Docker image"
+	@echo "  publish: Build and publish the Docker image"
+	@echo "  version: Show the current version"
+	@echo "  tag: Tag the current version"
+	@echo "  push-tag: Push the tag to the remote repository"
+	@echo "  create-release: Create a GitHub release"
+	@echo "  release: Tag, push, and create a GitHub release"
