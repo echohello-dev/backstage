@@ -3,12 +3,5 @@
     "github": {
         "release": false
     },
-    "npm": false,
-    "plugins": {
-        "@csmith/release-it-calver-plugin": {
-            "format": "yyyy.mm.minor",
-            "increment": "calendar",
-            "fallbackIncrement": "minor"
-        }
-    }
+    "npm": false
 }
