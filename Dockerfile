@@ -142,6 +142,7 @@ COPY package.json ./
 COPY --from=build /app/packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
+COPY .yarnrc.yml ./
 RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
