@@ -67,10 +67,6 @@ tag:
 	git tag -a ${VERSION} -m "Release ${VERSION}"
 	git push origin ${VERSION}
 
-push-tag:
-	@echo "Pushing tag $(VERSION) to remote"
-	@git push origin $(VERSION)
-
 create-release:
 	@echo "Creating GitHub release ${VERSION}..."
 	@git log --pretty=format:"- %s" $$(git describe --tags --abbrev=0)..HEAD > release_notes.tmp
