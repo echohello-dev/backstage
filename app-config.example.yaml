@@ -7,3 +7,16 @@ auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
+
+catalog:
+  locations:
+    - type: file
+      target: ../../examples/entities.yaml
+    - type: file
+      target: ../../examples/template/template.yaml
+    - type: file
+      target: ../../examples/org.yaml
+    - type: file
+      target: ../../examples/all.yaml
+    - type: file
+      target: ../../examples/acme-corp.yaml
