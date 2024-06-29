@@ -11,7 +11,6 @@ import {
   SupportedVersions,
   UnifiedTheme,
 } from '@backstage/theme';
-import { extendTheme } from '@mui/joy/styles';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
 import {
@@ -96,24 +95,6 @@ export function createBackstageTheme(options: ThemeOptions): UnifiedTheme {
   return new UnifiedThemeHolder(theme);
 }
 
-export const joyTheme = extendTheme({
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-        },
-      },
-    },
-  },
-  fontFamily: {
-    display: DEFAULT_FONT_FAMILY,
-    body: DEFAULT_FONT_FAMILY,
-  },
-});
-
 export const backstageTheme = createBackstageTheme({
   shape: {
     borderRadius: 10,
@@ -188,6 +169,9 @@ export const backstageTheme = createBackstageTheme({
     },
     MuiGrid: {
       styleOverrides: {
+        item: {
+          padding: '.5rem',
+        },
         root: {
           '&.v5-MuiGrid-container': {
             margin: 0,

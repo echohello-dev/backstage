@@ -5,4 +5,3 @@ nodejs 18.19.1
 python 3.10.12
 skaffold 2.10.1
 sops 3.8.1
-yarn 1.22.19

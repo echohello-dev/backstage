@@ -10,3 +10,11 @@ charts/
 chart/**/*.dec
 *.enc
 *.dec
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
