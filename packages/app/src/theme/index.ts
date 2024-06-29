@@ -1,24 +1,12 @@
 import {
-  BackstageTypography,
   colorVariants,
-  createBaseThemeOptions,
-  defaultComponentThemes,
+  createUnifiedTheme,
   genPageTheme,
-  PageTheme,
   palettes,
   shapes,
-  SupportedThemes,
-  SupportedVersions,
-  UnifiedTheme,
 } from '@backstage/theme';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
-import {
-  createTheme,
-  PaletteOptions,
-  Theme,
-  ThemeOptions as MuiThemeOptions,
-} from '@mui/material/styles';
 
 const colors = {
   darkTangerine: '#FFA217',
@@ -31,74 +19,7 @@ const DEFAULT_PAGE_THEME = 'home';
 const DEFAULT_HTML_FONT_SIZE = 16;
 const DEFAULT_FONT_FAMILY = 'Inter, Roboto, Helvetica, Arial, sans-serif';
 
-/**
- * Options for creating a new {@link UnifiedTheme}.
- *
- * @public
- */
-interface ThemeOptions {
-  palette: PaletteOptions;
-  defaultPageTheme?: string;
-  pageTheme?: Record<string, PageTheme>;
-  fontFamily?: string;
-  htmlFontSize?: number;
-  shape?: MuiThemeOptions['shape'];
-  components?: MuiThemeOptions['components'];
-  typography?: BackstageTypography;
-}
-
-/**
- * A container of one theme for multiple different Material UI versions.
- *
- * Currently known keys are 'v4' and 'v5'.
- *
- * @public
- */
-export class UnifiedThemeHolder implements UnifiedTheme {
-  #themes = new Map<SupportedVersions, SupportedThemes>();
-
-  constructor(theme: Theme) {
-    this.#themes.set('v4', theme);
-    this.#themes.set('v5', theme);
-  }
-
-  getTheme(version: SupportedVersions): SupportedThemes | undefined {
-    return this.#themes.get(version);
-  }
-}
-
-/**
- * Create a Backstage theme.
- *
- * @public
- */
-export function createBackstageTheme(options: ThemeOptions): UnifiedTheme {
-  // Default Backstage theme options
-  const themeOptions = createBaseThemeOptions(options);
-
-  // Merge the default theme options with the provided options
-  const components = {
-    ...defaultComponentThemes,
-    ...options.components,
-  };
-
-  // Create the MUI theme
-  const theme = createTheme({
-    ...themeOptions,
-    components,
-    ...{
-      // Explicitly set the shape to the provided value since Backstage base theme doesn't have a shape
-      shape: options.shape,
-    },
-  });
-
-  return new UnifiedThemeHolder(theme);
-}
-
-export const backstageTheme = createBackstageTheme({
-  shape: {
-    borderRadius: 8,
-  },
+export const backstageTheme = createUnifiedTheme({
   palette: {
     ...palettes.light,
     primary: {
@@ -171,7 +92,6 @@ export const backstageTheme = createBackstageTheme({
       styleOverrides: {
         item: {
           padding: '.5rem',
-          backgroundColor: 'lightblue',
         },
         root: {
           '&.v5-MuiGrid-container': {
