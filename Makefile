@@ -84,6 +84,7 @@ endif
 		--target main
 ifdef CI
 	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
+	@echo "Copy the following version to the \`VERSION\` variable as the Docker image tag." >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
 	@echo "${VERSION}" >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
