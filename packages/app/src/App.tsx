@@ -38,8 +38,9 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { UnifiedThemeProvider } from '@backstage/theme';
+import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
-import { HelloWorld } from './theme/HelloWorld';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const app = createApp({
   apis,
@@ -70,7 +71,10 @@ const app = createApp({
       variant: 'light',
       icon: <AcUnitIcon />,
       Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={HelloWorld} children={children} />
+        <UnifiedThemeProvider theme={backstageTheme}>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
       ),
     },
   ],
@@ -95,7 +99,7 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/create" element={<ScaffolderPage />} />
+    <Route path="/self-service" element={<ScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"
