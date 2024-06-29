@@ -65,7 +65,7 @@ COPY packages/app/package.json ./packages/app/package.json
 COPY plugins/ plugins/
 COPY .yarn ./.yarn
 COPY .yarnrc.yml ./
-RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
+RUN yarn install --immutable
 
 COPY tsconfig.json ./
 COPY lerna.json ./
@@ -143,7 +143,7 @@ COPY package.json ./
 COPY --from=build /app/packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
-RUN yarn install --production --immutable
+RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --from=build /app/packages/backend/dist/bundle.tar.gz app-config*.yaml ./
