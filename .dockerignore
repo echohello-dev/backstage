@@ -10,6 +10,7 @@ charts/
 chart/**/*.dec
 *.enc
 *.dec
+*.md
 
 .pnp.*
 .yarn/*
