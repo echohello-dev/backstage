@@ -97,7 +97,7 @@ export function createBackstageTheme(options: ThemeOptions): UnifiedTheme {
 
 export const backstageTheme = createBackstageTheme({
   shape: {
-    borderRadius: 10,
+    borderRadius: 8,
   },
   palette: {
     ...palettes.light,
