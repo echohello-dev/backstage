@@ -61,28 +61,14 @@ publish: login-github
 	VERSION=latest docker compose build --push backstage
 
 version:
-	@echo "Current version: $(VERSION)"
+	@echo "$(VERSION)"
 
-tag:
+release:
 	git tag -a ${VERSION} -m "Release ${VERSION}"
 	git push origin ${VERSION}
-
-create-release:
-	@echo "Creating GitHub release ${VERSION}..."
-	@echo "## What's Changed" >> release_notes.tmp
-	@gh pr list --limit 100 --state merged --base main --json number,title,author,mergedAt,url \
-		--jq '.[] | select(.mergedAt > "$(shell git log -1 --format=%aI main)") | "* \(.title) @\(.author.login) (#\(.number))"' \
-		>> release_notes.tmp
-	@git log --pretty=format:"- %s" $$(git describe --tags --abbrev=0)..HEAD > release_notes.tmp
-	@echo "Release notes:"
-	@cat release_notes.tmp
-	@gh release create ${VERSION} \
+	gh release create ${VERSION} \
 		--title "${VERSION}" \
-		--notes-file release_notes.tmp
-	@rm release_notes.tmp
-	@echo "Release ${VERSION} created successfully."
-
-release: tag create-release
+		--generate-notes
 	@echo "Version ${VERSION} has been tagged, pushed, and released on GitHub."
 
 undo-release:
