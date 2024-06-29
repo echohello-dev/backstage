@@ -1,5 +1,6 @@
 COMMIT_COUNT := $(shell git rev-list --count HEAD)
-VERSION := $(shell date +"%Y.%m.%d-${COMMIT_COUNT}")
+CALENDAR_VERSION := $(shell date +"%Y.%m")
+VERSION := $(shell echo "${CALENDAR_VERSION}-${COMMIT_COUNT}")
 
 -include .env
 export
@@ -75,13 +76,12 @@ ifdef CI
 	git config --global user.email "actions@github.com"
 	git config --global user.name "GitHub Actions"
 endif
-	git tag -a ${VERSION} -m "Release ${VERSION}"
-	git push origin ${VERSION}
-	gh release create ${VERSION} \
-		--title "${VERSION}" \
+	git tag -a ${CALENDAR_VERSION} -m "Release ${CALENDAR_VERSION}" || true
+	git push origin ${CALENDAR_VERSION} || true
+	gh release create ${CALENDAR_VERSION} \
+		--title "${CALENDAR_VERSION}" \
 		--generate-notes \
 		--draft
-	@echo "Version ${VERSION} has been tagged, pushed, and a draft release has been created on GitHub."
 ifdef CI
 	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
@@ -89,7 +89,6 @@ ifdef CI
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
 	@echo "" >> ${GITHUB_STEP_SUMMARY}
 endif
-
 
 undo-release:
 	git tag -d ${VERSION}
