@@ -71,10 +71,7 @@ const app = createApp({
       variant: 'light',
       icon: <AcUnitIcon />,
       Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={backstageTheme}>
-          <CssBaseline />
-          {children}
-        </UnifiedThemeProvider>
+        <UnifiedThemeProvider theme={backstageTheme} children={children} />
       ),
     },
   ],
