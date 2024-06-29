@@ -3,6 +3,10 @@
     "github": {
         "release": false
     },
+    "npm": {
+        "publish": false,
+        "ignoreVersion": true
+    },
     "plugins": {
         "@csmith/release-it-calver-plugin": {
             "format": "yyyy.mm.minor",
