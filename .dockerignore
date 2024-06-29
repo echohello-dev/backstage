@@ -11,6 +11,7 @@ chart/**/*.dec
 *.enc
 *.dec
 *.md
+.env
 
 .pnp.*
 .yarn/*
