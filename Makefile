@@ -79,8 +79,9 @@ endif
 	git push origin ${VERSION}
 	gh release create ${VERSION} \
 		--title "${VERSION}" \
-		--generate-notes
-	@echo "Version ${VERSION} has been tagged, pushed, and released on GitHub."
+		--generate-notes \
+		--draft
+	@echo "Version ${VERSION} has been tagged, pushed, and a draft release has been created on GitHub."
 ifdef CI
 	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
