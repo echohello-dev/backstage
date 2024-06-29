@@ -1,21 +1,16 @@
-name: Publish
+name: Release
 
 on:
-  workflow_dispatch:
-
-  schedule:
-    - cron: '0 8 * * *' # Every day at 8:00 PM AEDT
-
-permissions:
-  contents: read
-  packages: write
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
 
     env:
@@ -34,5 +29,11 @@ jobs:
             ${{ runner.os }}-asdf-
 
       - uses: asdf-vm/actions/install@v3
+
+      - run: make test
+
+      - run: make release
+
+      - run: make build
 
       - run: make publish
