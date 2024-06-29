@@ -16,8 +16,11 @@ init:
 install:
 ifneq ($(shell which asdf),)
 	asdf install
+	corepack enable
+	corepack prepare yarn@4.3.1 --activate
+	asdf reshim nodejs
 endif
-	yarn install --immutable
+	yarn install
 
 test: install
 	yarn test

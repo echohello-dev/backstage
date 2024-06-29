@@ -1,5 +1,5 @@
 ARG NODE_VERSION=18.19.1
-ARG YARN_VERSION=1.22.19
+ARG YARN_VERSION=4.3.1
 ARG PYTHON_VERSION=3.10.12
 
 FROM debian:12-slim AS build
@@ -63,7 +63,9 @@ COPY yarn.lock package.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
 COPY plugins/ plugins/
-RUN yarn install --immutable
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
+RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 COPY tsconfig.json ./
 COPY lerna.json ./
