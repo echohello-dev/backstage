@@ -22,9 +22,13 @@ import {
 } from '@backstage/core-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import FortRoundedIcon from '@mui/icons-material/FortRounded';
+import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
+import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded';
+import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
+import MonitorHeartRoundedIcon from '@mui/icons-material/MonitorHeartRounded';
+import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 const SidebarLogoRoot = styled('div')(() => ({
@@ -65,7 +69,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         {/* Global nav, not org-specific */}
         <SidebarItem icon={Home as IconComponent} to="/" text="Home" />
         <SidebarItem
-          icon={FortRoundedIcon as IconComponent}
+          icon={MenuBookRoundedIcon as IconComponent}
           to="catalog"
           text="Catalog"
         />
@@ -75,16 +79,32 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
           text="APIs"
         />
         <SidebarItem
-          icon={MenuBookRoundedIcon as IconComponent}
+          icon={LocalLibraryRoundedIcon as IconComponent}
           to="docs"
           text="Docs"
         />
         <SidebarItem
-          icon={CreateComponent as IconComponent}
-          to="create"
-          text="Create..."
+          icon={TouchAppRoundedIcon as IconComponent}
+          to="self-service"
+          text="Self-Service"
         />
       </SidebarGroup>
+      <SidebarDivider />
+      <SidebarItem
+        icon={ScoreRoundedIcon as IconComponent}
+        to="scorecard"
+        text="Scorecard"
+      />
+      <SidebarItem
+        icon={MonitorHeartRoundedIcon as IconComponent}
+        to="pulse-check"
+        text="Pulse Check"
+      />
+      <SidebarItem
+        icon={AutoAwesomeRoundedIcon as IconComponent}
+        to="explore"
+        text="Explore"
+      />
       <SidebarSpace />
       <SidebarDivider />
       <SidebarGroup
