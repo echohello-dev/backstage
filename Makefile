@@ -71,20 +71,17 @@ publish: login-github
 version:
 	@echo "$(VERSION)"
 
-tag:
+release:
 ifdef CI
 	git config --global user.email "actions@github.com"
 	git config --global user.name "GitHub Actions"
 endif
-	git tag -a ${CALENDAR_VERSION} -m "Release ${CALENDAR_VERSION}"
-	git push origin ${CALENDAR_VERSION}
-
-create-release:
-	gh release create ${CALENDAR_VERSION} \
-		--title "${CALENDAR_VERSION}" \
-		--generate-notes
-
-release: tag create-release
+	git tag -a ${VERSION} -m "Release ${VERSION}"
+	git push origin ${VERSION}
+	gh release create ${VERSION} \
+		--title "${VERSION}" \
+		--generate-notes \
+		--target main
 ifdef CI
 	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
@@ -96,7 +93,10 @@ endif
 undo-release:
 	git tag -d ${VERSION}
 	git push origin :refs/tags/${VERSION}
-	gh release delete ${VERSION}
+	gh release delete -y ${VERSION}
+
+gh-release:
+	gh workflow run release.yml
 
 help:
 	@echo "Available commands:"
