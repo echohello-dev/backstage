@@ -50,6 +50,10 @@ up:
 	docker compose up -d
 	open http://localhost:7007
 
+up-logs:
+	@echo "Starting the server at http://localhost:7007"
+	docker compose up
+
 down:
 	docker compose down
 
@@ -103,7 +107,9 @@ help:
 	@echo "  logs: Show logs"
 	@echo "  exec: Execute a command in the backstage container"
 	@echo "  up: Start the server"
+	@echo "  up-logs: Start the server and show logs"
 	@echo "  down: Stop the server"
+	@echo "  run: Run a command in the backstage container"
 	@echo "  build: Build the Docker image"
 	@echo "  publish: Build and publish the Docker image"
 	@echo "  version: Show the current version"
