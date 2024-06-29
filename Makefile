@@ -71,17 +71,20 @@ publish: login-github
 version:
 	@echo "$(VERSION)"
 
-release:
+tag:
 ifdef CI
 	git config --global user.email "actions@github.com"
 	git config --global user.name "GitHub Actions"
 endif
-	git tag -a ${CALENDAR_VERSION} -m "Release ${CALENDAR_VERSION}" || true
-	git push origin ${CALENDAR_VERSION} || true
+	git tag -a ${CALENDAR_VERSION} -m "Release ${CALENDAR_VERSION}"
+	git push origin ${CALENDAR_VERSION}
+
+create-release:
 	gh release create ${CALENDAR_VERSION} \
 		--title "${CALENDAR_VERSION}" \
-		--generate-notes \
-		--draft
+		--generate-notes
+
+release: tag create-release
 ifdef CI
 	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
