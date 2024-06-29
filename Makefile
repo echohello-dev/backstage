@@ -74,6 +74,14 @@ endif
 		--title "${VERSION}" \
 		--generate-notes
 	@echo "Version ${VERSION} has been tagged, pushed, and released on GitHub."
+ifdef CI
+	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
+	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
+	@echo "${VERSION}" >> ${GITHUB_STEP_SUMMARY}
+	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
+	@echo "" >> ${GITHUB_STEP_SUMMARY}
+endif
+
 
 undo-release:
 	git tag -d ${VERSION}
