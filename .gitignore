@@ -56,3 +56,11 @@ e2e-test-report/
 .kube/config
 .env.secrets
 chart/secrets.prod.yaml.dec
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

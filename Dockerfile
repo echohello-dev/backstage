@@ -1,5 +1,5 @@
 ARG NODE_VERSION=18.19.1
-ARG YARN_VERSION=1.22.19
+ARG YARN_VERSION=4.3.1
 ARG PYTHON_VERSION=3.10.12
 
 FROM debian:12-slim AS build
@@ -63,6 +63,8 @@ COPY yarn.lock package.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
 COPY plugins/ plugins/
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
 RUN yarn install --immutable
 
 COPY tsconfig.json ./
@@ -141,7 +143,7 @@ COPY package.json ./
 COPY --from=build /app/packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
-RUN yarn install --production --immutable
+RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 # Then copy the rest of the backend bundle, along with any other files we might want.
 COPY --from=build /app/packages/backend/dist/bundle.tar.gz app-config*.yaml ./
