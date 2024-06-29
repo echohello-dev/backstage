@@ -41,4 +41,4 @@ jobs:
 
       - run: make publish
 
-      - run: make release
+      - run: make draft-release
