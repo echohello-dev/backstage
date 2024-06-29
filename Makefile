@@ -64,6 +64,10 @@ version:
 	@echo "$(VERSION)"
 
 release:
+ifdef CI
+	git config --global user.email "actions@github.com"
+	git config --global user.name "GitHub Actions"
+endif
 	git tag -a ${VERSION} -m "Release ${VERSION}"
 	git push origin ${VERSION}
 	gh release create ${VERSION} \
