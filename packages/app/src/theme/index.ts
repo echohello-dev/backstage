@@ -171,6 +171,7 @@ export const backstageTheme = createBackstageTheme({
       styleOverrides: {
         item: {
           padding: '.5rem',
+          backgroundColor: 'lightblue',
         },
         root: {
           '&.v5-MuiGrid-container': {
