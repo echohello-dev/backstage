@@ -63,7 +63,6 @@ COPY yarn.lock package.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
 COPY plugins/ plugins/
-COPY .yarn ./.yarn
 COPY .yarnrc.yml ./
 RUN yarn install --immutable
 
