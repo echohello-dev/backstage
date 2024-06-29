@@ -53,6 +53,9 @@ up:
 down:
 	docker compose down
 
+run:
+	docker compose run --rm backstage $(filter-out $@,$(MAKECMDGOALS))
+
 build:
 	docker compose build backstage
 
