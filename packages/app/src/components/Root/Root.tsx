@@ -32,7 +32,7 @@ import MonitorHeartRoundedIcon from '@mui/icons-material/MonitorHeartRounded';
 import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
-enum LocalStorageKeys {
+export enum LocalStorageKeys {
   SIDEBAR_PIN_STATE = 'sidebarPinState',
 }
 
