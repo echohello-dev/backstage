@@ -38,3 +38,8 @@ export default function CustomizedButtons() {
 ## Theme Providers
 
 https://mui.com/material-ui/customization/theming/#accessing-the-theme-in-a-component
+
+## Guides
+
+- [Debugging Jest Tests](https://backstage.io/docs/tooling/cli/build-system/#debugging-jest-tests)
+- [Testing with Jest](https://backstage.io/docs/plugins/testing)
