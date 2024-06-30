@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Home from '@mui/icons-material/Home';
 import CreateComponent from '@mui/icons-material/AddCircleOutline';
@@ -19,6 +19,7 @@ import {
   SidebarSpace,
   useSidebarOpenState,
   Link,
+  SidebarExpandButton,
 } from '@backstage/core-components';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
@@ -30,6 +31,10 @@ import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
 import MonitorHeartRoundedIcon from '@mui/icons-material/MonitorHeartRounded';
 import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
+
+enum LocalStorageKeys {
+  SIDEBAR_PIN_STATE = 'sidebarPinState',
+}
 
 const SidebarLogoRoot = styled('div')(() => ({
   width: sidebarConfig.drawerWidthClosed,
@@ -57,64 +62,76 @@ const SidebarLogo = () => {
   );
 };
 
-export const Root = ({ children }: PropsWithChildren<{}>) => (
-  <SidebarPage>
-    <Sidebar>
-      <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
-        <SidebarSearchModal />
-      </SidebarGroup>
-      <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        {/* Global nav, not org-specific */}
-        <SidebarItem icon={Home as IconComponent} to="/" text="Home" />
+export const Root = ({ children }: PropsWithChildren<{}>) => {
+  if (
+    window.localStorage.getItem(LocalStorageKeys.SIDEBAR_PIN_STATE) === null
+  ) {
+    window.localStorage.setItem(
+      LocalStorageKeys.SIDEBAR_PIN_STATE,
+      JSON.stringify(false),
+    );
+  }
+
+  return (
+    <SidebarPage>
+      <Sidebar disableExpandOnHover={false}>
+        <SidebarLogo />
+        <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+          <SidebarSearchModal />
+        </SidebarGroup>
+        <SidebarDivider />
+        <SidebarGroup label="Menu" icon={<MenuIcon />}>
+          {/* Global nav, not org-specific */}
+          <SidebarItem icon={Home as IconComponent} to="/" text="Home" />
+          <SidebarItem
+            icon={MenuBookRoundedIcon as IconComponent}
+            to="catalog"
+            text="Catalog"
+          />
+          <SidebarItem
+            icon={ExtensionRoundedIcon as IconComponent}
+            to="api-docs"
+            text="APIs"
+          />
+          <SidebarItem
+            icon={LocalLibraryRoundedIcon as IconComponent}
+            to="docs"
+            text="Docs"
+          />
+          <SidebarItem
+            icon={TouchAppRoundedIcon as IconComponent}
+            to="self-service"
+            text="Self-Service"
+          />
+        </SidebarGroup>
+        <SidebarDivider />
         <SidebarItem
-          icon={MenuBookRoundedIcon as IconComponent}
-          to="catalog"
-          text="Catalog"
+          icon={ScoreRoundedIcon as IconComponent}
+          to="scorecard"
+          text="Scorecard"
         />
         <SidebarItem
-          icon={ExtensionRoundedIcon as IconComponent}
-          to="api-docs"
-          text="APIs"
+          icon={MonitorHeartRoundedIcon as IconComponent}
+          to="pulse-check"
+          text="Pulse Check"
         />
         <SidebarItem
-          icon={LocalLibraryRoundedIcon as IconComponent}
-          to="docs"
-          text="Docs"
+          icon={AutoAwesomeRoundedIcon as IconComponent}
+          to="explore"
+          text="Explore"
         />
-        <SidebarItem
-          icon={TouchAppRoundedIcon as IconComponent}
-          to="self-service"
-          text="Self-Service"
-        />
-      </SidebarGroup>
-      <SidebarDivider />
-      <SidebarItem
-        icon={ScoreRoundedIcon as IconComponent}
-        to="scorecard"
-        text="Scorecard"
-      />
-      <SidebarItem
-        icon={MonitorHeartRoundedIcon as IconComponent}
-        to="pulse-check"
-        text="Pulse Check"
-      />
-      <SidebarItem
-        icon={AutoAwesomeRoundedIcon as IconComponent}
-        to="explore"
-        text="Explore"
-      />
-      <SidebarSpace />
-      <SidebarDivider />
-      <SidebarGroup
-        label="Settings"
-        icon={<UserSettingsSignInAvatar />}
-        to="/settings"
-      >
-        <SidebarSettings />
-      </SidebarGroup>
-    </Sidebar>
-    {children}
-  </SidebarPage>
-);
+        <SidebarSpace />
+        <SidebarDivider />
+        <SidebarGroup
+          label="Settings"
+          icon={<UserSettingsSignInAvatar />}
+          to="/settings"
+        >
+          <SidebarSettings />
+        </SidebarGroup>
+        <SidebarExpandButton />
+      </Sidebar>
+      {children}
+    </SidebarPage>
+  );
+};
