@@ -11,10 +11,6 @@ This is similar to other open source projects. Here are the steps to get started
   ```
   git clone
   ```
-- Install dependencies
-  ```
-  make install
-  ```
 - Start the app
   ```
   make dev
