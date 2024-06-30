@@ -64,14 +64,22 @@ run:
 build:
 	docker compose build backstage
 
-publish: login-github
+publish: login-github version
 	docker compose build --push backstage
 	VERSION=latest docker compose build --push backstage
 
 version:
 	@echo "$(VERSION)"
+ifdef CI
+	@echo "# 📦 Version" >> ${GITHUB_STEP_SUMMARY}
+	@echo "Copy the following version to the \`VERSION\` variable as the Docker image tag." >> ${GITHUB_STEP_SUMMARY}
+	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
+	@echo "${VERSION}" >> ${GITHUB_STEP_SUMMARY}
+	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
+	@echo "" >> ${GITHUB_STEP_SUMMARY}
+endif
 
-release:
+release: version
 ifdef CI
 	git config --global user.email "actions@github.com"
 	git config --global user.name "GitHub Actions"
@@ -82,14 +90,6 @@ endif
 		--title "${VERSION}" \
 		--generate-notes \
 		--target main
-ifdef CI
-	@echo "# Version" >> ${GITHUB_STEP_SUMMARY}
-	@echo "Copy the following version to the \`VERSION\` variable as the Docker image tag." >> ${GITHUB_STEP_SUMMARY}
-	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
-	@echo "${VERSION}" >> ${GITHUB_STEP_SUMMARY}
-	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
-	@echo "" >> ${GITHUB_STEP_SUMMARY}
-endif
 
 undo-release:
 	git tag -d ${VERSION}
