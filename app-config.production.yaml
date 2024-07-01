@@ -14,6 +14,7 @@ backend:
   listen: ':7007'
 
 auth:
+  environment: development
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
