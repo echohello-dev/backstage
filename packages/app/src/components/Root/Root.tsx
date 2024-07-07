@@ -32,6 +32,7 @@ import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 export enum LocalStorageKeys {
+  // eslint-disable-next-line no-unused-vars
   SIDEBAR_PIN_STATE = 'sidebarPinState',
 }
 
