@@ -24,6 +24,10 @@ ifneq ($(shell which asdf),)
 endif
 	yarn install
 
+lint:
+	yarn lint
+	yarn tsc
+
 test: install
 	yarn test
 
