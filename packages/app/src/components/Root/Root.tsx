@@ -1,7 +1,6 @@
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { styled } from '@mui/material/styles';
 import Home from '@mui/icons-material/Home';
-import CreateComponent from '@mui/icons-material/AddCircleOutline';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import {
@@ -33,6 +32,7 @@ import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 export enum LocalStorageKeys {
+  // eslint-disable-next-line no-unused-vars
   SIDEBAR_PIN_STATE = 'sidebarPinState',
 }
 

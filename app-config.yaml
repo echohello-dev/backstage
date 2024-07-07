@@ -71,3 +71,7 @@ catalog:
     pullRequestBranchName: backstage-integration
   rules:
     - allow: [Component, System, API, Resource, Location, Template, User, Group]
+
+plausible:
+  enabled: true
+  domain: ${PLAUSIBLE_DOMAIN}

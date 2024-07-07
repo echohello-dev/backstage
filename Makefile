@@ -12,10 +12,10 @@ endif
 	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init:
-	cp .env.example .env
-	cp app-config.example.yaml app-config.local.yaml
+	cp -n .env.example .env || true
+	cp -n app-config.example.yaml app-config.local.yaml || true
 
-install:
+install: init
 ifneq ($(shell which asdf),)
 	asdf install
 	corepack enable
@@ -23,6 +23,10 @@ ifneq ($(shell which asdf),)
 	asdf reshim nodejs
 endif
 	yarn install
+
+lint: install
+	yarn lint:all
+	yarn tsc
 
 test: install
 	yarn test
@@ -37,7 +41,8 @@ dev-app:
 dev-backend:
 	yarn workspace backend start
 
-docker-dev:
+dev-docker:
+	@echo "Starting the server at http://localhost:7007"
 	docker compose up
 
 logs:
@@ -46,14 +51,17 @@ logs:
 exec:
 	docker compose exec backstage bash
 
-up:
-	@echo "Starting the server at http://localhost:7007"
-	docker compose up -d
-	open http://localhost:7007
+plausible-up: init
+	@echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
+	docker compose -f compose.plausible.yaml up -d
 
-up-logs:
-	@echo "Starting the server at http://localhost:7007"
-	docker compose up
+plausible-down:
+	docker compose -f compose.plausible.yaml down
+
+up: init
+	@echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
+	@echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
+	docker compose up -d
 
 down:
 	docker compose down
@@ -61,7 +69,7 @@ down:
 run:
 	docker compose run --rm backstage $(filter-out $@,$(MAKECMDGOALS))
 
-build:
+build: init
 	docker compose build backstage
 
 publish: login-github version
@@ -103,15 +111,15 @@ help:
 	@echo "Available commands:"
 	@echo "  init: Initialize the project"
 	@echo "  install: Install dependencies"
+	@echo "  lint: Run linting and type checking"
 	@echo "  test: Run tests"
 	@echo "  dev: Start the development server"
 	@echo "  dev-app: Start the app development server"
 	@echo "  dev-backend: Start the backend development server"
-	@echo "  docker-dev: Start the development server using Docker"
+	@echo "  dev-docker: Start the development server using Docker"
 	@echo "  logs: Show logs"
 	@echo "  exec: Execute a command in the backstage container"
 	@echo "  up: Start the server"
-	@echo "  up-logs: Start the server and show logs"
 	@echo "  down: Stop the server"
 	@echo "  run: Run a command in the backstage container"
 	@echo "  build: Build the Docker image"

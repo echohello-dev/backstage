@@ -41,6 +41,7 @@ import { UnifiedThemeProvider } from '@backstage/theme';
 import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
+import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
 
 const app = createApp({
   apis,
@@ -119,6 +120,7 @@ const routes = (
 
 export default app.createRoot(
   <>
+    <PlausibleAnalytics />
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
