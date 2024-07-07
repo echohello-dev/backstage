@@ -1,13 +1,35 @@
 services:
+  traefik:
+    image: traefik:v3.1
+    command:
+      - '--api.insecure=true'
+      - '--api.dashboard=true'
+      - '--providers.docker=true'
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.traefik.address=:8080'
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik.rule=Host(`traefik.localhost`)'
+      - 'traefik.http.routers.traefik.service=api@internal'
+
   backstage:
     image: ghcr.io/echohello-dev/backstage:${VERSION:-latest}
     build:
       context: .
       dockerfile: Dockerfile
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.backstage.rule=Host(`backstage.localhost`)'
+      - 'traefik.http.services.backstage.loadbalancer.server.port=7007'
     ports:
       - 7007:7007
     volumes:
       - ./app-config.production.yaml:/app/app-config.production.yaml
       - ./app-config.yaml:/app/app-config.yaml
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
