@@ -24,7 +24,7 @@ ifneq ($(shell which asdf),)
 endif
 	yarn install
 
-lint:
+lint: install
 	yarn lint
 	yarn tsc
 
