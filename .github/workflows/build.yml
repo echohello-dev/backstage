@@ -34,6 +34,8 @@ jobs:
 
       - uses: asdf-vm/actions/install@v3
 
+      - run: make lint
+
       - run: make test
 
       - run: make build
