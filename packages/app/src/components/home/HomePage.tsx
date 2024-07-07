@@ -15,7 +15,7 @@ import Groups3Icon from '@mui/icons-material/Groups3';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import React, { useRef } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
@@ -75,26 +75,6 @@ const PageHeading: React.FC<{ icon: React.ReactNode; title: string }> = ({
 export const HomePage = () => {
   const [isSquad, setIsSquad] = React.useState(true);
   const theme = useTheme();
-
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: -300, // Adjust the scroll amount as needed
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: 300, // Adjust the scroll amount as needed
-        behavior: 'smooth',
-      });
-    }
-  };
 
   const months = [
     new Date(2021, 7, 1),
