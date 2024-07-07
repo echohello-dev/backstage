@@ -12,8 +12,8 @@ endif
 	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init:
-	cp -n .env.example .env
-	cp -n app-config.example.yaml app-config.local.yaml
+	cp -n .env.example .env || true
+	cp -n app-config.example.yaml app-config.local.yaml || true
 
 install: init
 ifneq ($(shell which asdf),)
@@ -41,7 +41,7 @@ dev-app:
 dev-backend:
 	yarn workspace backend start
 
-docker-dev:
+dev-docker:
 	@echo "Starting the server at http://localhost:7007"
 	docker compose up
 
@@ -111,15 +111,15 @@ help:
 	@echo "Available commands:"
 	@echo "  init: Initialize the project"
 	@echo "  install: Install dependencies"
+	@echo "  lint: Run linting and type checking"
 	@echo "  test: Run tests"
 	@echo "  dev: Start the development server"
 	@echo "  dev-app: Start the app development server"
 	@echo "  dev-backend: Start the backend development server"
-	@echo "  docker-dev: Start the development server using Docker"
+	@echo "  dev-docker: Start the development server using Docker"
 	@echo "  logs: Show logs"
 	@echo "  exec: Execute a command in the backstage container"
 	@echo "  up: Start the server"
-	@echo "  up-logs: Start the server and show logs"
 	@echo "  down: Stop the server"
 	@echo "  run: Run a command in the backstage container"
 	@echo "  build: Build the Docker image"
