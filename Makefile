@@ -46,10 +46,17 @@ logs:
 exec:
 	docker compose exec backstage bash
 
+plausible-up:
+	docker compose -f compose.yaml -f compose.plausible.yaml up -d
+	@echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
+
+plausible-down:
+	docker compose -f compose.yaml -f compose.plausible.yaml down
+
 up:
-	@echo "Starting the server at http://localhost:7007"
+	@echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
+	@echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
 	docker compose up -d
-	open http://localhost:7007
 
 up-logs:
 	@echo "Starting the server at http://localhost:7007"
