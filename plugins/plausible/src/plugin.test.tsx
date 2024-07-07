@@ -22,8 +22,10 @@ describe('PlausibleAnalytics', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders nothing when domain is not provided', () => {
-    const config = mockConfigApi({ plausible: { enabled: true } });
+  it('renders nothing when domain is provided but disabled', () => {
+    const config = mockConfigApi({
+      plausible: { enabled: false, domain: 'example.com' },
+    });
     const { container } = render(
       <TestApiProvider apis={[[configApiRef, config]]}>
         <PlausibleAnalytics />
