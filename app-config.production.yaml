@@ -32,3 +32,6 @@ catalog:
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
+
+plausible:
+  domain: ${PLAUSIBLE_DOMAIN}
