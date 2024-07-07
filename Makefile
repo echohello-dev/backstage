@@ -25,7 +25,7 @@ endif
 	yarn install
 
 lint: install
-	yarn lint
+	yarn lint:all
 	yarn tsc
 
 test: install
