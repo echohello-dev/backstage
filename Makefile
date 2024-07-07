@@ -12,10 +12,10 @@ endif
 	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init:
-	cp .env.example .env
-	cp app-config.example.yaml app-config.local.yaml
+	cp -n .env.example .env
+	cp -n app-config.example.yaml app-config.local.yaml
 
-install:
+install: init
 ifneq ($(shell which asdf),)
 	asdf install
 	corepack enable
@@ -42,6 +42,7 @@ dev-backend:
 	yarn workspace backend start
 
 docker-dev:
+	@echo "Starting the server at http://localhost:7007"
 	docker compose up
 
 logs:
@@ -50,21 +51,17 @@ logs:
 exec:
 	docker compose exec backstage bash
 
-plausible-up:
+plausible-up: init
 	@echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
 	docker compose -f compose.plausible.yaml up -d
 
 plausible-down:
 	docker compose -f compose.plausible.yaml down
 
-up:
+up: init
 	@echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
 	@echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
 	docker compose up -d
-
-up-logs:
-	@echo "Starting the server at http://localhost:7007"
-	docker compose up
 
 down:
 	docker compose down
@@ -72,7 +69,7 @@ down:
 run:
 	docker compose run --rm backstage $(filter-out $@,$(MAKECMDGOALS))
 
-build:
+build: init
 	docker compose build backstage
 
 publish: login-github version
