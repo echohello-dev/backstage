@@ -47,11 +47,11 @@ exec:
 	docker compose exec backstage bash
 
 plausible-up:
-	docker compose -f compose.yaml -f compose.plausible.yaml up -d
 	@echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
+	docker compose -f compose.plausible.yaml up -d
 
 plausible-down:
-	docker compose -f compose.yaml -f compose.plausible.yaml down
+	docker compose -f compose.plausible.yaml down
 
 up:
 	@echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
