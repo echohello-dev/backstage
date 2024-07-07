@@ -72,7 +72,7 @@ run:
 build: init
 	docker compose build backstage
 
-publish: login-github version
+publish: init login-github version
 	docker compose build --push backstage
 	VERSION=latest docker compose build --push backstage
 
