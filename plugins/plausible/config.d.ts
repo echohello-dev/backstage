@@ -13,6 +13,6 @@ export interface Config {
     /**
      * @visibility frontend
      */
-    soureDomain: string;
+    sourceDomain: string;
   };
 }
