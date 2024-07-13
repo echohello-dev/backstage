@@ -4,17 +4,13 @@ import React from 'react';
 export const PlausibleAnalytics = () => {
   const config = useApi(configApiRef);
   const enabled = config.getOptionalBoolean('plausible.enabled') ?? false;
-  const domain = config.getOptionalString('plausible.domain');
+  const dataDomain = config.getOptionalString('plausible.dataDomain');
+  const sourceDomain = config.getOptionalString('plausible.sourceDomain');
+  const source = `https://${sourceDomain}/js/script.js`;
 
-  if (!enabled || !domain) {
+  if (!enabled || !dataDomain || !sourceDomain) {
     return null;
   }
 
-  return (
-    <script
-      defer
-      data-domain={domain}
-      src="https://plausible.io/js/script.js"
-    />
-  );
+  return <script defer data-domain={dataDomain} src={source} />;
 };

@@ -34,4 +34,6 @@ catalog:
       target: ../../examples/acme-corp.yaml
 
 plausible:
-  domain: ${PLAUSIBLE_DOMAIN}
+  enabled: true
+  dataDomain: ${PLAUSIBLE_DATA_DOMAIN}
+  sourceDomain: ${PLAUSIBLE_SOURCE_DOMAIN}

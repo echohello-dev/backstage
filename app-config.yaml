@@ -73,5 +73,4 @@ catalog:
     - allow: [Component, System, API, Resource, Location, Template, User, Group]
 
 plausible:
-  enabled: true
-  domain: ${PLAUSIBLE_DOMAIN}
+  enabled: false

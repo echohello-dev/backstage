@@ -8,6 +8,11 @@ export interface Config {
     /**
      * @visibility frontend
      */
-    domain: string;
+    dataDomain: string;
+
+    /**
+     * @visibility frontend
+     */
+    sourceDomain: string;
   };
 }
