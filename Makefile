@@ -6,9 +6,6 @@ VERSION := $(shell echo "${CALENDAR_VERSION}-${COMMIT_COUNT}")
 export
 
 login-github:
-ifndef GITHUB_TOKEN
-	$(error GITHUB_TOKEN is not set)
-endif
 	docker login ghcr.io -u default -p $(GITHUB_TOKEN)
 
 init:
