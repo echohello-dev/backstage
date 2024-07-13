@@ -38,7 +38,8 @@ describe('PlausibleAnalytics', () => {
     const config = mockConfigApi({
       plausible: {
         enabled: true,
-        domain: 'example.com',
+        dataDomain: 'example.com',
+        sourceDomain: 'plausible.example.com',
       },
     });
     const { container } = render(
@@ -51,7 +52,7 @@ describe('PlausibleAnalytics', () => {
     expect(scriptTag).toHaveAttribute('data-domain', 'example.com');
     expect(scriptTag).toHaveAttribute(
       'src',
-      'https://plausible.io/js/script.js',
+      'https://plausible.example.com/js/script.js',
     );
     expect(scriptTag).toHaveAttribute('defer');
   });
