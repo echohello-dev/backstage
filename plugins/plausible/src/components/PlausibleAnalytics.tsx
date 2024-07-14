@@ -1,5 +1,6 @@
 import { useApi, configApiRef } from '@backstage/core-plugin-api';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 export const PlausibleAnalytics = () => {
   const config = useApi(configApiRef);
@@ -12,5 +13,9 @@ export const PlausibleAnalytics = () => {
     return null;
   }
 
-  return <script defer data-domain={dataDomain} src={source} />;
+  return (
+    <Helmet>
+      <script defer data-domain={dataDomain} src={source} />
+    </Helmet>
+  );
 };
