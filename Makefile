@@ -72,9 +72,6 @@ build: init
 publish: init login-github version
 	docker compose build --push backstage
 	VERSION=latest docker compose build --push backstage
-
-version:
-	@echo "$(VERSION)"
 ifdef CI
 	@echo "# 📦 Version" >> ${GITHUB_STEP_SUMMARY}
 	@echo "Copy the following version to the \`VERSION\` variable as the Docker image tag." >> ${GITHUB_STEP_SUMMARY}
@@ -83,6 +80,9 @@ ifdef CI
 	@echo "\`\`\`" >> ${GITHUB_STEP_SUMMARY}
 	@echo "" >> ${GITHUB_STEP_SUMMARY}
 endif
+
+version:
+	@echo "$(VERSION)"
 
 release: version
 ifdef CI
