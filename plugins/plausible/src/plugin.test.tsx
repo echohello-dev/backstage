@@ -34,12 +34,12 @@ describe('PlausibleAnalytics', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders script tag when plausible is enabled and domain is provided', () => {
+  it('renders script tag when plausible is configured', async () => {
     const config = mockConfigApi({
       plausible: {
         enabled: true,
         dataDomain: 'example.com',
-        sourceDomain: 'plausible.example.com',
+        sourceUrl: 'https://plausible.example.com/js/script.js',
       },
     });
     render(
@@ -48,7 +48,7 @@ describe('PlausibleAnalytics', () => {
       </TestApiProvider>,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       const scriptTag = document.querySelector(
         'script[data-domain="example.com"]',
       );

@@ -36,4 +36,4 @@ catalog:
 plausible:
   enabled: true
   dataDomain: ${PLAUSIBLE_DATA_DOMAIN}
-  sourceDomain: ${PLAUSIBLE_SOURCE_DOMAIN}
+  sourceUrl: ${PLAUSIBLE_SOURCE_URL}

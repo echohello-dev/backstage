@@ -6,16 +6,15 @@ export const PlausibleAnalytics = () => {
   const config = useApi(configApiRef);
   const enabled = config.getOptionalBoolean('plausible.enabled') ?? false;
   const dataDomain = config.getOptionalString('plausible.dataDomain');
-  const sourceDomain = config.getOptionalString('plausible.sourceDomain');
-  const source = `https://${sourceDomain}/js/script.js`;
+  const sourceUrl = config.getOptionalString('plausible.sourceUrl');
 
-  if (!enabled || !dataDomain || !sourceDomain) {
+  if (!enabled || !dataDomain || !sourceUrl) {
     return null;
   }
 
   return (
     <Helmet>
-      <script defer data-domain={dataDomain} src={source} />
+      <script defer data-domain={dataDomain} src={sourceUrl} />
     </Helmet>
   );
 };

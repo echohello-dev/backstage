@@ -20,6 +20,7 @@ catalog:
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
-
-plausible:
-  enabled: false
+# plausible:
+#   enabled: true
+#   dataDomain: backstage.localhost
+#   sourceUrl: http://plausible.localhost/js/script.js
