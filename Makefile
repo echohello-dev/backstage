@@ -50,6 +50,8 @@ exec:
 
 plausible-up: init
 	@echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
+	@echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
+	@echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
 	docker compose -f compose.yaml -f compose.plausible.yaml up -d
 
 plausible-down:
