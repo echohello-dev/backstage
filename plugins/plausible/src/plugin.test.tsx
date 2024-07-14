@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { ConfigApi, configApiRef } from '@backstage/core-plugin-api';
 import { TestApiProvider } from '@backstage/test-utils';
 import { PlausibleAnalytics } from './components/PlausibleAnalytics';
@@ -42,18 +42,23 @@ describe('PlausibleAnalytics', () => {
         sourceDomain: 'plausible.example.com',
       },
     });
-    const { container } = render(
+    render(
       <TestApiProvider apis={[[configApiRef, config]]}>
         <PlausibleAnalytics />
       </TestApiProvider>,
     );
-    const scriptTag = container.querySelector('script');
-    expect(scriptTag).toBeInTheDocument();
-    expect(scriptTag).toHaveAttribute('data-domain', 'example.com');
-    expect(scriptTag).toHaveAttribute(
-      'src',
-      'https://plausible.example.com/js/script.js',
-    );
-    expect(scriptTag).toHaveAttribute('defer');
+
+    waitFor(() => {
+      const scriptTag = document.querySelector(
+        'script[data-domain="example.com"]',
+      );
+      expect(scriptTag).toBeInTheDocument();
+      expect(scriptTag).toHaveAttribute('data-domain', 'example.com');
+      expect(scriptTag).toHaveAttribute(
+        'src',
+        'https://plausible.example.com/js/script.js',
+      );
+      expect(scriptTag).toHaveAttribute('defer');
+    });
   });
 });
