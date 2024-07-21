@@ -7,6 +7,7 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
+import { githubAuth } from './auth';
 
 const backend = createBackend();
 
@@ -19,7 +20,7 @@ backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
 backend.add(import('@backstage/plugin-auth-backend'));
 // See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
-backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+backend.add(githubAuth);
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend/alpha'));
