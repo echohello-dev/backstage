@@ -20,7 +20,24 @@ catalog:
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
+## Uncomment the following to enable Plausible analytics in development mode
 # plausible:
 #   enabled: true
 #   dataDomain: backstage.localhost
 #   sourceUrl: http://plausible.localhost/js/script.js
+
+## Uncomment the following to enable GitHub authentication in development mode
+# auth:
+#   environment: development
+#   providers:
+#     guest:
+#       dangerouslyAllowOutsideDevelopment: true
+#     github:
+#       development:
+#         clientId: ${GITHUB_CLIENT_ID}
+#         clientSecret: ${GITHUB_CLIENT_SECRET}
+#         signIn:
+#           resolvers:
+#             # Matches the GitHub username with the Backstage user entity name.
+#             # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
+#             - resolver: usernameMatchingUserEntityName
