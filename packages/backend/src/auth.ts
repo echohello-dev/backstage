@@ -1,9 +1,5 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import {
-  EntityProvider,
-  EntityProviderConnection,
-} from '@backstage/plugin-catalog-node';
-import {
   stringifyEntityRef,
   DEFAULT_NAMESPACE,
 } from '@backstage/catalog-model';
@@ -30,14 +26,40 @@ export const githubAuth = createBackendModule({
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
             async signInResolver(
-              { profile },
+              fullProfile,
               ctx,
             ): Promise<BackstageSignInResult> {
-              if (!profile.email) {
-                throw new Error(
-                  'Login failed, user profile does not contain an email',
-                );
-              }
+              const { profile } = fullProfile;
+              // if (!profile.email) {
+              //   throw new Error(
+              //     'Login failed, user profile does not contain an email',
+              //   );
+              // }
+
+              const emailResponse = await fetch(
+                'https://api.github.com/user/emails',
+                {
+                  headers: {
+                    Authorization: `Bearer ${fullProfile.result.session.accessToken}`,
+                    Accept: 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                  },
+                },
+              );
+              const emails = await emailResponse.json();
+
+              // Fetch user's organizations
+              const orgsResponse = await fetch(
+                'https://api.github.com/user/orgs',
+                {
+                  headers: {
+                    Authorization: `Bearer ${fullProfile.result.session.accessToken}`,
+                    Accept: 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                  },
+                },
+              );
+              const orgs = await orgsResponse.json();
 
               // Split the email into the local part and the domain.
               const [localPart, domain] = profile.email.split('@');
