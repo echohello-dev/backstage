@@ -42,6 +42,7 @@ import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -63,7 +64,21 @@ const app = createApp({
     });
   },
   components: {
-    SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
+    SignInPage: props => (
+      <SignInPage
+        {...props}
+        auto
+        providers={[
+          'guest',
+          {
+            id: 'github-auth-provider',
+            title: 'GitHub',
+            message: 'Sign in using GitHub',
+            apiRef: githubAuthApiRef,
+          },
+        ]}
+      />
+    ),
   },
   themes: [
     {
