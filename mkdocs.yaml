@@ -1,7 +1,10 @@
-site_name: Backstage
+site_name: echoHello Backstage
 
 nav:
-  - Home: index.md
+  - index.md
+  - auth.md
+  - customization.md
+  - tracking.md
 
 plugins:
   - techdocs-core
