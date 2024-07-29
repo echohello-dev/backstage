@@ -5,6 +5,7 @@ import {
   CatalogEntityPage,
   CatalogIndexPage,
   catalogPlugin,
+  CatalogTable,
 } from '@backstage/plugin-catalog';
 import {
   CatalogImportPage,
@@ -99,7 +100,21 @@ const app = createApp({
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomePage />} />
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route
+      path="/catalog"
+      element={
+        <CatalogIndexPage
+          columns={() => {
+            return [
+              CatalogTable.columns.createNameColumn(),
+              CatalogTable.columns.createOwnerColumn(),
+              CatalogTable.columns.createSpecTypeColumn(),
+              CatalogTable.columns.createSpecLifecycleColumn(),
+            ];
+          }}
+        />
+      }
+    />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
