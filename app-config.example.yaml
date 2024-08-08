@@ -13,7 +13,11 @@ catalog:
     - type: file
       target: ../../examples/entities.yaml
     - type: file
-      target: ../../examples/template/template.yaml
+      target: ../../examples/templates/docs-template/template.yaml
+    - type: file
+      target: ../../examples/templates/gitlab-merge-request/template.yaml
+    - type: file
+      target: ../../examples/templates/pull-request/template.yaml
     - type: file
       target: ../../examples/org.yaml
     - type: file
