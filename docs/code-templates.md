@@ -11,8 +11,8 @@ Backstage code templates, also known as software templates, are a powerful featu
 
 Some good places to find example templates:
 
-- The official Backstage GitHub repo: https://github.com/backstage/software-templates
-- Roadie's template collection: https://github.com/RoadieHQ/software-templates
+- [The official Backstage GitHub repo](https://github.com/backstage/software-templates)
+- [Roadie's template collection](https://github.com/RoadieHQ/software-templates)
 
 ## Getting Started
 
@@ -30,6 +30,14 @@ Common built-in actions include:
 - `fetch:template` - Fetch and template a skeleton
 - `publish:github` - Publish to GitHub
 - `catalog:register` - Register the new component in the catalog
+
+## Backends
+
+Backstage supports multiple backends for fetching templates, including:
+
+- [GitLab](https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend-module-gitlab)
+- [GitHub](https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend-module-github)
+- [Bitbucket](https://github.com/backstage/backstage/tree/master/plugins/scaffolder-backend-module-bitbucket)
 
 ## Writing Custom Actions
 

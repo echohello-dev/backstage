@@ -17,20 +17,16 @@ spec:
       required:
         - name
       properties:
-        name:
+        component_id:
           title: Name
           type: string
           description: Unique name of the component
           ui:field: EntityNamePicker
-          ui:autofocus: true
         description:
           title: Description
           type: string
-          description: Description of the component
-        targetPath:
-          title: Target Path in repo
-          type: string
-          description: Name of the directory to create in the repository
+          description: Help others understand what this website is for.
+
     - title: Choose a location
       required:
         - repoUrl
@@ -50,29 +46,22 @@ spec:
       input:
         url: ./template
         values:
-          name: ${{parameters.name}}
-
-    - id: fetch-docs
-      name: Fetch Docs
-      action: fetch:plain
-      input:
-        targetPath: ./community
-        url: https://github.com/backstage/community/tree/main/backstage-community-sessions
+          name: ${{ parameters.name }}
+          owner: team-b
 
     - id: publish
       name: Publish
-      action: publish:github:pull-request
+      action: publish:github
       input:
+        allowedHosts:
+          - github.com
+        description: This is ${{ parameters.component_id }}
         repoUrl: ${{ parameters.repoUrl }}
-        title: 'Create new project: ${{parameters.name}}'
-        branchName: create-${{parameters.name}}
-        description: |
-          # New project: ${{parameters.name}}
-
-          ${{ parameters.description if parameters.description }}
-        targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
 
   output:
     links:
-      - url: ${{steps.publish.output.remoteUrl}}
-        title: 'Go to PR'
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
