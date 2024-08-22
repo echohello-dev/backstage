@@ -27,7 +27,7 @@ catalog:
     - type: file
       target: ../../examples/acme-corp.yaml
     - type: file
-      target: ../../default-catalog/organisations.yaml
+      target: ../../default-catalog/organizations.yaml
     - type: file
       target: ../../default-catalog/users.yaml
 ## Uncomment the following to enable Plausible analytics in development mode

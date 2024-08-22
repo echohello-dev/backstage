@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
-  name: johnny.huynh
+  name: johnnyhuy
 spec:
   profile:
     displayName: Johnny Huynh
