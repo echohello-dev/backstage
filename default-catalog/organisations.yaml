@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: echohello
+  description: echoHello Group
+  links:
+    - url: http://echohello.dev/
+      title: Website
+spec:
+  type: organization
+  profile:
+    displayName: echoHello
+    email: bash@echohello.dev
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=Maggie&flip=true&backgroundColor=ffdfbf
+  children: []

@@ -45,6 +45,10 @@ catalog:
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
+    - type: file
+      target: ../../default-catalog/organisations.yaml
+    - type: file
+      target: ../../default-catalog/users.yaml
 
 plausible:
   enabled: true
