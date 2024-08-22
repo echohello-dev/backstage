@@ -39,6 +39,122 @@ Backstage supports multiple backends for fetching templates, including:
 - [GitHub](https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend-module-github)
 - [Bitbucket](https://github.com/backstage/backstage/tree/master/plugins/scaffolder-backend-module-bitbucket)
 
+## The Repository Picker
+
+The Repository Picker is a custom field in Backstage software templates that makes it easy to select a repository provider and specify project/owner and repository name.
+
+Key features:
+
+- Used by overriding the `ui:field` option in the `uiSchema` for a `string` field
+- Renders a custom component instead of a text input
+- Allows selecting repository provider, project/owner, and repo name
+- Can be configured with `allowedHosts` to restrict which hosts can be published to
+- Supports using the user's OAuth token for the selected repository
+
+Example usage:
+
+```yaml
+- title: Choose a location
+  required:
+    - repoUrl
+  properties:
+    repoUrl:
+      title: Repository Location
+      type: string
+      ui:field: RepoUrlPicker
+      ui:options:
+        allowedHosts:
+          - github.com
+```
+
+The `allowedHosts` should match hosts configured in your `integrations` config.
+
+You can also restrict to specific owners/repos:
+
+```yaml
+ui:options:
+  allowedHosts:
+    - github.com
+  allowedOwners:
+    - backstage
+  allowedRepos:
+    - backstage
+```
+
+## Built-in Actions
+
+Backstage provides several built-in actions for common scaffolding tasks:
+
+- Fetching content
+- Registering in the catalog
+- Creating and publishing git repositories
+
+There are also action modules available for various SCM providers:
+
+- Azure DevOps
+- Bitbucket Cloud
+- Bitbucket Server
+- Gerrit
+- Gitea
+- GitHub
+- GitLab
+
+To install an action module:
+
+1. Add the package:
+
+```
+yarn --cwd packages/backend add @backstage/plugin-scaffolder-backend-module-github
+```
+
+2. Add it to your backend:
+
+```typescript
+import { createBackend } from '@backstage/backend-defaults';
+
+const backend = createBackend();
+
+backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
+
+backend.start();
+```
+
+You can view all registered actions at `/create/actions` in your Backstage instance.
+
+## Array with Custom Titles
+
+You can create arrays with custom titles for the options using `enum` and `enumNames`:
+
+```yaml
+parameters:
+  - title: Fill in some steps
+    properties:
+      volume_type:
+        title: Volume Type
+        type: string
+        description: The volume type to be used
+        default: gp2
+        enum:
+          - gp2
+          - gp3
+          - io1
+          - io2
+          - sc1
+          - st1
+          - standard
+        enumNames:
+          - 'General Purpose SSD (gp2)'
+          - 'General Purpose SSD (gp3)'
+          - 'Provisioned IOPS (io1)'
+          - 'Provisioned IOPS (io2)'
+          - 'Cold HDD (sc1)'
+          - 'Throughput Optimized HDD (st1)'
+          - 'Magnetic (standard)'
+```
+
+This will create a dropdown with friendly names for each volume type option.
+
 ## Writing Custom Actions
 
 To write your own custom action in Backstage, follow these steps:
