@@ -43,7 +43,7 @@ import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { githubAuthApiRef, gitlabAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -76,6 +76,12 @@ const app = createApp({
             title: 'GitHub',
             message: 'Sign in using GitHub',
             apiRef: githubAuthApiRef,
+          },
+          {
+            id: 'gitlab-auth-provider',
+            title: 'GitLab',
+            message: 'Sign in using GitLab',
+            apiRef: gitlabAuthApiRef,
           },
         ]}
       />
