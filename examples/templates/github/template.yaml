@@ -17,15 +17,11 @@ spec:
       required:
         - name
       properties:
-        component_id:
+        name:
           title: Name
           type: string
           description: Unique name of the component
           ui:field: EntityNamePicker
-        description:
-          title: Description
-          type: string
-          description: Help others understand what this website is for.
 
     - title: Choose a location
       required:
@@ -38,6 +34,8 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+            allowedOwners:
+              - echohello-dev
 
   steps:
     - id: fetch-base
