@@ -16,28 +16,176 @@ Some good places to find example templates:
 
 ## Getting Started
 
-To create a new software template, you need to define a template in your Backstage instance. The template is a directory containing the files and folders that make up the template. The template directory should be structured as follows:
+Templates are stored in the Software Catalog under the kind `Template`. You can create your own templates with a YAML definition that describes the template metadata, input parameters, and a list of actions to be executed by the scaffolding service.
 
-A basic template structure includes:
+The template directory should be structured as follows:
 
 - A skeleton code structure to stamp out new projects
 - A `template.yaml` file describing the scaffolding steps
 - Parameters to collect user input
 - Steps that define actions to take (e.g. fetch template, publish to GitHub)
 
-Common built-in actions include:
+For further details on how to create a template, see the the following:
 
-- `fetch:template` - Fetch and template a skeleton
-- `publish:github` - Publish to GitHub
-- `catalog:register` - Register the new component in the catalog
+- [Writing Templates](https://backstage.io/docs/features/software-templates/writing-templates)
+- [Builtin Actions](https://backstage.io/docs/features/software-templates/builtin-actions)
+- [Input Examples](https://backstage.io/docs/features/software-templates/input-examples)
 
-## Backends
+## Template Structure
 
-Backstage supports multiple backends for fetching templates, including:
+A basic template structure looks like this:
 
-- [GitLab](https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend-module-gitlab)
-- [GitHub](https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend-module-github)
-- [Bitbucket](https://github.com/backstage/backstage/tree/master/plugins/scaffolder-backend-module-bitbucket)
+```yaml
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: v1beta3-demo
+  title: Test Action template
+  description: scaffolder v1beta3 template demo
+spec:
+  owner: backstage/techdocs-core
+  type: service
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./template
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+```
+
+## Key Sections
+
+- `parameters`: Defines the input form fields shown to users
+- `steps`: Lists the actions to execute when scaffolding
+- `output`: Specifies links and other outputs to display after scaffolding
+
+## Templating Syntax
+
+Use `${{ }}` to reference parameters and step outputs:
+
+```yaml
+name: ${{ parameters.name }}
+url: ${{ steps['publish'].output.remoteUrl }}
+```
+
+## Built-in Actions
+
+Backstage provides several built-in actions for common scaffolding tasks:
+
+- `fetch:plain`: Fetch plain content
+- `fetch:template`: Fetch and template content
+- `publish:github`: Publish to GitHub
+- `publish:gitlab`: Publish to GitLab
+- `publish:bitbucket`: Publish to Bitbucket
+- `debug:log`: Log debug statements
+- `catalog:register`: Register an entity in the catalog
+- `catalog:write`: Write catalog-info.yaml
+- `fs:delete`: Delete files/directories
+- `fs:rename`: Rename files/directories
+
+## Input Examples
+
+### Basic Inputs
+
+```yaml
+parameters:
+  - title: Basic Information
+    properties:
+      name:
+        title: Name
+        type: string
+        description: Unique name of the component
+        ui:autofocus: true
+      description:
+        title: Description
+        type: string
+        description: A description for the component
+      owner:
+        title: Owner
+        type: string
+        description: Owner of the component
+        ui:field: OwnerPicker
+```
+
+### Advanced Inputs
+
+```yaml
+parameters:
+  - title: Choose a location
+    required:
+      - repoUrl
+    properties:
+      repoUrl:
+        title: Repository Location
+        type: string
+        ui:field: RepoUrlPicker
+        ui:options:
+          allowedHosts:
+            - github.com
+
+  - title: Infrastructure
+    properties:
+      usePostgres:
+        title: Use Postgres?
+        type: boolean
+        default: false
+      dbName:
+        title: Database Name
+        type: string
+        description: Name of the database
+        if: ${{ parameters.usePostgres }}
+
+  - title: APIs
+    properties:
+      apis:
+        title: APIs
+        description: Choose APIs to use
+        type: array
+        items:
+          type: string
+          enum: ['rest', 'graphql', 'grpc']
+```
 
 ## The Repository Picker
 
@@ -80,47 +228,6 @@ ui:options:
   allowedRepos:
     - backstage
 ```
-
-## Built-in Actions
-
-Backstage provides several built-in actions for common scaffolding tasks:
-
-- Fetching content
-- Registering in the catalog
-- Creating and publishing git repositories
-
-There are also action modules available for various SCM providers:
-
-- Azure DevOps
-- Bitbucket Cloud
-- Bitbucket Server
-- Gerrit
-- Gitea
-- GitHub
-- GitLab
-
-To install an action module:
-
-1. Add the package:
-
-```
-yarn --cwd packages/backend add @backstage/plugin-scaffolder-backend-module-github
-```
-
-2. Add it to your backend:
-
-```typescript
-import { createBackend } from '@backstage/backend-defaults';
-
-const backend = createBackend();
-
-backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
-backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
-
-backend.start();
-```
-
-You can view all registered actions at `/create/actions` in your Backstage instance.
 
 ## Array with Custom Titles
 
