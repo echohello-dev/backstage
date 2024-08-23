@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: docs-template-github-pull-request
-  title: Documentation Template in GitHub with Pull Request
+  name: github-pull-request-docs
+  title: GitHub Pull Request Docs
   description: |
     This template creates a new documentation site in a GitHub repository.
     It fetches a template from the local filesystem, fetches some docs from

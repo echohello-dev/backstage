@@ -1,8 +1,10 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: docs-template-github
-  title: Documentation Template in GitHub
+  name: github-docs
+  title: GitHub Docs Template
+  tags:
+    - recommended
   description: |
     This template creates a new documentation site in a GitHub repository.
     It fetches a template from the local filesystem, fetches some docs from
@@ -14,14 +16,20 @@ spec:
 
   parameters:
     - title: Fill in some steps
-      required:
-        - name
       properties:
-        name:
-          title: Name
+        description:
+          title: Description
           type: string
-          description: Unique name of the component
-          ui:field: EntityNamePicker
+          description: Description of the component
+          ui:placeholder: A short description of the component
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: [Group, User]
 
     - title: Choose a location
       required:
@@ -32,9 +40,13 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
             allowedHosts:
               - github.com
             allowedOwners:
+              - echohello-dev
+            allowedOrganizations:
               - echohello-dev
 
   steps:
@@ -45,7 +57,7 @@ spec:
         url: ./template
         values:
           name: ${{ parameters.name }}
-          owner: team-b
+          owner: ${{ parameters.owner }}
 
     - id: publish
       name: Publish
@@ -53,8 +65,9 @@ spec:
       input:
         allowedHosts:
           - github.com
-        description: This is ${{ parameters.component_id }}
+        description: ${{ parameters.description }}
         repoUrl: ${{ parameters.repoUrl }}
+        token: ${{ secrets.USER_OAUTH_TOKEN }}
 
   output:
     links:
@@ -63,3 +76,7 @@ spec:
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: More information
+        content: |
+          **Entity URL:** `${{ steps['publish'].output.remoteUrl }}`

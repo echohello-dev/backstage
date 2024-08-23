@@ -136,7 +136,20 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/self-service" element={<ScaffolderPage />} />
+    <Route
+      path="/self-service"
+      element={
+        <ScaffolderPage
+          groups={[
+            {
+              title: 'Recommended',
+              filter: entity =>
+                entity?.metadata?.tags?.includes('recommended') ?? false,
+            },
+          ]}
+        />
+      }
+    />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"

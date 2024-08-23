@@ -14,6 +14,13 @@ Some good places to find example templates:
 - [The official Backstage GitHub repo](https://github.com/backstage/software-templates)
 - [Roadie's template collection](https://github.com/RoadieHQ/software-templates)
 
+## How it works
+
+- Scaffolder Backstage plugin handles the template rendering and execution into providers like GitHub
+- Uses backend system tokens from providers like GitHub to create new repositories or commit code
+- Has the option to use user tokens to mint a token via the OAuth flow
+- By default Backstage templates should request a user token and fallback on the system token if the template configuration doesn't have `requestUserCredentials`
+
 ## Getting Started
 
 Templates are stored in the Software Catalog under the kind `Template`. You can create your own templates with a YAML definition that describes the template metadata, input parameters, and a list of actions to be executed by the scaffolding service.
