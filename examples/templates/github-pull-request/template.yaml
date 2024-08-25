@@ -15,22 +15,44 @@ spec:
   parameters:
     - title: Fill in some steps
       required:
-        - name
+        - title
+        - branchName
+        - targetBranchName
+        - targetPath
       properties:
-        name:
-          title: Name
+        owner:
+          title: Owner
           type: string
-          description: Unique name of the component
-          ui:field: EntityNamePicker
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: [Group, User]
+        title:
+          title: Title
+          type: string
+          description: Title of the pull request
           ui:autofocus: true
         description:
           title: Description
           type: string
-          description: Description of the component
+          description: This is a description of the pull request
+        branchName:
+          title: Branch Name
+          type: string
+          description: Name of the branch to create
+          ui:placeholder: create-${{ parameters.name }}
+        targetBranchName:
+          title: Target Branch Name
+          type: string
+          description: Name of the branch to create the pull request against
+          default: main
         targetPath:
           title: Target Path in repo
           type: string
           description: Name of the directory to create in the repository
+          ui:placeholder: docs
+
     - title: Choose a location
       required:
         - repoUrl
@@ -40,8 +62,16 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
             allowedHosts:
               - github.com
+            allowedOwners:
+              - echohello-dev
+            allowedOrganizations:
+              - echohello-dev
+            allowedRepositories:
+              - example
 
   steps:
     - id: fetch-base
@@ -50,29 +80,38 @@ spec:
       input:
         url: ./template
         values:
-          name: ${{parameters.name}}
-
-    - id: fetch-docs
-      name: Fetch Docs
-      action: fetch:plain
-      input:
-        targetPath: ./community
-        url: https://github.com/backstage/community/tree/main/backstage-community-sessions
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
 
     - id: publish
       name: Publish
       action: publish:github:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        title: 'Create new project: ${{parameters.name}}'
-        branchName: create-${{parameters.name}}
+        title: 'Create new project: ${{ parameters.name }}'
+        branchName: create-${{ parameters.name }}
         description: |
-          # New project: ${{parameters.name}}
+          # New project: ${{ parameters.name }}
 
           ${{ parameters.description if parameters.description }}
         targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
 
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '${{ parameters.targetPath if parameters.targetPath else parameters.name }}/catalog-info.yaml'
+
   output:
     links:
-      - url: ${{steps.publish.output.remoteUrl}}
-        title: 'Go to PR'
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: More information
+        content: |
+          **Entity URL:** `${{ steps['publish'].output.remoteUrl }}`

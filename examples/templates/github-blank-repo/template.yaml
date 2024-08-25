@@ -1,24 +1,23 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: github-docs
-  title: GitHub Docs Template
+  name: github-blank-repo
+  title: GitHub Blank Repo
   tags:
     - recommended
-    - docs
     - example
     - github
   description: |
-    This template creates a new documentation site in a GitHub repository.
-    It fetches a template from the local filesystem, fetches some docs from
-    a remote URL, and then publishes the result to a new branch in the
-    target repository.
+    This template creates a new blank repository in GitHub.
+    It fetches a template from the local filesystem, and then publishes the result to a new repository.
 spec:
   owner: team-b
-  type: documentation
+  type: service
 
   parameters:
     - title: Fill in some steps
+      required:
+        - owner
       properties:
         description:
           title: Description
