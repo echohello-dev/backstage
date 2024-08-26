@@ -54,7 +54,7 @@ spec:
               - gitlab.com
             allowedOwners:
               - echohello-dev
-            allowedRepositories:
+            allowedRepos:
               - example
 
   steps:
