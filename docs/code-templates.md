@@ -116,6 +116,20 @@ name: ${{ parameters.name }}
 url: ${{ steps['publish'].output.remoteUrl }}
 ```
 
+Actual template files can use the [Nunjucks](https://mozilla.github.io/nunjucks/templating.html#if) templating language:
+
+```nunjucks
+{% if owner %}
+  {{ owner }}
+{% endif %}
+
+{% for item in items %}
+  {{ item }}
+{% endfor %}
+
+{{ name | upper }}
+```
+
 ## Built-in Actions
 
 Backstage provides several built-in actions for common scaffolding tasks:

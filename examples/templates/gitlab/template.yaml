@@ -3,6 +3,10 @@ kind: Template
 metadata:
   name: docs-template-gitlab
   title: Documentation Template in GitLab
+  tags:
+    - docs
+    - example
+    - gitlab
   description: |
     This template creates a new documentation site in a GitLab repository.
 spec:
@@ -12,15 +16,39 @@ spec:
   parameters:
     - title: Fill in some steps
       required:
-        - name
+        - owner
       properties:
-        name:
-          title: Name
+        description:
+          title: Description
           type: string
-          description: Unique name of the component
-          ui:autofocus: true
+          description: Description of the component
+          ui:placeholder: A short description of the component
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
           ui:options:
-            rows: 5
+            catalogFilter:
+              kind: [Group, User]
+
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - echohello-dev
+            allowedOrganizations:
+              - echohello-dev
 
   steps:
     - id: template
@@ -31,17 +59,34 @@ spec:
         targetPath: ${{ parameters.targetPath }}
         values:
           name: ${{ parameters.name }}
-          owner: ${{ spec.owner }}
+          owner: ${{ parameters.owner }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
 
     - id: publish
       name: Publish to GitLab
       action: publish:gitlab
       input:
         repoUrl: gitlab.com?repo=${{ parameters.name }}&owner=echohello
-        branchName: ${{ parameters.branchName }}
         description: This is the ${{ parameters.name }} component
+        token: ${{ secrets.USER_OAUTH_TOKEN }}
+        gitAuthorName: ${{ user.entity.metadata.name }}
+        gitAuthorEmail: ${{ user.entity.spec.profile.email }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
 
   output:
     links:
-      - url: ${{ steps.publish.output.url }}
-        title: Go to the repository
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: More information
+        content: |
+          **Entity URL:** `${{ steps['publish'].output.remoteUrl }}`
