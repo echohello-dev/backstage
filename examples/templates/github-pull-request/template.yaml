@@ -28,29 +28,16 @@ spec:
           ui:options:
             catalogFilter:
               kind: [Group, User]
-        title:
-          title: Title
+        name:
+          title: Name
           type: string
-          description: Title of the pull request
-          ui:autofocus: true
-        description:
-          title: Description
-          type: string
-          description: This is a description of the pull request
-        branchName:
-          title: Branch Name
-          type: string
-          description: Name of the branch to create
-          ui:placeholder: create-${{ parameters.name }}
-        targetBranchName:
-          title: Target Branch Name
-          type: string
-          description: Name of the branch to create the pull request against
-          default: main
+          description: Name of the component
+          ui:field: NamePicker
         targetPath:
           title: Target Path in repo
           type: string
           description: Name of the directory to create in the repository
+          default: docs
           ui:placeholder: docs
 
     - title: Choose a location
@@ -89,12 +76,10 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        title: 'Create new project: ${{ parameters.name }}'
-        branchName: create-${{ parameters.name }}
+        title: Create docs for ${{ parameters.name }}
+        branchName: create-docs-${{ parameters.name | slugify }}
         description: |
-          # New project: ${{ parameters.name }}
-
-          ${{ parameters.description if parameters.description }}
+          This pull request creates a new documentation site for ${{ parameters.name }}.
         targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
 
     - id: register
