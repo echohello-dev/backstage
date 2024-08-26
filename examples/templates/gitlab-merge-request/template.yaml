@@ -15,31 +15,30 @@ spec:
   parameters:
     - title: Fill in some steps
       required:
+        - owner
         - name
+        - targetPath
       properties:
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: [Group, User]
         name:
           title: Name
           type: string
-          description: Unique name of the component
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        description:
-          title: Description
-          type: string
-          description: Description of the component
+          description: Name of the component
+          ui:placeholder: my-component
         targetPath:
           title: Target Path in repo
           type: string
           description: Name of the directory to create in the repository
-        branchName:
-          title: Destination Branch Name
-          type: string
-          description: Name of the branch to create in the repository
-        assignee:
-          title: MR Assignee
-          type: string
-          description: GitLab Handle of the Assignee
+          default: docs
+          ui:placeholder: docs
+
     - title: Choose a location
       required:
         - repoUrl
@@ -49,37 +48,52 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
-            allowedHosts:
-              - gitlab.com
             requestUserCredentials:
               secretsKey: USER_OAUTH_TOKEN
+            allowedHosts:
+              - gitlab.com
+            allowedOwners:
+              - echohello-dev
+            allowedRepositories:
+              - example
 
   steps:
-    - id: template
-      name: Fetch Skeleton + Template
+    - id: fetch-base
+      name: Fetch Base
       action: fetch:template
       input:
         url: ./template
-        targetPath: ${{ parameters.targetPath }}
         values:
-          name: ${{parameters.name}}
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          description: |
+            This is the documentation site for ${{ parameters.name }}.
+
     - id: publish
       name: Publish
       action: publish:gitlab:merge-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        title: Creating catalog-info.yaml ${{ parameters.name }} for backstage
-        branchName: ${{ parameters.branchName }}
+        title: Create docs for ${{ parameters.name }}
+        branchName: create-docs-${{ parameters.name | slugify }}
         description: |
-          # New project: ${{ parameters.name }}
-          ${{ parameters.description if parameters.description }}
+          This pull request creates a new documentation site for ${{ parameters.name }}.
         targetPath: ${{ parameters.targetPath if parameters.targetPath else '.' }}
         token: ${{ secrets.USER_OAUTH_TOKEN }}
         commitAction: create
         removeSourceBranch: true
-        assignee: ${{ parameters.assignee }}
 
   output:
     links:
-      - url: ${{ steps.publish.output.mergeRequestUrl }}
-        title: 'Go to Gitlab MR'
+      - title: Go to Merge Request
+        url: ${{ steps.publish.output.mergeRequestUrl }}
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: More information
+        content: |
+          **Entity URL:** `${{ steps['publish'].output.remoteUrl }}`

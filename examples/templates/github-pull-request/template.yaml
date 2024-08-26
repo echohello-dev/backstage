@@ -15,9 +15,8 @@ spec:
   parameters:
     - title: Fill in some steps
       required:
-        - title
-        - branchName
-        - targetBranchName
+        - owner
+        - name
         - targetPath
       properties:
         owner:
@@ -32,7 +31,7 @@ spec:
           title: Name
           type: string
           description: Name of the component
-          ui:field: NamePicker
+          ui:placeholder: my-component
         targetPath:
           title: Target Path in repo
           type: string
@@ -70,6 +69,8 @@ spec:
           name: ${{ parameters.name }}
           owner: ${{ parameters.owner }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          description: |
+            This is the documentation site for ${{ parameters.name }}.
 
     - id: publish
       name: Publish
@@ -91,6 +92,8 @@ spec:
 
   output:
     links:
+      - title: Go to pull request
+        url: ${{ steps.publish.output.pullRequestUrl }}
       - title: Repository
         url: ${{ steps.publish.output.remoteUrl }}
       - title: Open in catalog

@@ -19,11 +19,6 @@ spec:
       required:
         - owner
       properties:
-        description:
-          title: Description
-          type: string
-          description: Description of the component
-          ui:placeholder: A short description of the component
         owner:
           title: Owner
           type: string
@@ -61,6 +56,8 @@ spec:
           name: ${{ parameters.name }}
           owner: ${{ parameters.owner }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          description: |
+            This is a new component named ${{ parameters.name }}.
 
     - id: publish
       name: Publish
