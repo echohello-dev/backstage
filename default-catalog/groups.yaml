@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Developers
+    email: developers@echohello.dev
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=developers
+  children: []

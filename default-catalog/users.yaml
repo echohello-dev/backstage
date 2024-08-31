@@ -7,4 +7,5 @@ spec:
     displayName: Johnny Huynh
     email: johnny.huynh@echohello.dev
     picture: https://api.dicebear.com/9.x/big-ears-neutral/svg?seed=johnny.huynh
-  memberOf: [echohello]
+  memberOf:
+    - developers

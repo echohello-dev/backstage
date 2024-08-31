@@ -29,6 +29,8 @@ catalog:
     - type: file
       target: ../../default-catalog/organizations.yaml
     - type: file
+      target: ../../default-catalog/groups.yaml
+    - type: file
       target: ../../default-catalog/users.yaml
 ## Uncomment the following to enable Plausible analytics in development mode
 # plausible:

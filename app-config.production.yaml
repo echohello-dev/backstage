@@ -48,6 +48,8 @@ catalog:
     - type: file
       target: ../../default-catalog/organisations.yaml
     - type: file
+      target: ../../default-catalog/groups.yaml
+    - type: file
       target: ../../default-catalog/users.yaml
 
 plausible:
