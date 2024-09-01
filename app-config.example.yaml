@@ -7,7 +7,7 @@ auth:
 catalog:
   locations:
     - type: file
-      target: ../../default-catalog/all.yaml
+      target: ../../default-catalog/catalog-info.yaml
     - type: file
       target: ../../examples/entities.yaml
     - type: file

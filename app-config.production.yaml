@@ -16,16 +16,30 @@ backend:
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
 
+integrations:
+  github:
+    - host: github.com
+      apps:
+        - appId: ${CATALOG_GITHUB_APP_ID}
+          clientId: ${CATALOG_GITHUB_APP_CLIENT_ID}
+          clientSecret: ${CATALOG_GITHUB_APP_CLIENT_SECRET}
+          privateKey: ${CATALOG_GITHUB_APP_PRIVATE_KEY}
+          webhookSecret: ${CATALOG_GITHUB_APP_WEBHOOK_SECRET}
+
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
+
 auth:
-  environment: production
+  environment: default
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
       userEntityRef: user:default/guest
     github:
-      production:
-        clientId: ${GITHUB_CLIENT_ID}
-        clientSecret: ${GITHUB_CLIENT_SECRET}
+      default:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
         signIn:
           resolvers:
             # Matches the GitHub username with the Backstage user entity name.
@@ -35,9 +49,17 @@ catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.
   # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
   # on how to get entities into the catalog.
+  providers:
+    github:
+      default:
+        host: github.com
+        owner: echohello-dev
+        entityFilename: /**/catalog-info.yaml
+        schedule:
+          frequency: { minutes: 30 }
+          timeout: { minutes: 3 }
+
   locations:
-    - type: file
-      target: ../../default-catalog/all.yaml
     - type: file
       target: ../../examples/entities.yaml
     - type: file
