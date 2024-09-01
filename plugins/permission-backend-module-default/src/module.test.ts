@@ -42,6 +42,17 @@ describe('policy', () => {
     policy = new DefaultPermissionPolicy();
   });
 
+  test('allows developers to read and write', async () => {
+    const request = createRequest('example.permission', {
+      action: 'read',
+    });
+    const user = createUser('example-user', ['developers']);
+
+    const decision = await policy.handle(request, user);
+
+    expect(decision.result).toBe(AuthorizeResult.ALLOW);
+  });
+
   test('allows read permission for users in readGroups', async () => {
     const request = createRequest('example.permission', {
       action: 'read',

@@ -40,6 +40,7 @@ export class DefaultPermissionPolicy implements PermissionPolicy {
 
     if (
       (request.permission.attributes.action === 'create' ||
+        request.permission.attributes.action === 'read' ||
         request.permission.attributes.action === 'delete' ||
         request.permission.attributes.action === 'update') &&
       user?.identity.ownershipEntityRefs.some(ref => writeGroups.includes(ref))
