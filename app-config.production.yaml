@@ -36,19 +36,15 @@ catalog:
   # on how to get entities into the catalog.
   locations:
     - type: file
+      target: ../../default-catalog/all.yaml
+    - type: file
       target: ../../examples/entities.yaml
     - type: file
-      target: ../../examples/template/template.yaml
+      target: ../../examples/org.yaml
     - type: file
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
-    - type: file
-      target: ../../default-catalog/organisations.yaml
-    - type: file
-      target: ../../default-catalog/groups.yaml
-    - type: file
-      target: ../../default-catalog/users.yaml
 
 plausible:
   enabled: true

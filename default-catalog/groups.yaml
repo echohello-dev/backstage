@@ -8,7 +8,37 @@ spec:
   profile:
     displayName: Readers
     email: readers@echohello.dev
-    picture: https://api.dicebear.com/7.x/identicon/svg?seed=readers
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=readers
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: readers
+  namespace: development
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Readers
+    email: readers@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=readers
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: readers
+  namespace: production
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Readers
+    email: readers@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=readers
   children: []
 
 ---
@@ -22,11 +52,40 @@ spec:
   profile:
     displayName: Developers
     email: developers@echohello.dev
-    picture: https://api.dicebear.com/7.x/identicon/svg?seed=developers
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=developers
   children: []
 
 ---
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+  namespace: development
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Developers
+    email: developers@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=developers
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+  namespace: production
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Developers
+    email: developers@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=developers
+  children: []
+
+---
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
@@ -37,5 +96,35 @@ spec:
   profile:
     displayName: Admins
     email: admins@echohello.dev
-    picture: https://api.dicebear.com/7.x/identicon/svg?seed=admins
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=admins
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: admins
+  namespace: development
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Admins
+    email: admins@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=admins
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: admins
+  namespace: production
+spec:
+  type: team
+  organization: echohello
+  profile:
+    displayName: Admins
+    email: admins@echohello.dev
+    picture: https://api.dicebear.com/7.x/initials/svg?seed=admins
   children: []

@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: default-catalog
+spec:
+  targets:
+    - ./groups.yaml
+    - ./organizations.yaml
+    - ./users.yaml
+    - ./templates/github/template.yaml
+    - ./templates/github-blank-repo/template.yaml
+    - ./templates/github-pull-request/template.yaml
+    - ./templates/gitlab/template.yaml
+    - ./templates/gitlab-merge-request/template.yaml

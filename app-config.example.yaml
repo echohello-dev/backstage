@@ -1,8 +1,3 @@
-backend:
-  auth:
-    keys:
-      - secret: super-secret
-
 auth:
   providers:
     guest:
@@ -11,25 +6,15 @@ auth:
 catalog:
   locations:
     - type: file
+      target: ../../default-catalog/all.yaml
+    - type: file
       target: ../../examples/entities.yaml
     - type: file
-      target: ../../examples/templates/github/template.yaml
-    - type: file
-      target: ../../examples/templates/github-pull-request/template.yaml
-    - type: file
-      target: ../../examples/templates/gitlab/template.yaml
-    - type: file
-      target: ../../examples/templates/gitlab-merge-request/template.yaml
+      target: ../../examples/org.yaml
     - type: file
       target: ../../examples/all.yaml
     - type: file
       target: ../../examples/acme-corp.yaml
-    - type: file
-      target: ../../default-catalog/organizations.yaml
-    - type: file
-      target: ../../default-catalog/groups.yaml
-    - type: file
-      target: ../../default-catalog/users.yaml
 ## Uncomment the following to enable Plausible analytics in development mode
 # plausible:
 #   enabled: true
