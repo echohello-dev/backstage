@@ -9,22 +9,14 @@ import {
   PolicyQueryUser,
 } from '@backstage/plugin-permission-node';
 import { policyExtensionPoint } from '@backstage/plugin-permission-node/alpha';
+import {
+  actionExecutePermission,
+  taskCancelPermission,
+} from '@backstage/plugin-scaffolder-common/alpha';
 
-export const readGroups = [
-  'group:default/readers',
-  'group:development/readers',
-  'group:production/readers',
-];
-export const writeGroups = [
-  'group:default/developers',
-  'group:development/developers',
-  'group:production/developers',
-];
-export const adminGroups = [
-  'group:default/admins',
-  'group:development/admins',
-  'group:production/admins',
-];
+export const readGroups = ['group:default/readers'];
+export const writeGroups = ['group:default/developers'];
+export const adminGroups = ['group:default/admins'];
 
 export class DefaultPermissionPolicy implements PermissionPolicy {
   async handle(
@@ -39,7 +31,9 @@ export class DefaultPermissionPolicy implements PermissionPolicy {
     }
 
     if (
-      (request.permission.attributes.action === 'create' ||
+      (request.permission.name === taskCancelPermission.name ||
+        request.permission.name === actionExecutePermission.name ||
+        request.permission.attributes.action === 'create' ||
         request.permission.attributes.action === 'read' ||
         request.permission.attributes.action === 'delete' ||
         request.permission.attributes.action === 'update') &&
