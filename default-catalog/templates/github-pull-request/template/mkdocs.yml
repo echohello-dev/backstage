@@ -1,6 +1,6 @@
-site_name: ${{values.name | dump}}
+site_name: ${{ values.name | dump }}
 {% if values.description %}
-site_description: ${{values.description | dump}}
+site_description: ${{ values.description | dump }}
 {% endif %}
 
 nav:

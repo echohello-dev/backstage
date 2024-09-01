@@ -78,17 +78,11 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         title: Create docs for ${{ parameters.name }}
-        branchName: create-docs-${{ parameters.name | slugify }}
+        branchName: create-docs-${{ parameters.name }}
         description: |
           This pull request creates a new documentation site for ${{ parameters.name }}.
-        targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
-
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: '${{ parameters.targetPath if parameters.targetPath else parameters.name }}/catalog-info.yaml'
+        targetPath: ${{ parameters.targetPath }}
+        token: ${{ secrets.USER_OAUTH_TOKEN }}
 
   output:
     links:

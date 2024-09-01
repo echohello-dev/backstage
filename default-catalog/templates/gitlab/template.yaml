@@ -18,11 +18,14 @@ spec:
       required:
         - owner
       properties:
-        description:
-          title: Description
+        name:
+          title: Name
           type: string
-          description: Description of the component
-          ui:placeholder: A short description of the component
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+
         owner:
           title: Owner
           type: string
@@ -39,15 +42,14 @@ spec:
         repoUrl:
           title: Repository Location
           type: string
+          host: gitlab.com
           ui:field: RepoUrlPicker
           ui:options:
             requestUserCredentials:
               secretsKey: USER_OAUTH_TOKEN
             allowedHosts:
-              - github.com
+              - gitlab.com
             allowedOwners:
-              - echohello-dev
-            allowedOrganizations:
               - echohello-dev
 
   steps:
@@ -66,8 +68,7 @@ spec:
       name: Publish to GitLab
       action: publish:gitlab
       input:
-        repoUrl: gitlab.com?repo=${{ parameters.name }}&owner=echohello
-        description: This is the ${{ parameters.name }} component
+        repoUrl: ${{ parameters.repoUrl }}
         token: ${{ secrets.USER_OAUTH_TOKEN }}
         gitAuthorName: ${{ user.entity.metadata.name }}
         gitAuthorEmail: ${{ user.entity.spec.profile.email }}
