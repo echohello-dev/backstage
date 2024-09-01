@@ -1,17 +1,18 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: docs-template-gitlab
-  title: Documentation Template in GitLab
+  name: docs-blank-repo
+  title: GitLab Blank Repo
   tags:
-    - docs
+    - recommended
     - example
     - gitlab
   description: |
-    This template creates a new documentation site in a GitLab repository.
+    This template creates a new blank repository in GitLab.
+    It fetches a template from the local filesystem, and then publishes the result to a new repository.
 spec:
   owner: team-c
-  type: documentation
+  type: sevice
 
   parameters:
     - title: Fill in some steps
@@ -50,7 +51,7 @@ spec:
             allowedHosts:
               - gitlab.com
             allowedOwners:
-              - echohello-dev
+              - echohello
 
   steps:
     - id: template
@@ -72,6 +73,7 @@ spec:
         token: ${{ secrets.USER_OAUTH_TOKEN }}
         gitAuthorName: ${{ user.entity.metadata.name }}
         gitAuthorEmail: ${{ user.entity.spec.profile.email }}
+        visibility: public
 
     - id: register
       name: Register

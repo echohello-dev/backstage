@@ -53,9 +53,9 @@ spec:
             allowedHosts:
               - gitlab.com
             allowedOwners:
-              - echohello-dev
+              - echohello
             allowedRepos:
-              - pull-request-demo
+              - example
 
   steps:
     - id: fetch-base
@@ -76,7 +76,7 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         title: Create docs for ${{ parameters.name }}
-        branchName: create-docs-${{ parameters.name | slugify }}
+        branchName: create-docs-${{ parameters.name }}
         description: |
           This pull request creates a new documentation site for ${{ parameters.name }}.
         targetPath: ${{ parameters.targetPath if parameters.targetPath else '.' }}

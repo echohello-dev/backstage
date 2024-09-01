@@ -70,6 +70,7 @@ spec:
         token: ${{ secrets.USER_OAUTH_TOKEN }}
         gitAuthorName: ${{ user.entity.metadata.name }}
         gitAuthorEmail: ${{ user.entity.spec.profile.email }}
+        visibility: public
 
     - id: register
       name: Register

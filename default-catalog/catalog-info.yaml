@@ -10,5 +10,5 @@ spec:
     - ./templates/github/template.yaml
     - ./templates/github-blank-repo/template.yaml
     - ./templates/github-pull-request/template.yaml
-    - ./templates/gitlab/template.yaml
+    - ./templates/gitlab-blank-repo/template.yaml
     - ./templates/gitlab-merge-request/template.yaml
