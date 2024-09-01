@@ -2,6 +2,7 @@ auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
+      userEntityRef: user:default/guest
 
 catalog:
   locations:

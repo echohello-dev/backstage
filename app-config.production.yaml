@@ -21,6 +21,7 @@ auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
+      userEntityRef: user:default/guest
     github:
       production:
         clientId: ${GITHUB_CLIENT_ID}
