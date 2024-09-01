@@ -33,7 +33,7 @@ backend.add(
 // permission plugin
 backend.add(import('@backstage/plugin-permission-backend/alpha'));
 backend.add(
-  import('@backstage/plugin-permission-backend-module-allow-all-policy'),
+  import('@internal/backstage-plugin-permission-backend-module-default'),
 );
 
 // search plugin

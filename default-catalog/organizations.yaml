@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: echohello
-  description: echoHello Group
+  description: echoHello is a software development company that specializes in creating software for the web.
   links:
     - url: http://echohello.dev/
       title: Website

@@ -9,3 +9,12 @@ spec:
     picture: https://api.dicebear.com/9.x/big-ears-neutral/svg?seed=johnny.huynh
   memberOf:
     - developers
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  memberOf:
+    - readers
