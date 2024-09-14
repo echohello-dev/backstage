@@ -1,0 +1,8 @@
+site_name: UI Component Library
+nav:
+  - Home: index.md
+  - Components:
+    - Button: components/button.md
+
+plugins:
+  - techdocs-core

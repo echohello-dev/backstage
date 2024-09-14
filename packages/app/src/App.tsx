@@ -5,6 +5,7 @@ import {
   CatalogEntityPage,
   CatalogIndexPage,
   catalogPlugin,
+  CatalogTable,
 } from '@backstage/plugin-catalog';
 import {
   CatalogImportPage,
@@ -42,7 +43,7 @@ import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { githubAuthApiRef, gitlabAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -76,6 +77,12 @@ const app = createApp({
             message: 'Sign in using GitHub',
             apiRef: githubAuthApiRef,
           },
+          {
+            id: 'gitlab-auth-provider',
+            title: 'GitLab',
+            message: 'Sign in using GitLab',
+            apiRef: gitlabAuthApiRef,
+          },
         ]}
       />
     ),
@@ -99,7 +106,21 @@ const app = createApp({
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomePage />} />
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route
+      path="/catalog"
+      element={
+        <CatalogIndexPage
+          columns={() => {
+            return [
+              CatalogTable.columns.createNameColumn(),
+              CatalogTable.columns.createOwnerColumn(),
+              CatalogTable.columns.createSpecTypeColumn(),
+              CatalogTable.columns.createSpecLifecycleColumn(),
+            ];
+          }}
+        />
+      }
+    />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
@@ -115,7 +136,20 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/self-service" element={<ScaffolderPage />} />
+    <Route
+      path="/self-service"
+      element={
+        <ScaffolderPage
+          groups={[
+            {
+              title: 'Recommended',
+              filter: entity =>
+                entity?.metadata?.tags?.includes('recommended') ?? false,
+            },
+          ]}
+        />
+      }
+    />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"

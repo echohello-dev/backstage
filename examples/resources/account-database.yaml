@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: account-database
+  description: Database for storing customer account information
+spec:
+  type: database
+  owner: group:database-admin-team
+  system: digital-banking-platform

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: michael-rodriguez
+spec:
+  profile:
+    displayName: Michael Rodriguez
+    email: michael.rodriguez@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=MichaelRodriguez
+  memberOf: [data-analytics-team]

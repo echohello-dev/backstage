@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: infrastructure-team
+  description: Infrastructure Team
+spec:
+  type: team
+  profile:
+    displayName: Infrastructure Team
+    email: infrastructure@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=InfrastructureTeam
+  parent: acme-tech
+  children: []

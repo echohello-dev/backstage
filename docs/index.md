@@ -1,4 +1,4 @@
-# [Backstage](https://backstage.io)
+# Backstage
 
 ## 🚀 Getting Started
 

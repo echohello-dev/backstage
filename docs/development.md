@@ -34,31 +34,6 @@ Storybook is a tool for developing UI components in isolation. It encourages the
 
 [What is Storybook?](https://www.perplexity.ai/search/backstage-storybook-QUfnZxrpQKST1rscB..iww)
 
-## Customising React Components
-
-https://mui.com/material-ui/react-button/#customization
-
-Using styled components to customise the appearance of MUI components.
-
-```jsx
-import { Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-const CustomButton = styled(Button)({
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  border: 0,
-  borderRadius: 3,
-  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  color: 'white',
-  height: 48,
-  padding: '0 30px',
-});
-
-export default function CustomizedButtons() {
-  return <CustomButton>Custom Button</CustomButton>;
-}
-```
-
 ## Theme Providers
 
 https://mui.com/material-ui/customization/theming/#accessing-the-theme-in-a-component
@@ -67,3 +42,33 @@ https://mui.com/material-ui/customization/theming/#accessing-the-theme-in-a-comp
 
 - [Debugging Jest Tests](https://backstage.io/docs/tooling/cli/build-system/#debugging-jest-tests)
 - [Testing with Jest](https://backstage.io/docs/plugins/testing)
+
+## Troubleshooting
+
+### `backstage-cli` not found
+
+If you get an error like `backstage-cli not found`, you may need to install the Backstage CLI globally.
+
+```bash
+npm install -g @backstage/cli
+```
+
+### TechDocs Local Development
+
+Ensure you have the following installed:
+
+```bash
+pip install mkdocs mkdocs-techdocs-core
+```
+
+Then run the following command to start the local development server:
+
+```bash
+make dev
+```
+
+To quickly test the TechDocs site, run the following command in the respective component directory that contains the `mkdocs.yml` file:
+
+```bash
+mkdocs serve
+```

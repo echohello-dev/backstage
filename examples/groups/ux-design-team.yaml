@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ux-design-team
+  description: UX Design Team
+spec:
+  type: team
+  profile:
+    displayName: UX Design Team
+    email: ux-design@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=UXDesignTeam
+  parent: acme-tech
+  children: []

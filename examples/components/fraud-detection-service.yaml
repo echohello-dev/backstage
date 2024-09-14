@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: fraud-detection-service
+  description: Microservice for real-time fraud detection in transactions
+spec:
+  type: service
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  providesApis:
+    - fraud-detection-api
+  consumesApis:
+    - transaction-api
+    - core-banking-api
+  dependsOn:
+    - resource:fraud-detection-ml-model

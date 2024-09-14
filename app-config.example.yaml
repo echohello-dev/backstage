@@ -1,19 +1,15 @@
-backend:
-  auth:
-    keys:
-      - secret: super-secret
-
 auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
+      userEntityRef: user:default/guest
 
 catalog:
   locations:
     - type: file
-      target: ../../examples/entities.yaml
+      target: ../../default-catalog/catalog-info.yaml
     - type: file
-      target: ../../examples/template/template.yaml
+      target: ../../examples/entities.yaml
     - type: file
       target: ../../examples/org.yaml
     - type: file

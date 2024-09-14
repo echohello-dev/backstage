@@ -1,0 +1,99 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: docs-template-gitlab-merge-request
+  title: Documentation Template in GitLab with Merge Request
+  description: |
+    This template creates a new documentation site in a GitLab repository.
+    It fetches a template from the local filesystem, fetches some docs from
+    a remote URL, and then publishes the result to a new branch in the
+    target repository.
+spec:
+  owner: frontend-ninjas
+  type: documentation
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - owner
+        - name
+        - targetPath
+      properties:
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: [Group, User]
+        name:
+          title: Name
+          type: string
+          description: Name of the component
+          ui:placeholder: my-component
+        targetPath:
+          title: Target Path in repo
+          type: string
+          description: Name of the directory to create in the repository
+          default: docs
+          ui:placeholder: docs
+
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+            allowedHosts:
+              - gitlab.com
+            allowedOwners:
+              - echohello
+            allowedRepos:
+              - example
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./template
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          description: |
+            This is the documentation site for ${{ parameters.name }}.
+
+    - id: publish
+      name: Publish
+      action: publish:gitlab:merge-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        title: Create docs for ${{ parameters.name }}
+        branchName: create-docs-${{ parameters.name }}
+        description: |
+          This pull request creates a new documentation site for ${{ parameters.name }}.
+        targetPath: ${{ parameters.targetPath if parameters.targetPath else '.' }}
+        token: ${{ secrets.USER_OAUTH_TOKEN }}
+        commitAction: create
+        removeSourceBranch: true
+
+  output:
+    links:
+      - title: Go to Merge Request
+        url: ${{ steps.publish.output.mergeRequestUrl }}
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: More information
+        content: |
+          **Entity URL:** `${{ steps['publish'].output.remoteUrl }}`

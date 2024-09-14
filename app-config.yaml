@@ -31,12 +31,6 @@ backend:
   database:
     client: better-sqlite3
     connection: ':memory:'
-  # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-
-integrations:
-  github:
-    - host: github.com
-      token: ${GITHUB_TOKEN}
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -71,7 +65,16 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location, Template, User, Group]
+    - allow:
+      - Component
+      - System
+      - API
+      - Resource
+      - Location
+      - Template
+      - User
+      - Group
+      - Domain
 
 plausible:
   enabled: false

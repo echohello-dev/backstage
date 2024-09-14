@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: notification-queue
+  description: Message queue for handling notifications
+spec:
+  type: queue
+  owner: group:infrastructure-team
+  system: digital-banking-platform

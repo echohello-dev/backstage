@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: customer-support-portal
+  description: Internal portal for customer support representatives
+spec:
+  type: website
+  lifecycle: production
+  owner: group:web-dev-team
+  system: digital-banking-platform
+  consumesApis:
+    - customer-engagement-api
+    - core-banking-api
+  dependsOn:
+    - resource:customer-support-knowledge-base

@@ -1,0 +1,53 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: customer-engagement-api
+  description: API for managing customer interactions and support
+spec:
+  type: graphql
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  definition: |
+    type Query {
+      customer(id: ID!): Customer
+      supportTickets(customerId: ID!): [SupportTicket]
+    }
+
+    type Mutation {
+      createSupportTicket(input: CreateSupportTicketInput!): SupportTicket
+      updateSupportTicket(id: ID!, input: UpdateSupportTicketInput!): SupportTicket
+    }
+
+    type Customer {
+      id: ID!
+      name: String!
+      email: String!
+      phone: String
+    }
+
+    type SupportTicket {
+      id: ID!
+      customerId: ID!
+      issue: String!
+      status: TicketStatus!
+      createdAt: String!
+      updatedAt: String!
+    }
+
+    enum TicketStatus {
+      OPEN
+      IN_PROGRESS
+      RESOLVED
+      CLOSED
+    }
+
+    input CreateSupportTicketInput {
+      customerId: ID!
+      issue: String!
+    }
+
+    input UpdateSupportTicketInput {
+      status: TicketStatus
+      resolution: String
+    }

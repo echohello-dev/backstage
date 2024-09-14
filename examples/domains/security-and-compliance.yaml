@@ -1,0 +1,7 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: security-and-compliance
+  description: Ensures the security of our platform and compliance with financial regulations
+spec:
+  owner: group:platform-engineering

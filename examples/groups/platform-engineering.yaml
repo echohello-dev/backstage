@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform-engineering
+  description: Platform Engineering Team
+spec:
+  type: team
+  profile:
+    displayName: Platform Engineering
+    email: platform@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=PlatformEngineering
+  parent: acme-tech
+  children: []

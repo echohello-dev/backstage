@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: sarah-patel
+spec:
+  profile:
+    displayName: Sarah Patel
+    email: sarah.patel@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=SarahPatel
+  memberOf: [infrastructure-team]

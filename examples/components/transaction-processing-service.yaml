@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: transaction-processing-service
+  description: Microservice for processing financial transactions
+spec:
+  type: service
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  providesApis:
+    - transaction-api
+  consumesApis:
+    - core-banking-api
+    - fraud-detection-api
+  dependsOn:
+    - resource:transaction-database
+    - component:fraud-detection-service
+    - component:shared-utilities-library

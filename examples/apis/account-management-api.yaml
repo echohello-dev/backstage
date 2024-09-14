@@ -1,0 +1,52 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: account-management-api
+  description: GraphQL API for account management
+spec:
+  type: graphql
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  definition: |
+    type Query {
+      account(id: ID!): Account
+      accounts(userId: ID!): [Account]
+    }
+
+    type Mutation {
+      createAccount(input: CreateAccountInput!): Account
+      updateAccount(id: ID!, input: UpdateAccountInput!): Account
+      closeAccount(id: ID!): Boolean
+    }
+
+    type Account {
+      id: ID!
+      userId: ID!
+      accountNumber: String!
+      balance: Float!
+      type: AccountType!
+      status: AccountStatus!
+    }
+
+    enum AccountType {
+      CHECKING
+      SAVINGS
+      INVESTMENT
+    }
+
+    enum AccountStatus {
+      ACTIVE
+      SUSPENDED
+      CLOSED
+    }
+
+    input CreateAccountInput {
+      userId: ID!
+      type: AccountType!
+    }
+
+    input UpdateAccountInput {
+      balance: Float
+      status: AccountStatus
+    }

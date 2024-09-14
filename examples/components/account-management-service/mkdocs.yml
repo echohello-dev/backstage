@@ -1,0 +1,10 @@
+site_name: Documentation
+nav:
+  - Home: index.md
+  - Getting Started: getting_started.md
+  - Usage Guide: usage.md
+  - API Reference: api.md
+  - Contributing: contributing.md
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: olivia-brown
+spec:
+  profile:
+    displayName: Olivia Brown
+    email: olivia.brown@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=OliviaBrown
+  memberOf: [mobile-dev-team]

@@ -1,6 +1,7 @@
 COMMIT_COUNT := $(shell git rev-list --count HEAD)
 CALENDAR_VERSION := $(shell date +"%Y.%m")
 VERSION := $(shell echo "${CALENDAR_VERSION}-${COMMIT_COUNT}")
+LOG_LEVEL := debug
 
 -include .env
 export

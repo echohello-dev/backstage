@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: mobile-app-analytics
+  description: Analytics platform for mobile app usage
+spec:
+  type: analytics-platform
+  owner: group:data-analytics-team
+  system: digital-banking-platform

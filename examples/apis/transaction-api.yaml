@@ -1,0 +1,79 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: transaction-api
+  description: API for processing financial transactions
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Transaction API
+      description: API for processing financial transactions
+      version: 1.0.0
+    servers:
+      - url: https://api.digitalbanking.com
+        description: Production server
+      - url: https://api.digitalbanking.com/staging
+        description: Staging server
+    paths:
+      /transactions:
+        post:
+          summary: Process a financial transaction
+          description: Processes a financial transaction and returns the transaction ID
+          operationId: processTransaction
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    amount:
+                    currency:
+                      type: string
+                      description: The currency of the transaction
+                    fromAccount:
+                      type: string
+                      description: The account from which the transaction is made
+                    toAccount:
+                      type: string
+                      description: The account to which the transaction is made
+                    description:
+                      type: string
+                      description: A description of the transaction
+          responses:
+            '400':
+              description: Bad request
+            '403':
+              description: Forbidden
+            '404':
+              description: Not found
+            '500':
+              description: Internal server error
+            '200':
+              description: Transaction processed successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      transactionId:
+                        type: string
+                        description: The ID of the processed transaction
+                      message:
+                        type: string
+                        description: A message indicating the success of the transaction
+            default:
+              description: Error processing transaction
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      error:
+                        type: string
+                        description: An error message indicating the failure of the transaction

@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: backend-services-team
+  description: Backend Services Team
+spec:
+  type: team
+  profile:
+    displayName: Backend Services Team
+    email: backend-services@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=BackendServicesTeam
+  parent: acme-tech
+  children: []

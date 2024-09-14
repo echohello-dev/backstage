@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: emily-chen
+spec:
+  profile:
+    displayName: Emily Chen
+    email: emily.chen@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=EmilyChen
+  memberOf: [backend-services-team]

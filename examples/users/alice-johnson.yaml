@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: alice-johnson
+spec:
+  profile:
+    displayName: Alice Johnson
+    email: alice.johnson@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=AliceJohnson
+  memberOf: [web-dev-team]
