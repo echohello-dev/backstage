@@ -7,8 +7,3 @@ spec:
     - ./groups.yaml
     - ./organizations.yaml
     - ./users.yaml
-    - ./templates/github/template.yaml
-    - ./templates/github-blank-repo/template.yaml
-    - ./templates/github-pull-request/template.yaml
-    - ./templates/gitlab-blank-repo/template.yaml
-    - ./templates/gitlab-merge-request/template.yaml
