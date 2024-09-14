@@ -6,5 +6,5 @@ metadata:
 spec:
   type: library
   lifecycle: production
-  owner: group:platform-team
+  owner: group:platform-engineering
   system: digital-banking-platform

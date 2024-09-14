@@ -1,1 +1,10 @@
- 
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: priya-sharma
+spec:
+  profile:
+    displayName: Priya Sharma
+    email: priya.sharma@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaSharma
+  memberOf: [data-analytics-team]

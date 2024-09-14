@@ -11,3 +11,4 @@ spec:
     picture: https://api.dicebear.com/7.x/identicon/svg?seed=FrontendPlatformTeam
   parent: acme-tech
   children: []
+  members: [mark-johnson]
