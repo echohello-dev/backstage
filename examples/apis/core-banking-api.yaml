@@ -11,5 +11,106 @@ spec:
   lifecycle: production
   owner: backend-wizards
   system: core-banking
-  definition:
-    $text: ./core-banking-api.oas.yaml
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Core Banking API
+      description: API for core banking operations including legacy COBOL integration
+      version: 1.0.0
+    servers:
+      - url: https://api.digitalbanking.com
+        description: Production server
+      - url: https://api.digitalbanking.com/staging
+        description: Staging server
+    paths:
+      /accounts:
+        get:
+          summary: Get account details
+          description: Retrieves account details for a given account number
+          operationId: getAccountDetails
+          parameters:
+            - name: accountNumber
+              in: query
+              required: true
+              schema:
+                type: string
+              description: The account number to retrieve details for
+          responses:
+            '200':
+              description: Successful response
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/AccountDetails'
+            '400':
+              description: Bad request
+            '404':
+              description: Account not found
+            '500':
+              description: Internal server error
+      /transactions:
+        post:
+          summary: Create a new transaction
+          description: Creates a new transaction for a given account
+          operationId: createTransaction
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TransactionRequest'
+          responses:
+            '201':
+              description: Transaction created successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/TransactionResponse'
+            '400':
+              description: Bad request
+            '404':
+              description: Account not found
+            '500':
+              description: Internal server error
+
+    components:
+      schemas:
+        AccountDetails:
+          type: object
+          properties:
+            accountNumber:
+              type: string
+            balance:
+              type: number
+            accountType:
+              type: string
+              enum: [CHECKING, SAVINGS, LOAN]
+            status:
+              type: string
+              enum: [ACTIVE, SUSPENDED, CLOSED]
+        TransactionRequest:
+          type: object
+          properties:
+            fromAccountNumber:
+              type: string
+            toAccountNumber:
+              type: string
+            amount:
+              type: number
+            description:
+              type: string
+          required:
+            - fromAccountNumber
+            - toAccountNumber
+            - amount
+        TransactionResponse:
+          type: object
+          properties:
+            transactionId:
+              type: string
+            status:
+              type: string
+              enum: [COMPLETED, PENDING, FAILED]
+            timestamp:
+              type: string
+              format: date-time

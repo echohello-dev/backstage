@@ -9,3 +9,6 @@ metadata:
 spec:
   owner: backend-wizards
   domain: banking
+  dependsOn:
+    - api:core-banking-api
+    - component:account-management

@@ -1,9 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: high-performance-compute-cluster
-  description: GPU-enabled cluster for ML model training and data processing
-spec:
-  type: compute-cluster
-  owner: data-wizards
-  system: data-analytics-platform

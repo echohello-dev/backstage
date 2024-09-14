@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: customer-support-knowledge-base
+  description: Knowledge base for customer support representatives
+spec:
+  type: database
+  owner: group:database-admin-team
+  system: digital-banking-platform

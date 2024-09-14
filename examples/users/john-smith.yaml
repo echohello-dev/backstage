@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: john-smith
+spec:
+  profile:
+    displayName: John Smith
+    email: john.smith@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=JohnSmith
+  memberOf: [mobile-dev-team]

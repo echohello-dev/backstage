@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mobile-banking-app
+  description: Mobile application for customer banking
+spec:
+  type: mobile-app
+  lifecycle: production
+  owner: group:mobile-dev-team
+  system: digital-banking-platform
+  consumesApis:
+    - customer-engagement-api
+    - core-banking-api
+    - transaction-api
+    - fraud-detection-api
+    - notification-api
+  dependsOn:
+    - resource:mobile-app-analytics
+    - component:notification-service

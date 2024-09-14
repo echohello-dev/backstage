@@ -1,9 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: global-cdn
-  description: Content Delivery Network for mobile and web applications
-spec:
-  type: cdn
-  owner: devops-ninjas
-  system: mobile-banking-app

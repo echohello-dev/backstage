@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: database-admin-team
+  description: Database Administration Team
+spec:
+  type: team
+  profile:
+    displayName: Database Admin Team
+    email: db-admin@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=DatabaseAdminTeam
+  parent: acme-tech
+  children: []

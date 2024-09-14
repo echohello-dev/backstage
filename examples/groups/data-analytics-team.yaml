@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: data-analytics-team
+  description: Data Analytics Team
+spec:
+  type: team
+  profile:
+    displayName: Data Analytics Team
+    email: data-analytics@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=DataAnalyticsTeam
+  parent: acme-tech
+  children: []

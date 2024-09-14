@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: frontend-platform-team
+  description: Frontend Platform Team
+spec:
+  type: team
+  profile:
+    displayName: Frontend Platform Team
+    email: frontend-platform@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=FrontendPlatformTeam
+  parent: acme-tech
+  children: []

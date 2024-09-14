@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: notification-service
+  description: Service for sending notifications to customers
+spec:
+  type: service
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  providesApis:
+    - notification-api
+  consumesApis:
+    - customer-engagement-api
+  dependsOn:
+    - resource:notification-queue

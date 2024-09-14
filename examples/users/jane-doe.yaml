@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jane-doe
+spec:
+  profile:
+    displayName: Jane Doe
+    email: jane.doe@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=JaneDoe
+  memberOf: [platform-engineering]

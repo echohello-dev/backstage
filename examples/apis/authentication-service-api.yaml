@@ -1,0 +1,46 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: authentication-service-api
+  description: gRPC API for authentication service
+spec:
+  type: grpc
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  definition: |
+    syntax = "proto3";
+
+    package auth;
+
+    service AuthService {
+      rpc Login (LoginRequest) returns (LoginResponse) {}
+      rpc Logout (LogoutRequest) returns (LogoutResponse) {}
+      rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse) {}
+    }
+
+    message LoginRequest {
+      string username = 1;
+      string password = 2;
+    }
+
+    message LoginResponse {
+      string access_token = 1;
+      string refresh_token = 2;
+    }
+
+    message LogoutRequest {
+      string access_token = 1;
+    }
+
+    message LogoutResponse {
+      bool success = 1;
+    }
+
+    message RefreshTokenRequest {
+      string refresh_token = 1;
+    }
+
+    message RefreshTokenResponse {
+      string new_access_token = 1;
+    }

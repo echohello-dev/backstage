@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: david-kim
+spec:
+  profile:
+    displayName: David Kim
+    email: david.kim@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=DavidKim
+  memberOf: [database-admin-team]

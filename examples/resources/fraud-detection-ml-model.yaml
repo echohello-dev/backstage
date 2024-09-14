@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: fraud-detection-ml-model
+  description: Machine learning model for fraud detection
+spec:
+  type: ml-model
+  owner: group:data-analytics-team
+  system: digital-banking-platform

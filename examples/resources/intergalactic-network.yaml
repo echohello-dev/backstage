@@ -1,9 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: intergalactic-network
-  description: Faster-than-light communication network for package tracking
-spec:
-  type: network
-  owner: space-logistics-team
-  system: galactic-delivery

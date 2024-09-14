@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: account-management-service
+  description: Service for managing customer accounts
+  annotations:
+    backstage.io/techdocs-ref: file:./account-management-service
+spec:
+  type: service
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform
+  providesApis:
+    - account-management-api
+  consumesApis:
+    - core-banking-api
+    - authentication-service-api
+  dependsOn:
+    - resource:account-database

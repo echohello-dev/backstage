@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shared-ui-component-library
+  description: Shared UI component library for web and mobile frontends
+spec:
+  type: library
+  lifecycle: production
+  owner: group:frontend-platform-team
+  system: digital-banking-platform
+  dependsOn:
+    - resource:design-system

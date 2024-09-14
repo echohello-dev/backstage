@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: react-native-mobile-app
+  description: React Native mobile application for customer banking
+spec:
+  type: mobile-app
+  lifecycle: production
+  owner: group:mobile-dev-team
+  system: digital-banking-platform
+  subcomponentOf: mobile-banking-app
+  consumesApis:
+    - customer-engagement-api
+    - core-banking-api
+    - transaction-api
+    - fraud-detection-api
+    - notification-api
+  dependsOn:
+    - resource:mobile-app-analytics
+    - component:notification-service

@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: digital-banking-platform
+  description: FinTech Innovations Inc.'s core digital banking platform
+spec:
+  owner: group:platform-engineering
+  domain: banking

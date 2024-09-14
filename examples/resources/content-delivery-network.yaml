@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: content-delivery-network
+  description: CDN for web banking portal assets
+spec:
+  type: cdn
+  owner: group:infrastructure-team
+  system: digital-banking-platform

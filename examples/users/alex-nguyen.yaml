@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: alex-nguyen
+spec:
+  profile:
+    displayName: Alex Nguyen
+    email: alex.nguyen@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=AlexNguyen
+  memberOf: [web-dev-team]

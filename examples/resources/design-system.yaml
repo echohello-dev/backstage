@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: design-system
+  description: Unified design system for all frontend applications
+spec:
+  type: design-system
+  owner: group:ux-design-team
+  system: digital-banking-platform

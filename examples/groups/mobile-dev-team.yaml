@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: mobile-dev-team
+  description: Mobile Development Team
+spec:
+  type: team
+  profile:
+    displayName: Mobile Dev Team
+    email: mobile-dev@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=MobileDevTeam
+  parent: acme-tech
+  children: []

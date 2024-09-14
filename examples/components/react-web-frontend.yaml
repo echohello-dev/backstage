@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: react-web-frontend
+  description: React web frontend for online banking portal
+spec:
+  type: website
+  lifecycle: production
+  owner: group:web-dev-team
+  system: digital-banking-platform
+  subcomponentOf: web-banking-portal
+  consumesApis:
+    - customer-engagement-api
+    - core-banking-api
+    - transaction-api
+    - fraud-detection-api
+    - notification-api
+  dependsOn:
+    - resource:content-delivery-network
+    - component:notification-service

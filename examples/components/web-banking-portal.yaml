@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: web-banking-portal
+  description: Web portal for online banking
+spec:
+  type: website
+  lifecycle: production
+  owner: group:web-dev-team
+  system: digital-banking-platform
+  consumesApis:
+    - customer-engagement-api
+    - core-banking-api
+    - transaction-api
+    - fraud-detection-api
+    - notification-api
+  dependsOn:
+    - resource:content-delivery-network
+    - component:notification-service

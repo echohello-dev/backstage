@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: rachel-taylor
+spec:
+  profile:
+    displayName: Rachel Taylor
+    email: rachel.taylor@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=RachelTaylor
+  memberOf: [platform-engineering]
