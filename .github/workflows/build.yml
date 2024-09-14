@@ -27,8 +27,6 @@ jobs:
             ~/.yarn/cache
           key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-
-            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-
             ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
 
       - uses: asdf-vm/actions/install@v3
