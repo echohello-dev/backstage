@@ -65,7 +65,16 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location, Template, User, Group]
+    - allow:
+      - Component
+      - System
+      - API
+      - Resource
+      - Location
+      - Template
+      - User
+      - Group
+      - Domain
 
 plausible:
   enabled: false
