@@ -24,11 +24,16 @@ jobs:
           path: |
             ~/.asdf
             .tool-versions
-          key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
+            ~/.yarn/cache
+          key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-asdf-
+            ${{ runner.os }}-
+            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-
+            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
 
       - uses: asdf-vm/actions/install@v3
+
+      - run: make install
 
       - run: make lint
 

@@ -19,16 +19,20 @@ ifneq ($(shell which asdf),)
 	corepack prepare yarn@4.3.1 --activate
 	asdf reshim nodejs
 endif
+ifeq ($(CI),true)
+	yarn install --immutable
+else
 	yarn install
+endif
 
-lint: install
+lint:
 	yarn lint:all
 	yarn tsc
 
-test: install
+test:
 	yarn test
 
-dev: install
+dev:
 	@echo "Starting the server at http://localhost:3000"
 	yarn dev
 
@@ -126,3 +130,5 @@ help:
 	@echo "  version: Show the current version"
 	@echo "  release: Tag, push, and release a new version"
 	@echo "  undo-release: Delete a release"
+	@echo "  gh-release: Trigger GitHub Actions release workflow"
+	@echo "  login-github: Log in to GitHub Container Registry"
