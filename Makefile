@@ -19,14 +19,11 @@ ifneq ($(shell which asdf),)
 	corepack prepare yarn@4.3.1 --activate
 	asdf reshim nodejs
 endif
-	yarn install
-
-install-ci:
-	asdf install
-	corepack enable
-	corepack prepare yarn@4.3.1 --activate
-	asdf reshim nodejs
+ifeq ($(CI),true)
 	yarn install --immutable
+else
+	yarn install
+endif
 
 lint:
 	yarn lint:all
