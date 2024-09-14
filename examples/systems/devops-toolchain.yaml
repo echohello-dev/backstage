@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: devops-toolchain
+  description: Integrated DevOps tools for CI/CD and infrastructure management
+  tags:
+    - devops
+    - automation
+spec:
+  owner: devops-ninjas
+  domain: infrastructure

@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: legacy-cobol-accounts
+  description: Ancient COBOL system managing core account data
+  tags:
+    - cobol
+    - legacy
+    - finance
+spec:
+  type: service
+  lifecycle: legacy
+  owner: backend-wizards
+  system: core-banking

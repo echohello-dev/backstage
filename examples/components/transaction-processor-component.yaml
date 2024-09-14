@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: transaction-processor
+  description: High-performance transaction processing engine
+  tags:
+    - java
+    - spring
+    - finance
+spec:
+  type: service
+  lifecycle: production
+  owner: api-alchemists
+  system: core-banking

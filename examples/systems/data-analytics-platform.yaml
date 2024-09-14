@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: data-analytics-platform
+  description: Big data processing and analytics engine
+  tags:
+    - big-data
+    - analytics
+spec:
+  owner: data-wizards
+  domain: analytics

@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: devops-shamans
+  description: Keepers of the sacred pipelines and cloud spirits
+spec:
+  type: sub-department
+  profile:
+    displayName: DevOps Shamans
+    email: devops-shamans@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=DevOpsShamans&backgroundColor=b6e3f4
+  parent: engineering
+  children: [infrastructure-mystics, security-paladins]

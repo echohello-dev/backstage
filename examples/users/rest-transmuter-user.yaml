@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: rest.transmuter
+spec:
+  profile:
+    displayName: Restful Transmuter
+    email: restful.transmuter@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=Restful&backgroundColor=transparent
+  memberOf: [api-alchemists]

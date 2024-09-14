@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: monitoring-dashboard
+  description: Centralized monitoring and alerting dashboard
+  tags:
+    - grafana
+    - prometheus
+    - devops
+spec:
+  type: website
+  lifecycle: production
+  owner: devops-ninjas
+  system: devops-toolchain

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: react.skywalker
+spec:
+  profile:
+    displayName: React Skywalker
+    email: react.skywalker@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=React&backgroundColor=transparent
+  memberOf: [js-jedis]

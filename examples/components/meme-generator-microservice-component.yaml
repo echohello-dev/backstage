@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: meme-generator-microservice
+  description: Critical microservice for generating company-specific memes
+  tags:
+    - go
+    - memes
+spec:
+  type: service
+  lifecycle: production
+  owner: meme-team
+  system: ai-assistant

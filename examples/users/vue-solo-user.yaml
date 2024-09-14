@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: vue.solo
+spec:
+  profile:
+    displayName: Vue Solo
+    email: vue.solo@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=Vue&backgroundColor=transparent
+  memberOf: [js-jedis]

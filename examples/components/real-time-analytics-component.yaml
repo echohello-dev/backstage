@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: real-time-analytics
+  description: Real-time data processing and analytics engine
+  tags:
+    - scala
+    - akka
+    - big-data
+spec:
+  type: service
+  lifecycle: production
+  owner: data-wizards
+  system: data-analytics-platform

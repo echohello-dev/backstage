@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: legacy-cobol-mainframe
+  description: Ancient COBOL mainframe that somehow still runs critical operations
+  tags:
+    - cobol
+    - legacy
+spec:
+  type: service
+  lifecycle: legacy
+  owner: mainframe-masters
+  system: galactic-delivery

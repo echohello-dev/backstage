@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: customer-engagement
+  description: Omnichannel customer interaction and support platform
+  tags:
+    - crm
+    - support
+spec:
+  owner: cx-innovators
+  domain: customer-service

@@ -1,0 +1,44 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: infrastructure-management-api
+  description: API for managing infrastructure as code
+  tags:
+    - infrastructure
+    - devops
+spec:
+  type: openapi
+  lifecycle: production
+  owner: infrastructure-mystics
+  system: devops-toolchain
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Infrastructure Management API
+      version: 1.0.0
+      description: API for managing infrastructure as code
+    paths:
+      /infrastructure:
+        get:
+          summary: List all infrastructure resources
+          responses:
+            '200':
+              description: A list of infrastructure resources
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Infrastructure'
+
+    components:
+      schemas:
+        Infrastructure:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            status:
+              type: string

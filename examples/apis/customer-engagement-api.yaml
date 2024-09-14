@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: customer-engagement-api
+  description: API for managing customer interactions and support
+  tags:
+    - customer
+    - engagement
+    - support
+spec:
+  type: asyncapi
+  lifecycle: production
+  owner: cx-innovators
+  system: customer-engagement
+  definition: |
+    asyncapi: 2.5.0
+    info:
+      title: Customer Engagement API
+      version: 1.0.0
+      description: API for managing real-time customer interactions and support
+
+    servers:
+      production:
+        url: mqtt://customer-engagement.example.com
+        protocol: mqtt
+
+    channels:
+      customer/support/request:
+        publish:
+          summary: Customer initiates a support request
+          message:
+            name: CustomerSupportRequest
+            payload:
+              type: object
+              properties:
+                customerId:
+                  type: string
+                  description: The ID of the customer initiating the request
+                issueDescription:
+                  type: string
+                  description: A description of the issue or problem
+                requestTimestamp:
+                  type: string
+                  format: date-time
+

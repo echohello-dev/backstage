@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: qa-time-travelers
+  description: Guardians of quality across past, present, and future releases
+spec:
+  type: sub-department
+  profile:
+    displayName: QA Time Travelers
+    email: qa-time-travelers@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=QATimeTravelers&backgroundColor=ffdfbf
+  parent: engineering
+  children: [bug-hunters, automation-chrononauts]

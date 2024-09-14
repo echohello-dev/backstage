@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: core-banking-api
+  description: API for core banking operations including legacy COBOL integration
+  tags:
+    - finance
+    - legacy
+spec:
+  type: openapi
+  lifecycle: production
+  owner: financial-wizards
+  system: core-banking
+  definition:
+    $text: ./core-banking-api.oas.yaml

@@ -1,0 +1,10 @@
+site_name: ${{ values.name | dump }}
+{% if values.description %}
+site_description: ${{ values.description | dump }}
+{% endif %}
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

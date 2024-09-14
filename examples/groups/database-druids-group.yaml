@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: database-druids
+  description: Guardians of the data forest
+spec:
+  type: team
+  profile:
+    displayName: Database Druids
+    email: database-druids@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=DatabaseDruids&backgroundColor=ffdfbf
+  parent: backend-wizards
+  children: []

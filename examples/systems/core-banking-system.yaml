@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: core-banking
+  description: Central banking operations and transaction processing
+  tags:
+    - finance
+    - critical
+spec:
+  owner: financial-wizards
+  domain: banking

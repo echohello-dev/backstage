@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: customer-360
+  description: Comprehensive customer profile aggregator
+  tags:
+    - java
+    - spring
+    - crm
+spec:
+  type: service
+  lifecycle: production
+  owner: cx-innovators
+  system: customer-engagement

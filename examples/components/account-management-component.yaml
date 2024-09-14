@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: account-management
+  description: Modern account management service
+  tags:
+    - java
+    - spring
+    - finance
+spec:
+  type: service
+  lifecycle: production
+  owner: financial-wizards
+  system: core-banking

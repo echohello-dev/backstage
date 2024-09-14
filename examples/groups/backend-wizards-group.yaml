@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: backend-wizards
+  description: Conjurers of scalable spells and efficient incantations
+spec:
+  type: sub-department
+  profile:
+    displayName: Backend Wizards
+    email: backend-wizards@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=BackendWizards&backgroundColor=c0aede
+  parent: engineering
+  children: [api-alchemists, database-druids]

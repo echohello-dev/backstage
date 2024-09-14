@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: graphql.elixir
+spec:
+  profile:
+    displayName: GraphQL Elixir
+    email: graphql.elixir@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=GraphQL&backgroundColor=transparent
+  memberOf: [api-alchemists]

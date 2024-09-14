@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: holographic-ui
+  description: Futuristic holographic user interface for package tracking
+  tags:
+    - react
+    - threejs
+    - hologram
+spec:
+  type: frontend
+  lifecycle: production
+  owner: holo-designers
+  system: galactic-delivery

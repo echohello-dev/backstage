@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: quantum-entanglement-messenger
+  description: Instant communication using quantum entanglement
+  tags:
+    - q#
+    - quantum
+spec:
+  type: library
+  lifecycle: experimental
+  owner: quantum-pioneers
+  system: quantum-computing

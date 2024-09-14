@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: infrastructure-as-code
+  description: Infrastructure provisioning and management
+  tags:
+    - terraform
+    - ansible
+spec:
+  type: library
+  lifecycle: production
+  owner: frontend-ninjas
+  system: devops-toolchain

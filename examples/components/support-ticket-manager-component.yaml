@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: support-ticket-manager
+  description: Microservice for managing support tickets
+  tags:
+    - go
+    - grpc
+spec:
+  type: service
+  lifecycle: production
+  owner: backend-wizards
+  system: customer-engagement

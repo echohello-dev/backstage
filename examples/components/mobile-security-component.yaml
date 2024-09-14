@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mobile-security
+  description: Mobile app security and encryption module
+  tags:
+    - kotlin
+    - swift
+    - security
+spec:
+  type: library
+  lifecycle: production
+  owner: mobile-maestros
+  system: mobile-banking-app

@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: engineering
+  description: The engineering department, where bugs become features
+spec:
+  type: department
+  profile:
+    displayName: Engineering
+    email: engineering@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=Engineering&backgroundColor=b6e3f4
+  parent: acme-tech
+  children: [frontend-ninjas, backend-wizards, devops-shamans, qa-time-travelers]

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: nosql.shapeshifter
+spec:
+  profile:
+    displayName: NoSQL Shapeshifter
+    email: nosql.shapeshifter@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=NoSQL&backgroundColor=transparent
+  memberOf: [database-druids]

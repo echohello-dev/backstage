@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ai-assistant-api
+  description: API for AI-powered assistance and meme generation
+  tags:
+    - ai
+    - memes
+spec:
+  type: asyncapi
+  lifecycle: production
+  owner: frontend-ninjas
+  system: ai-assistant
+  definition:
+    $text: ./ai-assistant-api.asyncapi.yaml

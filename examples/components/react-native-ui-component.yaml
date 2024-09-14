@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: react-native-ui
+  description: Cross-platform mobile UI for banking app
+  tags:
+    - react-native
+    - typescript
+spec:
+  type: frontend
+  lifecycle: production
+  owner: js-jedis
+  system: mobile-banking-app

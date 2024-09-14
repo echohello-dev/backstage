@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: acme-tech
+  description: ACME Tech - Where innovation meets chaos
+spec:
+  type: organization
+  profile:
+    displayName: ACME Tech
+    email: info@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=AcmeTech&backgroundColor=ffdfbf
+  children: [engineering]

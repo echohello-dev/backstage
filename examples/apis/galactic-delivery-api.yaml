@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: galactic-delivery-api
+  description: API for managing intergalactic package deliveries
+  tags:
+    - space
+    - logistics
+spec:
+  type: graphql
+  lifecycle: production
+  owner: frontend-ninjas
+  system: galactic-delivery
+  definition: |
+    type Query {
+      trackPackage(id: ID!): Package
+      listWormholes: [Wormhole]
+    }
+
+    type Package {
+      id: ID!
+      status: DeliveryStatus!
+      origin: Planet!
+      destination: Planet!
+      estimatedArrival: String
+    }
+
+    type Wormhole {
+      id: ID!
+      startPoint: Planet!
+      endPoint: Planet!
+      stabilityIndex: Float!
+    }
+
+    enum DeliveryStatus {
+      PROCESSING
+      IN_TRANSIT
+      DELIVERED
+    }
+
+    type Planet {
+      id: ID!
+      name: String!
+      coordinates: String!
+    }

@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: fraud-detection
+  description: Real-time fraud detection system
+  tags:
+    - python
+    - tensorflow
+    - finance
+spec:
+  type: service
+  lifecycle: production
+  owner: ai-wizards
+  system: core-banking

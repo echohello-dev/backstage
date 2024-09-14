@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: omnichannel-router
+  description: Intelligent routing for customer interactions
+  tags:
+    - nodejs
+    - express
+    - crm
+spec:
+  type: service
+  lifecycle: production
+  owner: cx-innovators
+  system: customer-engagement

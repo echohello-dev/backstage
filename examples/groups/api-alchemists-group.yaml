@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: api-alchemists
+  description: Transforming data into gold
+spec:
+  type: team
+  profile:
+    displayName: API Alchemists
+    email: api-alchemists@acme-tech.example.com
+    picture: https://api.dicebear.com/7.x/identicon/svg?seed=APIAlchemists&backgroundColor=c0aede
+  parent: backend-wizards
+  children: []

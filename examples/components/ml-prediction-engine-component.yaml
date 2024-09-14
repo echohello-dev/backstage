@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ml-prediction-engine
+  description: Machine learning model for predictive analytics
+  tags:
+    - python
+    - scikit-learn
+    - ml
+spec:
+  type: service
+  lifecycle: production
+  owner: api-alchemists
+  system: data-analytics-platform

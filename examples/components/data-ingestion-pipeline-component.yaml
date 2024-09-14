@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: data-ingestion-pipeline
+  description: Data ingestion and ETL pipeline
+  tags:
+    - python
+    - apache-beam
+    - big-data
+spec:
+  type: service
+  lifecycle: production
+  owner: data-wizards
+  system: data-analytics-platform

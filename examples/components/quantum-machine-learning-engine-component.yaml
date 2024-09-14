@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: quantum-machine-learning-engine
+  description: Quantum-enhanced machine learning for predictive analytics
+  tags:
+    - python
+    - quantum
+    - ml
+spec:
+  type: service
+  lifecycle: experimental
+  owner: quantum-pioneers
+  system: quantum-computing
