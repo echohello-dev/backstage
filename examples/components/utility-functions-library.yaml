@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: utility-functions-library
+  description: A collection of utility functions for our digital banking applications
+  annotations:
+    backstage.io/techdocs-ref: dir:./utility-functions-library
+spec:
+  type: library
+  lifecycle: production
+  owner: group:backend-services-team
+  system: digital-banking-platform

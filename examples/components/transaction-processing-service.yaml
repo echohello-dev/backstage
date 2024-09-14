@@ -16,3 +16,4 @@ spec:
   dependsOn:
     - resource:transaction-database
     - component:fraud-detection-service
+    - component:shared-utilities-library

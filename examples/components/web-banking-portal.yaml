@@ -19,3 +19,4 @@ spec:
   dependsOn:
     - resource:content-delivery-network
     - component:notification-service
+    - component:shared-utilities-library

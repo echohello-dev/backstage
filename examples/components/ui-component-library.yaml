@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ui-component-library
+  description: A reusable UI component library for our digital banking platform
+  annotations:
+    backstage.io/techdocs-ref: dir:./ui-component-library
+spec:
+  type: library
+  lifecycle: production
+  owner: group:frontend-platform-team
+  system: digital-banking-platform

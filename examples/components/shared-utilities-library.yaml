@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shared-utilities-library
+  description: A shared library of utility functions and helpers for our digital banking platform
+spec:
+  type: library
+  lifecycle: production
+  owner: group:platform-team
+  system: digital-banking-platform

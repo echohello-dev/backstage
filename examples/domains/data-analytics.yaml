@@ -1,0 +1,7 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: data-analytics
+  description: Focuses on data analysis, reporting, and business intelligence for our banking platform
+spec:
+  owner: group:data-analytics-team

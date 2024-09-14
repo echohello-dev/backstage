@@ -19,3 +19,4 @@ spec:
   dependsOn:
     - resource:mobile-app-analytics
     - component:notification-service
+    - component:shared-utilities-library

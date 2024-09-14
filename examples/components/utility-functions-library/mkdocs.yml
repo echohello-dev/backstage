@@ -1,0 +1,9 @@
+site_name: Utility Functions Library
+nav:
+  - Home: index.md
+  - Functions:
+    - formatCurrency: functions/format-currency.md
+    # Add other function pages as needed
+
+plugins:
+  - techdocs-core

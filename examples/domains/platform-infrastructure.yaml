@@ -1,0 +1,7 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: platform-infrastructure
+  description: Manages the underlying infrastructure and platform services for our digital banking ecosystem
+spec:
+  owner: group:infrastructure-team

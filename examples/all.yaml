@@ -10,5 +10,6 @@ spec:
     - ./components/*.yaml
     - ./systems/*.yaml
     - ./resources/*.yaml
+    - ./domains/*.yaml
     - ./apis/*.yaml
     - ./templates/*/template.yaml
