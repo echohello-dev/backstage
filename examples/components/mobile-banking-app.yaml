@@ -3,6 +3,8 @@ kind: Component
 metadata:
   name: mobile-banking-app
   description: Mobile application for customer banking
+  annotations:
+    backstage.io/techdocs-ref: dir:./docs
 spec:
   type: mobile-app
   lifecycle: production

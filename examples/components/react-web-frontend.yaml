@@ -3,6 +3,8 @@ kind: Component
 metadata:
   name: react-web-frontend
   description: React web frontend for online banking portal
+  annotations:
+    backstage.io/techdocs-entity: component:default/mobile-banking-app
 spec:
   type: website
   lifecycle: production

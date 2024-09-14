@@ -4,7 +4,7 @@ metadata:
   name: account-management-service
   description: Service for managing customer accounts
   annotations:
-    backstage.io/techdocs-ref: file:./account-management-service
+    backstage.io/techdocs-ref: dir:./account-management-service
 spec:
   type: service
   lifecycle: production

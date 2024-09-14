@@ -1,0 +1,27 @@
+site_name: Mobile Banking App Documentation
+nav:
+  - Home: index.md
+  - Architecture Overview: architecture.md
+  - Getting Started: getting_started.md
+  - Features:
+    - User Authentication: features/authentication.md
+    - Account Overview: features/account_overview.md
+    - Transactions: features/transactions.md
+    - Bill Payments: features/bill_payments.md
+    - Fund Transfers: features/fund_transfers.md
+  - API Integration:
+    - Customer Engagement API: api_integration/customer_engagement_api.md
+    - Core Banking API: api_integration/core_banking_api.md
+    - Transaction API: api_integration/transaction_api.md
+    - Fraud Detection API: api_integration/fraud_detection_api.md
+    - Notification API: api_integration/notification_api.md
+  - Development Guide:
+    - Setup: development/setup.md
+    - Coding Standards: development/coding_standards.md
+    - Testing: development/testing.md
+    - CI/CD: development/ci_cd.md
+  - Troubleshooting: troubleshooting.md
+  - Contributing: contributing.md
+
+plugins:
+  - techdocs-core
