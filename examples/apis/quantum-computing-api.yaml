@@ -21,3 +21,8 @@ spec:
       /quantum-computing:
         get:
           summary: Get quantum computing data
+  implements:
+    - kind: Component
+      name: quantum-machine-learning-engine
+    - kind: Component
+      name: quantum-entanglement-messenger

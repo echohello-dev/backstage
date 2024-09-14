@@ -12,3 +12,5 @@ spec:
   lifecycle: production
   owner: api-alchemists
   system: ai-assistant
+  providesApis:
+    - ai-assistant-api

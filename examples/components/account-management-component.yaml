@@ -14,3 +14,5 @@ spec:
   lifecycle: production
   owner: backend-wizards
   system: core-banking
+  providesApis:
+    - core-banking-api

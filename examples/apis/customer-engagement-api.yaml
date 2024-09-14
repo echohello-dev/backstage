@@ -42,4 +42,3 @@ spec:
                 requestTimestamp:
                   type: string
                   format: date-time
-

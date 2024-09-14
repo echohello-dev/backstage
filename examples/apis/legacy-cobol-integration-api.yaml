@@ -51,4 +51,3 @@ spec:
                         type: string
                       error_description:
                         type: string
-
