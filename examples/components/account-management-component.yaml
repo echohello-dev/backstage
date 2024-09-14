@@ -7,6 +7,8 @@ metadata:
     - java
     - spring
     - finance
+  annotations:
+    backstage.io/techdocs-ref: dir:./account-management-component
 spec:
   type: service
   lifecycle: production

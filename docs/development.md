@@ -42,3 +42,33 @@ https://mui.com/material-ui/customization/theming/#accessing-the-theme-in-a-comp
 
 - [Debugging Jest Tests](https://backstage.io/docs/tooling/cli/build-system/#debugging-jest-tests)
 - [Testing with Jest](https://backstage.io/docs/plugins/testing)
+
+## Troubleshooting
+
+### `backstage-cli` not found
+
+If you get an error like `backstage-cli not found`, you may need to install the Backstage CLI globally.
+
+```bash
+npm install -g @backstage/cli
+```
+
+### TechDocs Local Development
+
+Ensure you have the following installed:
+
+```bash
+pip install mkdocs mkdocs-techdocs-core
+```
+
+Then run the following command to start the local development server:
+
+```bash
+make dev
+```
+
+To quickly test the TechDocs site, run the following command in the respective component directory that contains the `mkdocs.yml` file:
+
+```bash
+mkdocs serve
+```
