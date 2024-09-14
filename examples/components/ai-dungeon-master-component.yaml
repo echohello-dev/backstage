@@ -10,5 +10,5 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: ai-wizards
+  owner: api-alchemists
   system: ai-assistant

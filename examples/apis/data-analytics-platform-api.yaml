@@ -9,7 +9,7 @@ metadata:
 spec:
   type: graphql
   lifecycle: production
-  owner: data-wizards
+  owner: database-druids
   system: data-analytics-platform
   definition: |
     type Query {

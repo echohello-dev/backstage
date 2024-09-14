@@ -9,7 +9,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: production
-  owner: financial-wizards
+  owner: backend-wizards
   system: core-banking
   definition:
     $text: ./core-banking-api.oas.yaml

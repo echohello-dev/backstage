@@ -10,5 +10,5 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-  owner: quantum-pioneers
+  owner: api-alchemists
   system: quantum-computing

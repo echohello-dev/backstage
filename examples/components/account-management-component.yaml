@@ -12,5 +12,5 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: financial-wizards
+  owner: backend-wizards
   system: core-banking

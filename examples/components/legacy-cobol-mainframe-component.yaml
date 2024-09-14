@@ -9,5 +9,5 @@ metadata:
 spec:
   type: service
   lifecycle: legacy
-  owner: mainframe-masters
+  owner: backend-wizards
   system: galactic-delivery

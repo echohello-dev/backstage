@@ -9,5 +9,5 @@ metadata:
 spec:
   type: library
   lifecycle: production
-  owner: frontend-ninjas
+  owner: devops-shamans
   system: devops-toolchain

@@ -10,7 +10,7 @@ metadata:
 spec:
   type: asyncapi
   lifecycle: production
-  owner: cx-innovators
+  owner: acme-tech
   system: customer-engagement
   definition: |
     asyncapi: 2.5.0
