@@ -2,10 +2,10 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: ${{ values.destination.repo | dump }}
-{% if values.description %}
-  description: |
+  description: >-
+    {% if values.description %}
     ${{ values.description | dump }}
-{% endif %}
+    {% endif %}
   annotations:
     github.com/project-slug: ${{ values.destination.owner + "/" +  values.destination.repo }}
     backstage.io/techdocs-ref: dir:.
