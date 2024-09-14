@@ -10,4 +10,4 @@ spec:
     - ./components/*.yaml
     - ./systems/*.yaml
     - ./apis/*.yaml
-    - ./templates/*.yaml
+    - ./templates/*/template.yaml
