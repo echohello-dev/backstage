@@ -7,5 +7,5 @@ metadata:
     - devops
     - automation
 spec:
-  owner: devops-ninjas
+  owner: devops-shamans
   domain: infrastructure

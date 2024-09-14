@@ -7,5 +7,5 @@ metadata:
     - finance
     - critical
 spec:
-  owner: financial-wizards
+  owner: backend-wizards
   domain: banking
