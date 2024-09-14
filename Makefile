@@ -21,6 +21,13 @@ ifneq ($(shell which asdf),)
 endif
 	yarn install
 
+install-ci:
+	asdf install
+	corepack enable
+	corepack prepare yarn@4.3.1 --activate
+	asdf reshim nodejs
+	yarn install --immutable
+
 lint:
 	yarn lint:all
 	yarn tsc
