@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: lisa-wong
+spec:
+  profile:
+    displayName: Lisa Wong
+    email: lisa.wong@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=LisaWong
+  memberOf: [ux-design-team]

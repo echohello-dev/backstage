@@ -3,6 +3,10 @@ name: Build
 on:
   merge_group:
 
+  pull_request:
+    branches:
+      - main
+
   schedule:
     - cron: '0 8 * * *' # Every day at 8:00 PM AEDT
 

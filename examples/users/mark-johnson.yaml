@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: mark-johnson
+spec:
+  profile:
+    displayName: Mark Johnson
+    email: mark.johnson@fintech-innovations.example.com
+    picture: https://api.dicebear.com/7.x/avataaars/svg?seed=MarkJohnson
+  memberOf: [frontend-platform-team]
