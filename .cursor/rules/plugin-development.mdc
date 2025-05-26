@@ -1,0 +1,559 @@
+---
+description: Backstage Plugin Development Rules
+globs: 
+alwaysApply: false
+---
+# Backstage Plugin Development Rules
+
+## Plugin Architecture Overview
+
+### Plugin Structure
+Follow the standard Backstage plugin structure in [plugins/](mdc:plugins):
+
+```
+plugins/
+├── my-plugin/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── api/
+│   │   ├── types/
+│   │   ├── plugin.ts
+│   │   └── index.ts
+│   ├── package.json
+│   └── README.md
+```
+
+### Plugin Entry Point
+Create proper plugin definitions in `plugin.ts`:
+
+```typescript
+import {
+  createPlugin,
+  createRoutableExtension,
+  createApiFactory,
+  discoveryApiRef,
+  fetchApiRef,
+} from '@backstage/core-plugin-api';
+import { MyPluginApi, myPluginApiRef } from './api';
+
+export const myPlugin = createPlugin({
+  id: 'my-plugin',
+  apis: [
+    createApiFactory({
+      api: myPluginApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+        fetchApi: fetchApiRef,
+      },
+      factory: ({ discoveryApi, fetchApi }) =>
+        new MyPluginApi(discoveryApi, fetchApi),
+    }),
+  ],
+});
+
+export const MyPluginPage = myPlugin.provide(
+  createRoutableExtension({
+    name: 'MyPluginPage',
+    component: () => import('./components/MyPluginPage').then(m => m.MyPluginPage),
+    mountPoint: myPluginRouteRef,
+  }),
+);
+```
+
+## Frontend Plugin Development
+
+### Component Organization
+Structure components following Backstage patterns:
+
+```typescript
+// components/MyPluginPage/MyPluginPage.tsx
+import React from 'react';
+import {
+  Page,
+  Header,
+  Content,
+  InfoCard,
+} from '@backstage/core-components';
+import { Grid } from '@material-ui/core';
+
+export const MyPluginPage = () => {
+  return (
+    <Page themeId="tool">
+      <Header title="My Plugin" subtitle="Plugin description" />
+      <Content>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <InfoCard title="Plugin Content">
+              <MyPluginContent />
+            </InfoCard>
+          </Grid>
+        </Grid>
+      </Content>
+    </Page>
+  );
+};
+```
+
+### API Integration
+Create typed API clients for backend communication:
+
+```typescript
+// api/MyPluginApi.ts
+import {
+  DiscoveryApi,
+  FetchApi,
+  createApiRef,
+} from '@backstage/core-plugin-api';
+
+export interface MyPluginApi {
+  getItems(): Promise<Item[]>;
+  createItem(item: CreateItemRequest): Promise<Item>;
+  updateItem(id: string, item: UpdateItemRequest): Promise<Item>;
+  deleteItem(id: string): Promise<void>;
+}
+
+export const myPluginApiRef = createApiRef<MyPluginApi>({
+  id: 'plugin.my-plugin.service',
+});
+
+export class MyPluginApiClient implements MyPluginApi {
+  constructor(
+    private readonly discoveryApi: DiscoveryApi,
+    private readonly fetchApi: FetchApi,
+  ) {}
+
+  private async getBaseUrl(): Promise<string> {
+    return this.discoveryApi.getBaseUrl('my-plugin');
+  }
+
+  async getItems(): Promise<Item[]> {
+    const baseUrl = await this.getBaseUrl();
+    const response = await this.fetchApi.fetch(`${baseUrl}/items`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch items: ${response.statusText}`);
+    }
+    
+    return response.json();
+  }
+
+  async createItem(item: CreateItemRequest): Promise<Item> {
+    const baseUrl = await this.getBaseUrl();
+    const response = await this.fetchApi.fetch(`${baseUrl}/items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to create item: ${response.statusText}`);
+    }
+    
+    return response.json();
+  }
+}
+```
+
+### Custom Hooks
+Create reusable hooks for data fetching and state management:
+
+```typescript
+// hooks/useItems.ts
+import { useApi } from '@backstage/core-plugin-api';
+import { useAsync } from 'react-use';
+import { myPluginApiRef } from '../api';
+
+export const useItems = () => {
+  const api = useApi(myPluginApiRef);
+  
+  const {
+    value: items,
+    loading,
+    error,
+    retry,
+  } = useAsync(async () => {
+    return api.getItems();
+  }, [api]);
+
+  return {
+    items: items || [],
+    loading,
+    error,
+    retry,
+  };
+};
+
+export const useCreateItem = () => {
+  const api = useApi(myPluginApiRef);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const createItem = useCallback(async (item: CreateItemRequest) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const result = await api.createItem(item);
+      return result;
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'));
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
+
+  return { createItem, loading, error };
+};
+```
+
+## Backend Plugin Development
+
+### Router Setup
+Create Express routers for backend endpoints:
+
+```typescript
+// src/service/router.ts
+import { Router } from 'express';
+import { Logger } from 'winston';
+import { Config } from '@backstage/config';
+import { DatabaseManager } from '@backstage/backend-common';
+
+export interface RouterOptions {
+  logger: Logger;
+  config: Config;
+  database: DatabaseManager;
+}
+
+export async function createRouter(options: RouterOptions): Promise<Router> {
+  const { logger, config, database } = options;
+  const router = Router();
+
+  router.get('/items', async (req, res) => {
+    try {
+      // Implementation
+      res.json({ items: [] });
+    } catch (error) {
+      logger.error('Failed to get items', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  router.post('/items', async (req, res) => {
+    try {
+      const item = req.body;
+      // Validation and creation logic
+      res.status(201).json({ item });
+    } catch (error) {
+      logger.error('Failed to create item', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  return router;
+}
+```
+
+### Database Integration
+Use Backstage database patterns:
+
+```typescript
+// src/database/MyPluginDatabase.ts
+import { Knex } from 'knex';
+import { Logger } from 'winston';
+
+export interface MyPluginDatabase {
+  getItems(): Promise<Item[]>;
+  createItem(item: CreateItemRequest): Promise<Item>;
+  updateItem(id: string, item: UpdateItemRequest): Promise<Item>;
+  deleteItem(id: string): Promise<void>;
+}
+
+export class DatabaseMyPluginDatabase implements MyPluginDatabase {
+  constructor(
+    private readonly db: Knex,
+    private readonly logger: Logger,
+  ) {}
+
+  async getItems(): Promise<Item[]> {
+    const items = await this.db<DbItem>('items').select();
+    return items.map(this.mapDbItemToItem);
+  }
+
+  async createItem(item: CreateItemRequest): Promise<Item> {
+    const [dbItem] = await this.db<DbItem>('items')
+      .insert({
+        name: item.name,
+        description: item.description,
+        created_at: new Date(),
+        updated_at: new Date(),
+      })
+      .returning('*');
+    
+    return this.mapDbItemToItem(dbItem);
+  }
+
+  private mapDbItemToItem(dbItem: DbItem): Item {
+    return {
+      id: dbItem.id,
+      name: dbItem.name,
+      description: dbItem.description,
+      createdAt: dbItem.created_at,
+      updatedAt: dbItem.updated_at,
+    };
+  }
+}
+```
+
+### Plugin Registration
+Register plugins in the backend:
+
+```typescript
+// packages/backend/src/plugins/myPlugin.ts
+import { createRouter } from '@internal/plugin-my-plugin-backend';
+import { Router } from 'express';
+import { PluginEnvironment } from '../types';
+
+export default async function createPlugin(
+  env: PluginEnvironment,
+): Promise<Router> {
+  return await createRouter({
+    logger: env.logger,
+    config: env.config,
+    database: env.database,
+  });
+}
+```
+
+## Configuration Management
+
+### Plugin Configuration Schema
+Define configuration schemas for plugins:
+
+```typescript
+// config.d.ts
+export interface Config {
+  myPlugin?: {
+    /**
+     * API endpoint URL
+     */
+    apiUrl: string;
+    /**
+     * Request timeout in milliseconds
+     * @default 5000
+     */
+    timeout?: number;
+    /**
+     * Number of retry attempts
+     * @default 3
+     */
+    retries?: number;
+  };
+}
+```
+
+### App Config Integration
+Add plugin configuration to [app-config.yaml](mdc:app-config.yaml):
+
+```yaml
+myPlugin:
+  apiUrl: ${MY_PLUGIN_API_URL}
+  timeout: 10000
+  retries: 5
+```
+
+## Entity Integration
+
+### Entity Annotations
+Define custom annotations for entities:
+
+```typescript
+// annotations.ts
+export const MY_PLUGIN_ANNOTATION = 'my-plugin.io/config';
+
+export const isMyPluginAvailable = (entity: Entity) =>
+  Boolean(entity.metadata.annotations?.[MY_PLUGIN_ANNOTATION]);
+
+export const getMyPluginConfig = (entity: Entity): MyPluginConfig | undefined => {
+  const annotation = entity.metadata.annotations?.[MY_PLUGIN_ANNOTATION];
+  if (!annotation) return undefined;
+  
+  try {
+    return JSON.parse(annotation);
+  } catch {
+    return undefined;
+  }
+};
+```
+
+### Entity Provider Integration
+Create entity providers for external data sources:
+
+```typescript
+// providers/MyPluginEntityProvider.ts
+import {
+  EntityProvider,
+  EntityProviderConnection,
+} from '@backstage/plugin-catalog-backend';
+import { Entity } from '@backstage/catalog-model';
+
+export class MyPluginEntityProvider implements EntityProvider {
+  constructor(
+    private readonly logger: Logger,
+    private readonly config: Config,
+  ) {}
+
+  getProviderName(): string {
+    return 'MyPluginEntityProvider';
+  }
+
+  async connect(connection: EntityProviderConnection): Promise<void> {
+    // Setup connection and start providing entities
+    const entities = await this.fetchEntities();
+    await connection.applyMutation({
+      type: 'full',
+      entities: entities.map(entity => ({
+        entity,
+        locationKey: 'my-plugin-provider',
+      })),
+    });
+  }
+
+  private async fetchEntities(): Promise<Entity[]> {
+    // Fetch entities from external source
+    return [];
+  }
+}
+```
+
+## Testing Patterns
+
+### Component Testing
+Test plugin components with proper setup:
+
+```typescript
+// components/MyPluginPage.test.tsx
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { TestApiProvider, wrapInTestApp } from '@backstage/test-utils';
+import { myPluginApiRef } from '../api';
+import { MyPluginPage } from './MyPluginPage';
+
+const mockApi = {
+  getItems: jest.fn(),
+  createItem: jest.fn(),
+  updateItem: jest.fn(),
+  deleteItem: jest.fn(),
+};
+
+describe('MyPluginPage', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders plugin page', async () => {
+    mockApi.getItems.mockResolvedValue([]);
+
+    render(
+      wrapInTestApp(
+        <TestApiProvider apis={[[myPluginApiRef, mockApi]]}>
+          <MyPluginPage />
+        </TestApiProvider>
+      )
+    );
+
+    expect(screen.getByText('My Plugin')).toBeInTheDocument();
+  });
+});
+```
+
+### Backend Testing
+Test backend routes and services:
+
+```typescript
+// service/router.test.ts
+import request from 'supertest';
+import express from 'express';
+import { createRouter } from './router';
+
+describe('MyPlugin Router', () => {
+  let app: express.Express;
+
+  beforeEach(async () => {
+    const router = await createRouter({
+      logger: mockLogger,
+      config: mockConfig,
+      database: mockDatabase,
+    });
+    
+    app = express().use(router);
+  });
+
+  it('GET /items returns items', async () => {
+    const response = await request(app)
+      .get('/items')
+      .expect(200);
+
+    expect(response.body).toHaveProperty('items');
+  });
+
+  it('POST /items creates item', async () => {
+    const newItem = { name: 'Test Item', description: 'Test Description' };
+
+    const response = await request(app)
+      .post('/items')
+      .send(newItem)
+      .expect(201);
+
+    expect(response.body.item).toMatchObject(newItem);
+  });
+});
+```
+
+## Performance Considerations
+
+### Code Splitting
+Implement lazy loading for plugin components:
+
+```typescript
+// plugin.ts
+export const MyPluginPage = myPlugin.provide(
+  createRoutableExtension({
+    name: 'MyPluginPage',
+    component: () => 
+      import('./components/MyPluginPage').then(m => m.MyPluginPage),
+    mountPoint: myPluginRouteRef,
+  }),
+);
+```
+
+### Caching Strategies
+Implement appropriate caching for API calls:
+
+```typescript
+// hooks/useItems.ts
+import { useApi } from '@backstage/core-plugin-api';
+import useSWR from 'swr';
+import { myPluginApiRef } from '../api';
+
+export const useItems = () => {
+  const api = useApi(myPluginApiRef);
+  
+  const { data, error, mutate } = useSWR(
+    'my-plugin-items',
+    () => api.getItems(),
+    {
+      refreshInterval: 30000, // Refresh every 30 seconds
+      revalidateOnFocus: false,
+    }
+  );
+
+  return {
+    items: data || [],
+    loading: !error && !data,
+    error,
+    refresh: mutate,
+  };
+};
+```

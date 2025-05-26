@@ -1,0 +1,482 @@
+---
+description: Backstage Configuration Management Rules
+globs: 
+alwaysApply: false
+---
+# Backstage Configuration Management Rules
+
+## Configuration File Structure
+
+### Primary Configuration Files
+The Backstage configuration system uses multiple files for different environments:
+
+- [app-config.yaml](mdc:app-config.yaml) - Base configuration
+- [app-config.local.yaml](mdc:app-config.local.yaml) - Local development overrides
+- [app-config.production.yaml](mdc:app-config.production.yaml) - Production configuration
+- [.env](mdc:.env) - Environment variables (not committed)
+- [.env.example](mdc:.env.example) - Environment variable template
+
+### Configuration Hierarchy
+Backstage loads configuration in this order (later files override earlier ones):
+1. `app-config.yaml`
+2. `app-config.local.yaml` (if exists)
+3. `app-config.production.yaml` (if NODE_ENV=production)
+4. Environment variables
+
+## Core Configuration Sections
+
+### App Configuration
+Basic application settings:
+
+```yaml
+app:
+  title: Backstage
+  baseUrl: http://localhost:3000
+  support:
+    url: https://github.com/backstage/backstage/issues
+    items:
+      - title: Issues
+        icon: github
+        links:
+          - url: https://github.com/backstage/backstage/issues
+            title: GitHub Issues
+
+organization:
+  name: echoHello
+```
+
+### Backend Configuration
+Backend service configuration:
+
+```yaml
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+    host: 0.0.0.0
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+  reading:
+    allow:
+      - host: example.com
+      - host: '*.mozilla.org'
+```
+
+### Database Configuration
+Configure different database backends:
+
+```yaml
+# SQLite (development)
+backend:
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+# PostgreSQL (production)
+backend:
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      database: ${POSTGRES_DB}
+      ssl:
+        require: true
+        rejectUnauthorized: false
+```
+
+## Authentication Configuration
+
+### Guest Authentication
+Simple guest authentication for development:
+
+```yaml
+auth:
+  environment: development
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+```
+
+### OAuth Providers
+Configure OAuth providers for production:
+
+```yaml
+auth:
+  environment: production
+  providers:
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    google:
+      development:
+        clientId: ${AUTH_GOOGLE_CLIENT_ID}
+        clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
+    microsoft:
+      development:
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+```
+
+### Session Configuration
+Configure session management:
+
+```yaml
+auth:
+  session:
+    secret: ${SESSION_SECRET}
+  environment: production
+```
+
+## Catalog Configuration
+
+### Basic Catalog Setup
+Configure the software catalog:
+
+```yaml
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location, Domain, Group, User]
+  providers:
+    github:
+      providerId:
+        organization: 'echohello-dev'
+        catalogPath: '/catalog-info.yaml'
+        filters:
+          branch: 'main'
+          repository: '.*'
+        schedule:
+          frequency: { minutes: 30 }
+          timeout: { minutes: 3 }
+```
+
+### Entity Locations
+Define where to find entity definitions:
+
+```yaml
+catalog:
+  locations:
+    # Local file locations
+    - type: file
+      target: ../../examples/all.yaml
+    - type: file
+      target: ../../examples/org.yaml
+    
+    # GitHub locations
+    - type: url
+      target: https://github.com/echohello-dev/backstage-entities/blob/main/catalog.yaml
+      rules:
+        - allow: [User, Group]
+    
+    # Directory scanning
+    - type: file
+      target: ../../examples/**/*.yaml
+      rules:
+        - allow: [Component, API, System, Domain, Resource]
+```
+
+## TechDocs Configuration
+
+### Local TechDocs Setup
+Configure TechDocs for local development:
+
+```yaml
+techdocs:
+  builder: 'local'
+  generator:
+    runIn: 'local'
+  publisher:
+    type: 'local'
+```
+
+### External TechDocs Setup
+Configure TechDocs with external storage:
+
+```yaml
+techdocs:
+  builder: 'external'
+  generator:
+    runIn: 'docker'
+  publisher:
+    type: 'awsS3'
+    awsS3:
+      bucketName: ${TECHDOCS_S3_BUCKET_NAME}
+      region: ${AWS_REGION}
+      credentials:
+        accessKeyId: ${AWS_ACCESS_KEY_ID}
+        secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+```
+
+## Plugin Configuration
+
+### Kubernetes Plugin
+Configure Kubernetes integration:
+
+```yaml
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - url: ${K8S_CLUSTER_URL}
+          name: production
+          authProvider: 'serviceAccount'
+          serviceAccountToken: ${K8S_SERVICE_ACCOUNT_TOKEN}
+          skipTLSVerify: false
+          skipMetricsLookup: false
+```
+
+### GitHub Integration
+Configure GitHub integration:
+
+```yaml
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN}
+    - host: ghe.example.net
+      token: ${GHE_TOKEN}
+      apiBaseUrl: https://ghe.example.net/api/v3
+      baseUrl: https://ghe.example.net
+```
+
+### Scaffolder Configuration
+Configure the software templates:
+
+```yaml
+scaffolder:
+  defaultAuthor:
+    name: Backstage
+    email: backstage@example.com
+  defaultCommitMessage: 'Initial commit'
+```
+
+## Proxy Configuration
+
+### API Proxies
+Configure proxies for external APIs:
+
+```yaml
+proxy:
+  '/prometheus/api':
+    target: 'http://localhost:9090/api/v1/'
+    changeOrigin: true
+  
+  '/grafana/api':
+    target: 'http://localhost:3001/'
+    changeOrigin: true
+    headers:
+      Authorization: 'Bearer ${GRAFANA_TOKEN}'
+  
+  '/jenkins/api':
+    target: 'http://localhost:8080/'
+    changeOrigin: true
+    headers:
+      Authorization: 'Basic ${JENKINS_BASIC_AUTH_HEADER}'
+```
+
+## Environment Variables
+
+### Required Environment Variables
+Define essential environment variables in [.env.example](mdc:.env.example):
+
+```bash
+# Database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=backstage
+POSTGRES_PASSWORD=backstage
+POSTGRES_DB=backstage
+
+# Authentication
+AUTH_GITHUB_CLIENT_ID=your_github_client_id
+AUTH_GITHUB_CLIENT_SECRET=your_github_client_secret
+SESSION_SECRET=your_session_secret
+
+# Integrations
+GITHUB_TOKEN=your_github_token
+
+# External Services
+GRAFANA_TOKEN=your_grafana_token
+PROMETHEUS_URL=http://localhost:9090
+```
+
+### Environment-Specific Variables
+Use different variables for different environments:
+
+```bash
+# Development
+NODE_ENV=development
+LOG_LEVEL=debug
+
+# Production
+NODE_ENV=production
+LOG_LEVEL=info
+BACKEND_SECRET=${BACKEND_SECRET}
+```
+
+## Security Configuration
+
+### CORS Configuration
+Configure Cross-Origin Resource Sharing:
+
+```yaml
+backend:
+  cors:
+    origin: 
+      - http://localhost:3000
+      - https://backstage.echohello.dev
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+```
+
+### CSP Configuration
+Configure Content Security Policy:
+
+```yaml
+backend:
+  csp:
+    connect-src: 
+      - "'self'"
+      - 'http:'
+      - 'https:'
+      - 'data:'
+    img-src:
+      - "'self'"
+      - 'data:'
+      - 'https:'
+```
+
+### Reading Configuration
+Configure allowed hosts for reading files:
+
+```yaml
+backend:
+  reading:
+    allow:
+      - host: example.com
+      - host: '*.mozilla.org'
+      - host: github.com
+        paths: ['/echohello-dev/*']
+```
+
+## Monitoring and Observability
+
+### Logging Configuration
+Configure logging levels and formats:
+
+```yaml
+backend:
+  logger:
+    level: info
+    format: json
+    meta:
+      service: backstage-backend
+```
+
+### Metrics Configuration
+Configure metrics collection:
+
+```yaml
+backend:
+  metrics:
+    enabled: true
+    port: 7001
+```
+
+## Plugin-Specific Configuration
+
+### Plausible Analytics
+Configure Plausible analytics:
+
+```yaml
+plausible:
+  dataDomain: backstage.echohello.dev
+  src: https://plausible.io/js/script.js
+  enabled: false  # Set to true to enable
+```
+
+### Permission System
+Configure the permission system:
+
+```yaml
+permission:
+  enabled: true
+  rules:
+    - resource: catalog-entity
+      allow: [read]
+    - resource: catalog-entity
+      resourceType: component
+      allow: [read, update]
+      conditions:
+        rule: IS_ENTITY_OWNER
+```
+
+## Configuration Validation
+
+### Schema Validation
+Backstage validates configuration against schemas. Common validation errors:
+
+- Missing required fields
+- Invalid enum values
+- Incorrect data types
+- Invalid URLs or references
+
+### Configuration Testing
+Test configuration changes:
+
+```bash
+# Validate configuration
+yarn backstage-cli config:check
+
+# Print resolved configuration
+yarn backstage-cli config:print
+
+# Check specific configuration path
+yarn backstage-cli config:print --path backend.database
+```
+
+## Best Practices
+
+### Security Best Practices
+- Never commit secrets to version control
+- Use environment variables for sensitive data
+- Rotate secrets regularly
+- Use least-privilege access principles
+- Enable HTTPS in production
+
+### Configuration Management
+- Use environment-specific configuration files
+- Document all configuration options
+- Validate configuration in CI/CD pipelines
+- Use configuration schemas where available
+- Keep development and production configs in sync
+
+### Environment Variables
+- Use descriptive variable names
+- Group related variables with prefixes
+- Provide default values where appropriate
+- Document required vs optional variables
+- Use strong typing in configuration interfaces
+
+### Deployment Considerations
+- Use configuration management tools
+- Implement configuration drift detection
+- Use secrets management systems
+- Monitor configuration changes
+- Implement rollback procedures for configuration changes
