@@ -1,0 +1,209 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Create a comprehensive Product Requirements Document (PRD) task specification file in the `.tasks/` directory. This prompt implements advanced AI workflow patterns for disciplined coding partnerships.
+
+## Task Creation Process
+
+### Step 1: Gather Requirements
+
+Ask the user for the following information if not provided:
+
+- **Task identifier**: Unique name for the task (e.g., `monitoring-dashboards`, `backup-automation`)
+- **Problem description**: What issue this task solves
+- **Priority level**: High, Medium, or Low
+- **Estimated effort**: Hours or days expected
+- **Success criteria**: Measurable outcomes that indicate completion
+
+### Step 2: Analyze Infrastructure Context
+
+Review the existing codebase to understand:
+
+- Current infrastructure stack (Kubernetes, Helm charts, Ansible playbooks)
+- Existing monitoring and observability setup
+- Security patterns (SOPS encryption, RBAC policies)
+- Network architecture (BGP routing, service mesh)
+- Storage configuration (local-path, MinIO, NFS/SMB)
+
+### Step 3: Generate Task Specification
+
+Create a task file at `.tasks/${taskIdentifier}.task.md` using the template structure:
+
+## Required Template Structure
+
+````markdown
+# ${taskIdentifier}
+
+## Task Overview
+
+**Created:** `${currentDate}`  
+**Status:** `${status}`
+
+## Problem Statement
+
+${problemDescription}
+
+## Success Criteria
+
+- [ ] ${criterion1}
+- [ ] ${criterion2}
+- [ ] ${criterion3}
+
+## Implementation Plan
+
+### Phase 1: Analysis & Design
+
+- [ ] Review existing codebase and architecture
+- [ ] Identify affected components and dependencies
+- [ ] Document API changes or new endpoints required
+- [ ] Plan database schema changes (if applicable)
+- [ ] Identify security considerations
+- [ ] Create implementation timeline
+
+### Phase 2: Infrastructure Setup
+
+- [ ] Update Terraform configurations (if needed)
+- [ ] Modify Helm charts and Kubernetes manifests
+- [ ] Update Ansible playbooks for configuration changes
+- [ ] Create or update secrets with SOPS encryption
+- [ ] Validate networking and BGP routing impacts
+
+### Phase 3: Core Implementation
+
+- [ ] Implement core functionality
+- [ ] Add proper error handling and logging
+- [ ] Implement security measures and validation
+- [ ] Add monitoring and observability hooks
+- [ ] Update configuration management
+
+### Phase 4: Testing & Validation
+
+- [ ] Write unit tests with >80% coverage
+- [ ] Create integration tests
+- [ ] Perform security testing
+- [ ] Test in containerized development environment
+- [ ] Validate against success criteria
+
+### Phase 5: Documentation & Deployment
+
+- [ ] Update technical documentation
+- [ ] Create deployment runbook
+- [ ] Update Skaffold configurations
+- [ ] Deploy to staging environment
+- [ ] Perform production deployment
+- [ ] Verify deployment success
+
+## Technical Specifications
+
+### Architecture Context
+
+- **Affected Services:** ${affectedServices}
+- **Dependencies:** ${dependencies}
+- **Network Segments:** ${networkSegments}
+- **Storage Requirements:** ${storageRequirements}
+
+### Security Requirements
+
+- [ ] All secrets encrypted with SOPS + Age
+- [ ] RBAC policies defined and implemented
+- [ ] Network policies configured
+- [ ] Security scanning completed
+
+### Performance Requirements
+
+- **Response Time:** ${responseTime}
+- **Throughput:** ${throughput}
+- **Resource Limits:** ${resourceLimits}
+
+## File Modifications Required
+
+${fileModifications}
+
+## Environment Variables & Secrets
+
+${environmentConfig}
+
+## Dependencies & Prerequisites
+
+${prerequisites}
+
+## Risk Assessment
+
+**High Risk Items:**
+${riskItems}
+
+**Rollback Plan:**
+${rollbackPlan}
+
+## Testing Strategy
+
+```bash
+# Development environment testing
+task env
+task dev:chart NAME=${serviceName}
+
+# Validation commands
+kubectl get pods -n ${namespace}
+task lint
+task format
+```
+````
+
+## Monitoring & Observability
+
+- [ ] Prometheus metrics configured
+- [ ] Grafana dashboards created
+- [ ] Log aggregation set up
+- [ ] Alert rules defined
+
+## Compliance & Standards
+
+- [ ] Follows GitOps principles
+- [ ] Infrastructure as Code patterns applied
+- [ ] Security guidelines followed
+- [ ] Coding standards met
+- [ ] Documentation standards met
+
+## AI Instructions
+
+**Before Implementation:**
+
+1. Read existing code patterns in similar components
+2. Understand the infrastructure context
+3. Validate plan against success criteria
+4. Get explicit approval: "Plan approved. **Proceed** with implementation."
+
+## Progress Log
+
+### ${currentDate} - Task Created
+
+- Initial task specification created
+- Requirements gathered
+
+## Review & Approval
+
+- [ ] Code review completed
+- [ ] Security review passed
+- [ ] Performance testing completed
+- [ ] Documentation reviewed
+- [ ] Deployment approved
+
+## Post-Implementation
+
+- [ ] Monitor deployment for 24-48 hours
+- [ ] Validate metrics and alerts
+- [ ] Update runbooks if needed
+- [ ] Conduct retrospective
+- [ ] Archive task documentation
+
+## Implementation Instructions
+
+### For AI Agents:
+1. **Plan First**: Create comprehensive implementation plan before coding
+2. **Sequential Execution**: Complete only the first unchecked item, mark it `[x]`, then proceed
+3. **Explicit Permission**: Wait for "Plan approved. **Proceed**" before implementation
+4. **Context Awareness**: Always consider infrastructure patterns and security requirements
+5. **Quality Gates**: Validate each phase before proceeding to next
+6. **Use MCP**: Use MCP tools when needed like getting the time
