@@ -380,7 +380,7 @@ export const HomePage = () => {
                           <PieChart
                             series={serviceHealthSeries}
                             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                            slotProps={{ legend: { hidden: true } }}
+                            slots={{ legend: () => null }}
                             height={140}
                             width={140}
                           />
@@ -452,7 +452,7 @@ export const HomePage = () => {
                           height={180}
                           leftAxis={null}
                           bottomAxis={null}
-                          slotProps={{ legend: { hidden: true } }}
+                          slots={{ legend: () => null }}
                           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                           sx={{
                             [`& .${lineElementClasses.root}`]: {
