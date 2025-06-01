@@ -1,4 +1,35 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 Create a comprehensive Product Requirements Document (PRD) task specification file in the `.tasks/` directory. This prompt implements advanced AI workflow patterns for disciplined coding partnerships.
+
+## AI Instructions
+
+- Decompose the task into smaller, manageable tasks when executing the task
+- Do not execute the task until you have a plan
+- Read existing code patterns in similar components
+- Understand the infrastructure context
+- Validate plan against success criteria
+- Get explicit approval: "Plan approved. Proceed with implementation."
+- Plan First: Create comprehensive implementation plan before coding
+- Sequential Execution: Complete only the first unchecked item, mark it `[x]`, then proceed
+- Explicit Permission: Wait for "Plan approved. Proceed" before implementation
+- Context Awareness: Always consider infrastructure patterns and security requirements
+- Quality Gates: Validate each phase before proceeding to next
+- Use MCP: Use MCP tools when needed like getting the time
+- Check if the dev server is running
+- Read README.md and package.json for commands
+- Use Puppeteer to view webpages
+- Use a date script or time MCP to get the current date time
+- Grep the codebase for useful files related to the query
+
+After Implementation:
+
+- Validate the implementation against the success criteria
+- Update the task documentation with the results
+- Review your work and update the progress log
 
 ## Task Creation Process
 
@@ -76,31 +107,6 @@ ${prerequisites}
 
 ${riskAssessment}
 
-## AI Instructions
-
-- Decompose the task into smaller, manageable tasks when executing the task
-- Do not execute the task until you have a plan
-- Read existing code patterns in similar components
-- Understand the infrastructure context
-- Validate plan against success criteria
-- Get explicit approval: "Plan approved. Proceed with implementation."
-- Plan First: Create comprehensive implementation plan before coding
-- Sequential Execution: Complete only the first unchecked item, mark it `[x]`, then proceed
-- Explicit Permission: Wait for "Plan approved. Proceed" before implementation
-- Context Awareness: Always consider infrastructure patterns and security requirements
-- Quality Gates: Validate each phase before proceeding to next
-- Use MCP: Use MCP tools when needed like getting the time
-- Check if the dev server is running
-- Read README.md and package.json for commands
-- Use Puppeteer to view webpages
-- Use a date script or time MCP to get the current date time
-
-After Implementation:
-
-- Validate the implementation against the success criteria
-- Update the task documentation with the results
-- Review your work and update the progress log
-
 ## Progress Log
 
 ### ${currentDate} - ${taskIdentifier}
@@ -111,3 +117,6 @@ After Implementation:
 - Implementation completed
 - Validation completed
 - Documentation updated
+````
+
+Output:
