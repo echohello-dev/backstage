@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
@@ -250,7 +250,7 @@ const apiPage = (
         <Grid item md={6} marginBottom={-1}>
           <EntityCatalogGraphCard variant="gridItem" height={400} />
         </Grid>
-        <Grid md={8}>
+        <Grid item md={8}>
           <Grid item md={12}>
             <EntityProvidingComponentsCard variant="gridItem" />
           </Grid>

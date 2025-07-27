@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { styled } from '@mui/material/styles';
 import Home from '@mui/icons-material/Home';
 import LogoFull from './LogoFull';
