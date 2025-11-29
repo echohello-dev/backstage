@@ -28,8 +28,6 @@ jobs:
         with:
           cache: true
 
-      - run: mise trust
-
       - run: mise run install
 
       - run: mise run lint
