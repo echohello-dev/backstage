@@ -9,6 +9,9 @@ skaffold = "2.10.1"
 sops = "3.8.1"
 docker-compose = "2.40.3"
 
+[env]
+_.file = ".env"
+
 [hooks]
 postinstall = '''
 install_dir="$HOME/.local/share/mise/installs/docker-compose"
