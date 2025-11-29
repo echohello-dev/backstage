@@ -1,5 +1,4 @@
 import { useApi, configApiRef } from '@backstage/core-plugin-api';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 
 export const PlausibleAnalytics = () => {

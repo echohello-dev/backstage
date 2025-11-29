@@ -2,8 +2,8 @@ import { createBackend } from '@backstage/backend-defaults';
 
 const backend = createBackend();
 
-backend.add(import('@backstage/plugin-app-backend/alpha'));
-backend.add(import('@backstage/plugin-proxy-backend/alpha'));
+backend.add(import('@backstage/plugin-app-backend'));
+backend.add(import('@backstage/plugin-proxy-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
@@ -17,7 +17,7 @@ backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-gitlab-provider'));
 
 // catalog plugin
-backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend'));
 backend.add(
   import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
 );
@@ -30,7 +30,7 @@ backend.add(
 
 // search plugin
 backend.add(import('@backstage/plugin-search-backend/alpha'));
-backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
+backend.add(import('@backstage/plugin-search-backend-module-catalog'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 
 backend.start();

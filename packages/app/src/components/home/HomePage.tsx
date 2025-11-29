@@ -15,7 +15,7 @@ import Groups3Icon from '@mui/icons-material/Groups3';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import React from 'react';
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';

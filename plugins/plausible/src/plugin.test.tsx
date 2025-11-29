@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { ConfigApi, configApiRef } from '@backstage/core-plugin-api';
 import { TestApiProvider } from '@backstage/test-utils';
