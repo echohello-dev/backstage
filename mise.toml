@@ -1,7 +1,12 @@
 [tools]
 node = "v20"
-python = "3.10.11"
+python = "3.10.12"
 yarn = { version = "4.3.1" }
+helm = "3.14.1"
+k9s = "0.31.9"
+kubectl = "1.29.2"
+skaffold = "2.10.1"
+sops = "3.8.1"
 
 [tasks.init]
 description = "Copy missing starter configuration files"
