@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Starting the server at http://localhost:3000"
+yarn dev

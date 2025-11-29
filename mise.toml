@@ -5,48 +5,20 @@ yarn = { version = "4.3.1" }
 
 [tasks.init]
 description = "Copy missing starter configuration files"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-cp -n .env.example .env || true
-cp -n app-config.example.yaml app-config.local.yaml || true
-'''
+run = './scripts/init'
 
 [tasks.login-github]
 description = "Authenticate against GitHub Container Registry"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-if [ -z "${GITHUB_TOKEN:-}" ]; then
-  echo "GITHUB_TOKEN is required to login to GitHub Container Registry" >&2
-  exit 1
-fi
-docker login ghcr.io -u default -p "${GITHUB_TOKEN}"
-'''
+run = './scripts/login-github'
 
 [tasks.install]
 description = "Install dependencies and prepare the runtime"
 depends = ["init"]
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-corepack enable
-corepack prepare yarn@4.3.1 --activate
-if [ "${CI:-false}" = "true" ]; then
-  yarn install --immutable
-else
-  yarn install
-fi
-'''
+run = './scripts/install'
 
 [tasks.lint]
 description = "Run linting and type checking"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-yarn lint:all
-yarn tsc
-'''
+run = './scripts/lint'
 
 [tasks.test]
 description = "Run the test suite"
@@ -59,13 +31,7 @@ run = 'docker compose build backstage'
 
 [tasks.dev]
 description = "Start the development stack"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Starting the server at http://localhost:3000"
-yarn dev
-'''
+run = './scripts/dev'
 
 [tasks.dev-app]
 description = "Start the web frontend"
@@ -77,13 +43,7 @@ run = 'yarn workspace backend start'
 
 [tasks.dev-docker]
 description = "Start Backstage via Docker Compose"
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Starting the server at http://localhost:7007 or http://backstage.localhost"
-docker compose up
-'''
+run = './scripts/dev-docker'
 
 [tasks.logs]
 description = "Stream container logs"
@@ -96,15 +56,7 @@ run = 'docker compose exec backstage bash'
 [tasks.plausible-up]
 description = "Bring up Plausible with Traefik"
 depends = ["init"]
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Plausible is running at http://localhost:8000 or http://plausible.localhost"
-echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
-echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
-docker compose -f compose.yaml -f compose.plausible.yaml up -d
-'''
+run = './scripts/plausible-up'
 
 [tasks.plausible-down]
 description = "Stop the Plausible stack"
@@ -113,14 +65,7 @@ run = 'docker compose -f compose.yaml -f compose.plausible.yaml down'
 [tasks.up]
 description = "Start Backstage with Traefik"
 depends = ["init"]
-run = '''
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Backstage is running at http://localhost:7007 or http://backstage.localhost"
-echo "Traefik is running at http://localhost:8080 or http://traefik.localhost"
-docker compose up -d
-'''
+run = './scripts/up'
 
 [tasks.down]
 description = "Stop Backstage and Traefik"
