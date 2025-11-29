@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+VERSION=$(./scripts/version)
+
+git tag -d "${VERSION}"
+git push origin ":refs/tags/${VERSION}"
+gh release delete -y "${VERSION}"

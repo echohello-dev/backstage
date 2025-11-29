@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+VERSION=$(./scripts/version)
+
+docker compose build --push backstage
+VERSION=latest docker compose build --push backstage
+
+if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+  {
+    echo "# 📦 Version"
+    echo "Copy the following version to the \`VERSION\` variable as the Docker image tag."
+    echo "\`\`\`"
+    echo "${VERSION}"
+    echo "\`\`\`"
+    echo ""
+  } >> "${GITHUB_STEP_SUMMARY}"
+fi

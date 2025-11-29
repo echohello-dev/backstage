@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+calendar=$(date +%Y.%m)
+commit_count=$(git rev-list --count HEAD)
+printf '%s-%s\n' "$calendar" "$commit_count"

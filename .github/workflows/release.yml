@@ -25,22 +25,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/cache@v4
+      - uses: jdx/mise-action@v3
+        name: Set up mise
         with:
-          path: |
-            ~/.asdf
-            .tool-versions
-            ~/.yarn/cache
-          key: ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}
-            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}
-            ${{ runner.os }}-${{ hashFiles('.tool-versions') }}-${{ hashFiles('yarn.lock') }}
+          cache: true
 
-      - uses: asdf-vm/actions/install@v3
+      - run: mise trust
 
-      - run: make install
+      - name: Configure npm auth
+        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
-      - run: make publish
+      - run: mise run install
 
-      - run: make release
+      - run: mise run publish
+
+      - run: mise run release
