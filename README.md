@@ -27,7 +27,7 @@ GitHub | Integration with GitHub for insights, pull requests, actions and more
 
 ### Prerequisites
 
-- [asdf](https://asdf-vm.com/#/core-manage-asdf-vm)
+- [mise](https://github.com/jdx/mise)
 
 ### Setup
 
@@ -39,11 +39,11 @@ To run the web app locally:
    ```
 2. Install dependencies
    ```
-   make install
+   mise run install
    ```
 3. Start the app
    ```
-   make dev
+   mise run dev
    ```
 4. Open [`localhost:3000`](http://localhost:3000) in your browser
 
