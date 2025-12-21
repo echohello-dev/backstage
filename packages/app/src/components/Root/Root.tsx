@@ -105,6 +105,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
           />
         </SidebarGroup>
         <SidebarDivider />
+        <NotificationsSidebarItem />
+        <SidebarDivider />
         <SidebarItem
           icon={ScoreRoundedIcon as IconComponent}
           to="scorecard"
