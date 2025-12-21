@@ -8,6 +8,7 @@ import {
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
 import { SidebarSearchModal } from '@backstage/plugin-search';
+import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import {
   Sidebar,
   sidebarConfig,
