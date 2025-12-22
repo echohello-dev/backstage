@@ -37,6 +37,8 @@ import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { NotificationsPage } from '@backstage/plugin-notifications';
+import { SignalsDisplay } from '@backstage/plugin-signals';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { backstageTheme } from './theme';
 import { HomePage } from './components/home/HomePage';
@@ -163,6 +165,7 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route path="/notifications" element={<NotificationsPage />} />
   </FlatRoutes>
 );
 
@@ -171,6 +174,7 @@ export default app.createRoot(
     <PlausibleAnalytics />
     <AlertDisplay />
     <OAuthRequestDialog />
+    <SignalsDisplay />
     <AppRouter>
       <Root>{routes}</Root>
     </AppRouter>

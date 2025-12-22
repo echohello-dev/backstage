@@ -8,6 +8,7 @@ import {
   UserSettingsSignInAvatar,
 } from '@backstage/plugin-user-settings';
 import { SidebarSearchModal } from '@backstage/plugin-search';
+import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
 import {
   Sidebar,
   sidebarConfig,
@@ -104,6 +105,8 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
             text="Self-Service"
           />
         </SidebarGroup>
+        <SidebarDivider />
+        <NotificationsSidebarItem />
         <SidebarDivider />
         <SidebarItem
           icon={ScoreRoundedIcon as IconComponent}
