@@ -95,20 +95,8 @@ const app = createApp({
   },
   themes: [
     {
-      id: 'default',
-      title: 'Default',
-      variant: 'light',
-      icon: <AcUnitIcon />,
-      Provider: ({ children }) => (
-        <UnifiedThemeProvider theme={backstageTheme}>
-          <CssBaseline />
-          {children}
-        </UnifiedThemeProvider>
-      ),
-    },
-    {
       id: 'brand-light',
-      title: 'Brand Light',
+      title: 'GitHub Light',
       variant: 'light',
       Provider: ({ children }) => (
         <UnifiedThemeProvider theme={brandLightTheme}>
@@ -119,10 +107,22 @@ const app = createApp({
     },
     {
       id: 'brand-dark',
-      title: 'Brand Dark',
+      title: 'GitHub Dark',
       variant: 'dark',
       Provider: ({ children }) => (
         <UnifiedThemeProvider theme={brandDarkTheme}>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
+      ),
+    },
+    {
+      id: 'default',
+      title: 'Legacy (Original)',
+      variant: 'light',
+      icon: <AcUnitIcon />,
+      Provider: ({ children }) => (
+        <UnifiedThemeProvider theme={backstageTheme}>
           <CssBaseline />
           {children}
         </UnifiedThemeProvider>

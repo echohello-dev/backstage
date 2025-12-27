@@ -1,7 +1,9 @@
 import {
   createBaseThemeOptions,
   createUnifiedTheme,
+  genPageTheme,
   palettes,
+  shapes,
 } from '@backstage/theme';
 
 // GitHub Primer-inspired font stack
@@ -38,6 +40,23 @@ const primer = {
   },
 };
 
+const navigation = {
+  light: {
+    // GitHub header/nav in light mode is dark
+    background: '#24292f',
+    indicator: primer.light.primary,
+    color: '#d0d7de',
+    selectedColor: '#ffffff',
+  },
+  dark: {
+    // GitHub dark header/nav
+    background: '#010409',
+    indicator: primer.dark.primary,
+    color: '#c9d1d9',
+    selectedColor: '#f0f6fc',
+  },
+};
+
 const baseLight = createBaseThemeOptions({ palette: palettes.light });
 const baseDark = createBaseThemeOptions({ palette: palettes.dark });
 
@@ -47,6 +66,14 @@ export const brandLightTheme = createUnifiedTheme({
   typography: {
     ...baseLight.typography,
     fontFamily: BRAND_FONT_FAMILY,
+  },
+  pageTheme: {
+    ...baseLight.pageTheme,
+    // Make the home header feel more GitHub/Primer (less Backstage-green)
+    home: genPageTheme({
+      colors: [navigation.light.background, primer.light.primary],
+      shape: shapes.wave2,
+    }),
   },
   palette: {
     ...baseLight.palette,
@@ -62,6 +89,22 @@ export const brandLightTheme = createUnifiedTheme({
       paper: primer.light.bgPaper,
     },
     divider: primer.light.divider,
+    navigation: {
+      ...baseLight.palette.navigation,
+      ...navigation.light,
+    },
+  },
+  components: {
+    ...baseLight.components,
+    // Ensure the drawer uses the same nav background (some variants read MUI Drawer styles)
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: navigation.light.background,
+          color: navigation.light.color,
+        },
+      },
+    },
   },
 });
 
@@ -71,6 +114,13 @@ export const brandDarkTheme = createUnifiedTheme({
   typography: {
     ...baseDark.typography,
     fontFamily: BRAND_FONT_FAMILY,
+  },
+  pageTheme: {
+    ...baseDark.pageTheme,
+    home: genPageTheme({
+      colors: [navigation.dark.background, primer.dark.primary],
+      shape: shapes.wave2,
+    }),
   },
   palette: {
     ...baseDark.palette,
@@ -86,5 +136,20 @@ export const brandDarkTheme = createUnifiedTheme({
       paper: primer.dark.bgPaper,
     },
     divider: primer.dark.divider,
+    navigation: {
+      ...baseDark.palette.navigation,
+      ...navigation.dark,
+    },
+  },
+  components: {
+    ...baseDark.components,
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: navigation.dark.background,
+          color: navigation.dark.color,
+        },
+      },
+    },
   },
 });
