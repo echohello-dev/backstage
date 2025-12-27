@@ -9,7 +9,7 @@ This app uses Backstage’s Unified Theming API (via `UnifiedThemeProvider` + `c
 
 ## Where theme tokens live
 
-- Brand themes: `packages/app/src/themes/brandTheme.ts`
+- Brand themes: `packages/backstage-theme-github/src/index.ts` (package: `@internal/backstage-theme-github`)
   - `brandLightTheme`
   - `brandDarkTheme`
 - Existing app theme: `packages/app/src/theme/index.ts` (`backstageTheme`)
@@ -18,13 +18,13 @@ The brand themes are intentionally subtle and mostly reuse Backstage base palett
 
 ## Backstage UI CSS variable overrides
 
-`packages/app/src/styles/brand.css` contains minimal overrides for Backstage UI CSS variables.
+`packages/backstage-theme-github/src/styles.css` contains minimal overrides for Backstage UI CSS variables.
 
 - The overrides are scoped to:
   - `[data-theme-mode='light']`
   - `[data-theme-mode='dark']`
 - No element resets are applied (to avoid breaking existing Backstage/MUI styling).
-- The CSS is imported once from the app entrypoint.
+- The CSS is imported once from the app entrypoint via `@internal/backstage-theme-github/src/styles.css`.
 
 ## Primer (GitHub design system) integration
 

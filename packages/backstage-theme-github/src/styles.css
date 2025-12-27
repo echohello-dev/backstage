@@ -1,0 +1,19 @@
+/* Minimal Backstage UI variable overrides, scoped by theme mode */
+
+[data-theme-mode='light'] {
+  --bui-bg: #f6f8fa; /* Primer canvasDefault */
+  --bui-bg-surface-1: #ffffff; /* Primer canvasInset */
+  --bui-bg-surface-2: #f6f8fa; /* subtle surface */
+  --bui-fg-primary: #24292f; /* Primer fgDefault */
+  --bui-fg-secondary: #57606a; /* Primer fgMuted */
+  --bui-border: #d0d7de; /* Primer borderDefault */
+}
+
+[data-theme-mode='dark'] {
+  --bui-bg: #0d1117; /* Primer canvasDefault */
+  --bui-bg-surface-1: #161b22; /* Primer canvasInset */
+  --bui-bg-surface-2: #0d1117; /* subtle surface */
+  --bui-fg-primary: #c9d1d9; /* Primer fgDefault */
+  --bui-fg-secondary: #8b949e; /* Primer fgMuted */
+  --bui-border: #30363d; /* Primer borderDefault */
+}

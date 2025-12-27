@@ -8330,6 +8330,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@internal/backstage-theme-github@link:../backstage-theme-github::locator=app%40workspace%3Apackages%2Fapp":
+  version: 0.0.0-use.local
+  resolution: "@internal/backstage-theme-github@link:../backstage-theme-github::locator=app%40workspace%3Apackages%2Fapp"
+  languageName: node
+  linkType: soft
+
+"@internal/backstage-theme-github@workspace:packages/backstage-theme-github":
+  version: 0.0.0-use.local
+  resolution: "@internal/backstage-theme-github@workspace:packages/backstage-theme-github"
+  dependencies:
+    "@backstage/cli": "npm:^0.35.0"
+    "@backstage/theme": "npm:^0.7.1"
+    "@fontsource/inter": "npm:^5.0.18"
+    typescript: "npm:~5.3.0"
+  languageName: unknown
+  linkType: soft
+
 "@internationalized/date@npm:^3.10.1":
   version: 3.10.1
   resolution: "@internationalized/date@npm:3.10.1"
@@ -18644,6 +18661,7 @@ __metadata:
     "@emotion/styled": "npm:^11.11.5"
     "@fontsource/inter": "npm:^5.0.18"
     "@internal/backstage-plugin-plausible": "npm:^0.1.0"
+    "@internal/backstage-theme-github": "link:../backstage-theme-github"
     "@mui/icons-material": "npm:^5.15.19"
     "@mui/joy": "npm:^5.0.0-beta.36"
     "@mui/material": "npm:^5.15.19"

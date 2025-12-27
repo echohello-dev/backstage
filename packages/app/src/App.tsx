@@ -45,7 +45,10 @@ import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
 import { githubAuthApiRef, gitlabAuthApiRef } from '@backstage/core-plugin-api';
-import { brandDarkTheme, brandLightTheme } from './themes/brandTheme';
+import {
+  brandDarkTheme,
+  brandLightTheme,
+} from '@internal/backstage-theme-github';
 import { PrimerDemoPage } from './components/PrimerDemoPage';
 
 const app = createApp({

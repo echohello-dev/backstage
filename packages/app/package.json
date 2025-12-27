@@ -45,6 +45,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/inter": "^5.0.18",
     "@internal/backstage-plugin-plausible": "^0.1.0",
+    "@internal/backstage-theme-github": "link:../backstage-theme-github",
     "@mui/icons-material": "^5.15.19",
     "@mui/joy": "^5.0.0-beta.36",
     "@mui/material": "^5.15.19",
