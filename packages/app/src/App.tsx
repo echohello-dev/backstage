@@ -45,6 +45,8 @@ import { HomePage } from './components/home/HomePage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PlausibleAnalytics } from '@internal/backstage-plugin-plausible';
 import { githubAuthApiRef, gitlabAuthApiRef } from '@backstage/core-plugin-api';
+import { brandDarkTheme, brandLightTheme } from './themes/brandTheme';
+import { PrimerDemoPage } from './components/PrimerDemoPage';
 
 const app = createApp({
   apis,
@@ -101,12 +103,35 @@ const app = createApp({
         </UnifiedThemeProvider>
       ),
     },
+    {
+      id: 'brand-light',
+      title: 'Brand Light',
+      variant: 'light',
+      Provider: ({ children }) => (
+        <UnifiedThemeProvider theme={brandLightTheme}>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
+      ),
+    },
+    {
+      id: 'brand-dark',
+      title: 'Brand Dark',
+      variant: 'dark',
+      Provider: ({ children }) => (
+        <UnifiedThemeProvider theme={brandDarkTheme}>
+          <CssBaseline />
+          {children}
+        </UnifiedThemeProvider>
+      ),
+    },
   ],
 });
 
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomePage />} />
+    <Route path="/primer-demo" element={<PrimerDemoPage />} />
     <Route
       path="/catalog"
       element={
