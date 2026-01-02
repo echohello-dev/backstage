@@ -37,9 +37,7 @@ jobs:
 
       - name: Compute CalVer
         id: calver
-        run: |
-          set -euo pipefail
-          mise run gha-output-calver
+        run: mise run gha-output-calver
 
       - name: Release Please
         id: release-please
