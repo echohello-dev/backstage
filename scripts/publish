@@ -6,6 +6,8 @@ cd "$(dirname "$0")/.."
 VERSION=${VERSION:-$(./scripts/version)}
 VERSION=${VERSION#v}
 
+export VERSION
+
 docker compose build --push backstage
 VERSION=latest docker compose build --push backstage
 
