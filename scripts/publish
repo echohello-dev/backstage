@@ -4,6 +4,7 @@ cd "$(dirname "$0")/.."
 
 # Allow callers (e.g. GitHub Actions tag builds) to control the image tag.
 VERSION=${VERSION:-$(./scripts/version)}
+VERSION=${VERSION#v}
 
 docker compose build --push backstage
 VERSION=latest docker compose build --push backstage
