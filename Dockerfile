@@ -28,6 +28,7 @@ WORKDIR /app
 # Install mise and toolchains using repo versions in mise.toml
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
+ENV MISE_HTTP_TIMEOUT=120
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
 COPY mise.toml ./
@@ -89,6 +90,7 @@ WORKDIR /app
 # Install mise and toolchains using repo versions in mise.toml
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
+ENV MISE_HTTP_TIMEOUT=120
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
 COPY mise.toml ./
