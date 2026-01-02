@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-calendar=$(date +%Y.%m)
+year=$(date +%Y)
+month=$(date +%m | sed 's/^0*//')
 commit_count=$(git rev-list --count HEAD)
-printf '%s-%s\n' "$calendar" "$commit_count"
+
+# CalVer that also stays SemVer-compatible: YYYY.M.<commit_count>
+printf '%s.%s.%s\n' "$year" "$month" "$commit_count"

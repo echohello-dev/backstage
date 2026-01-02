@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -8,35 +11,51 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
-      actions: write
+      issues: write
+      pull-requests: write
       packages: write
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Compute CalVer
+        id: calver
+        run: |
+          set -euo pipefail
+          mise run fetch-tags
+          mise run gha-output-version
+
+      - name: Release Please
+        id: release-please
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: main
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          release-as: ${{ steps.calver.outputs.version }}
+
       - uses: jdx/mise-action@v3
         name: Set up mise
+        if: ${{ steps.release-please.outputs.release_created }}
         with:
           cache: true
 
-      - run: mise trust
+      - run: mise run trust
+        if: ${{ steps.release-please.outputs.release_created }}
 
-      - name: Configure npm auth
-        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-
-      - run: mise run install
-
-      - run: mise run publish
-
-      - run: mise run release
+      - name: Publish release images
+        if: ${{ steps.release-please.outputs.release_created }}
+        env:
+          VERSION: ${{ steps.release-please.outputs.tag_name }}
+        run: mise run publish

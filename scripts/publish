@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-VERSION=$(./scripts/version)
+
+# Allow callers (e.g. GitHub Actions tag builds) to control the image tag.
+VERSION=${VERSION:-$(./scripts/version)}
 
 docker compose build --push backstage
 VERSION=latest docker compose build --push backstage

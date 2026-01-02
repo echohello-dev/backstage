@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*.*.*'
 
   workflow_dispatch:
 
@@ -30,15 +32,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Use tag as image version (when building tags)
+        if: ${{ github.ref_type == 'tag' }}
+        run: echo "VERSION=${{ github.ref_name }}" >> "$GITHUB_ENV"
+
       - uses: jdx/mise-action@v3
         name: Set up mise
         with:
           cache: true
 
-      - run: mise trust
-
-      - name: Configure npm auth
-        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+      - run: mise run trust
 
       - run: mise run install
 

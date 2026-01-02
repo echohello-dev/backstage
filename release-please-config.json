@@ -1,0 +1,11 @@
+{
+    "packages": {
+        ".": {
+            "release-type": "simple",
+            "package-name": "backstage",
+            "changelog-path": "CHANGELOG.md",
+            "version-file": "version.txt",
+            "include-v-in-tag": false
+        }
+    }
+}
