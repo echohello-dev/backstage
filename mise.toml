@@ -43,7 +43,7 @@ run = './scripts/lint'
 
 [tasks.test]
 description = "Run the test suite"
-run = 'yarn test'
+run = 'yarn test --watchAll=false'
 
 [tasks.build]
 description = "Build the Backstage Docker image"

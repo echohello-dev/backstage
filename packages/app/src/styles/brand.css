@@ -1,0 +1,25 @@
+/*
+  Minimal Backstage UI variable overrides.
+  These are scoped to the Backstage theme mode attribute and avoid any global resets.
+
+  Note: If a variable name is not used by the current @backstage/ui version,
+  it is harmless (it will simply be ignored).
+*/
+
+[data-theme-mode='light'] {
+  --bui-bg: #fffdf9;
+  --bui-bg-surface-1: #ffffff;
+  --bui-bg-surface-2: #f3f4f6;
+  --bui-fg-primary: #1b1f24;
+  --bui-fg-secondary: rgba(27, 31, 36, 0.72);
+  --bui-border: rgba(27, 31, 36, 0.12);
+}
+
+[data-theme-mode='dark'] {
+  --bui-bg: #0f1115;
+  --bui-bg-surface-1: #161b22;
+  --bui-bg-surface-2: #1f2530;
+  --bui-fg-primary: #e6edf3;
+  --bui-fg-secondary: rgba(230, 237, 243, 0.72);
+  --bui-border: rgba(230, 237, 243, 0.16);
+}

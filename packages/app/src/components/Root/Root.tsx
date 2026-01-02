@@ -1,6 +1,5 @@
 import { PropsWithChildren } from 'react';
 import { styled } from '@mui/material/styles';
-import Home from '@mui/icons-material/Home';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 import {
@@ -9,6 +8,18 @@ import {
 } from '@backstage/plugin-user-settings';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
+import {
+  HomeIcon,
+  SearchIcon,
+  ThreeBarsIcon,
+  RepoIcon,
+  PlugIcon,
+  BookIcon,
+  RocketIcon,
+  ChecklistIcon,
+  PulseIcon,
+  TelescopeIcon,
+} from '@primer/octicons-react';
 import {
   Sidebar,
   sidebarConfig,
@@ -21,15 +32,6 @@ import {
   Link,
   SidebarExpandButton,
 } from '@backstage/core-components';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
-import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded';
-import TouchAppRoundedIcon from '@mui/icons-material/TouchAppRounded';
-import MonitorHeartRoundedIcon from '@mui/icons-material/MonitorHeartRounded';
-import ScoreRoundedIcon from '@mui/icons-material/ScoreRounded';
 import { IconComponent } from '@backstage/core-plugin-api';
 
 export enum LocalStorageKeys {
@@ -63,6 +65,15 @@ const SidebarLogo = () => {
   );
 };
 
+const HomeOcticon: IconComponent = () => <HomeIcon size={20} />;
+const RepoOcticon: IconComponent = () => <RepoIcon size={20} />;
+const PlugOcticon: IconComponent = () => <PlugIcon size={20} />;
+const BookOcticon: IconComponent = () => <BookIcon size={20} />;
+const RocketOcticon: IconComponent = () => <RocketIcon size={20} />;
+const ChecklistOcticon: IconComponent = () => <ChecklistIcon size={20} />;
+const PulseOcticon: IconComponent = () => <PulseIcon size={20} />;
+const TelescopeOcticon: IconComponent = () => <TelescopeIcon size={20} />;
+
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   if (
     window.localStorage.getItem(LocalStorageKeys.SIDEBAR_PIN_STATE) === null
@@ -77,30 +88,22 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
     <SidebarPage>
       <Sidebar disableExpandOnHover={false}>
         <SidebarLogo />
-        <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+        <SidebarGroup
+          label="Search"
+          icon={<SearchIcon size={16} />}
+          to="/search"
+        >
           <SidebarSearchModal />
         </SidebarGroup>
         <SidebarDivider />
-        <SidebarGroup label="Menu" icon={<MenuIcon />}>
+        <SidebarGroup label="Menu" icon={<ThreeBarsIcon size={16} />}>
           {/* Global nav, not org-specific */}
-          <SidebarItem icon={Home as IconComponent} to="/" text="Home" />
+          <SidebarItem icon={HomeOcticon} to="/" text="Home" />
+          <SidebarItem icon={RepoOcticon} to="catalog" text="Catalog" />
+          <SidebarItem icon={PlugOcticon} to="api-docs" text="APIs" />
+          <SidebarItem icon={BookOcticon} to="docs" text="Docs" />
           <SidebarItem
-            icon={MenuBookRoundedIcon as IconComponent}
-            to="catalog"
-            text="Catalog"
-          />
-          <SidebarItem
-            icon={ExtensionRoundedIcon as IconComponent}
-            to="api-docs"
-            text="APIs"
-          />
-          <SidebarItem
-            icon={LocalLibraryRoundedIcon as IconComponent}
-            to="docs"
-            text="Docs"
-          />
-          <SidebarItem
-            icon={TouchAppRoundedIcon as IconComponent}
+            icon={RocketOcticon}
             to="self-service"
             text="Self-Service"
           />
@@ -108,21 +111,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarDivider />
         <NotificationsSidebarItem />
         <SidebarDivider />
-        <SidebarItem
-          icon={ScoreRoundedIcon as IconComponent}
-          to="scorecard"
-          text="Scorecard"
-        />
-        <SidebarItem
-          icon={MonitorHeartRoundedIcon as IconComponent}
-          to="pulse-check"
-          text="Pulse Check"
-        />
-        <SidebarItem
-          icon={AutoAwesomeRoundedIcon as IconComponent}
-          to="explore"
-          text="Explore"
-        />
+        <SidebarItem icon={ChecklistOcticon} to="scorecard" text="Scorecard" />
+        <SidebarItem icon={PulseOcticon} to="pulse-check" text="Pulse Check" />
+        <SidebarItem icon={TelescopeOcticon} to="explore" text="Explore" />
         <SidebarSpace />
         <SidebarDivider />
         <SidebarGroup
