@@ -43,7 +43,7 @@ run = 'mise trust'
 
 [tasks.gha-output-calver]
 description = "Fetch tags and write computed CalVer to GitHub Actions output"
-run = 'set -euo pipefail; git fetch --tags --force; echo "version=$(./scripts/version)" >> "${GITHUB_OUTPUT:?GITHUB_OUTPUT not set}"'
+run = 'bash -c "set -euo pipefail; git fetch --tags --force; echo version=$(./scripts/version) >> ${GITHUB_OUTPUT:?GITHUB_OUTPUT not set}"'
 
 [tasks.lint]
 description = "Run linting and type checking"
