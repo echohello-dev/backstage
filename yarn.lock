@@ -11297,7 +11297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/octicons-react@npm:^19.13.0":
+"@primer/octicons-react@npm:^19.13.0, @primer/octicons-react@npm:^19.21.1":
   version: 19.21.1
   resolution: "@primer/octicons-react@npm:19.21.1"
   peerDependencies:
@@ -18570,6 +18570,7 @@ __metadata:
     "@mui/utils": "npm:^5.15.14"
     "@mui/x-charts": "npm:^8.0.0"
     "@playwright/test": "npm:^1.32.3"
+    "@primer/octicons-react": "npm:^19.21.1"
     "@primer/react": "npm:^38.6.2"
     "@swc/types": "npm:^0.1.7"
     "@testing-library/dom": "npm:^9.0.0"

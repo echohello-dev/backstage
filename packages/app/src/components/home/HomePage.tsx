@@ -41,14 +41,14 @@ const SearchTextField = styled(TextField)(({ theme }) => {
   return {
     width: '50vh',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: '#FFF',
+    backgroundColor: theme.palette.background.paper,
   };
 });
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  backgroundColor: '#000',
+  backgroundColor: theme.palette.background.default,
   gap: '10px',
   padding: '20px 40px',
   backgroundImage: theme.page.backgroundImage,
@@ -151,7 +151,7 @@ export const HomePage = () => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              color: '#FFF',
+              color: theme.palette.text.primary,
             }}
           >
             <Typography variant="h2" sx={{ marginBottom: 0 }}>
@@ -774,7 +774,7 @@ export const HomePage = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              borderLeft: '1px solid #e0e0e0',
+              borderLeft: `1px solid ${theme.palette.divider}`,
             }}
           >
             <Button
