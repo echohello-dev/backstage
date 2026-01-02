@@ -28,12 +28,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: jdx/mise-action@v3
+        name: Set up mise
+        with:
+          cache: true
+
+      - run: mise run trust
+
       - name: Compute CalVer
         id: calver
         run: |
           set -euo pipefail
-          mise run fetch-tags
-          mise run gha-output-version
+          mise run gha-output-calver
 
       - name: Release Please
         id: release-please
@@ -44,15 +50,6 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
           release-as: ${{ steps.calver.outputs.version }}
-
-      - uses: jdx/mise-action@v3
-        name: Set up mise
-        if: ${{ steps.release-please.outputs.release_created }}
-        with:
-          cache: true
-
-      - run: mise run trust
-        if: ${{ steps.release-please.outputs.release_created }}
 
       - name: Publish release images
         if: ${{ steps.release-please.outputs.release_created }}
