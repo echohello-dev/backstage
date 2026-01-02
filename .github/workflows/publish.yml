@@ -28,7 +28,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
 
@@ -36,7 +36,7 @@ jobs:
         if: ${{ github.ref_type == 'tag' }}
         run: echo "VERSION=${{ github.ref_name }}" >> "$GITHUB_ENV"
 
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         name: Set up mise
         with:
           cache: true
