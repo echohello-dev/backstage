@@ -1,13 +1,4 @@
-ARG NODE_VERSION=22.11.0
-ARG YARN_VERSION=4.3.1
-ARG PYTHON_VERSION=3.10.12
-
 FROM debian:12-slim AS build
-
-ARG NODE_VERSION
-ARG YARN_VERSION
-ARG PYTHON_VERSION
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
@@ -32,20 +23,23 @@ RUN apt-get update && \
     libxmlsec1-dev \
     libffi-dev \
     liblzma-dev
+WORKDIR /app
 
-# Install mise and toolchains (Node.js + Python)
+# Install mise and toolchains using repo versions in mise.toml
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
-RUN mise install node@${NODE_VERSION} python@${PYTHON_VERSION}
-RUN mise use -g --pin node@${NODE_VERSION} python@${PYTHON_VERSION}
+COPY mise.toml ./
+RUN mise trust && mise install
 
-# Activate the desired Yarn version via Corepack (ships with Node)
-RUN corepack enable && corepack prepare yarn@${YARN_VERSION} --activate
+# Enable Corepack; Yarn version is selected via package.json "packageManager"
+ENV COREPACK_ROOT=/root/.corepack
+ENV PATH=$COREPACK_ROOT:$PATH
+RUN mkdir -p $COREPACK_ROOT && \
+    mise exec node -- corepack enable --install-directory $COREPACK_ROOT
 
 WORKDIR /app
-
 COPY yarn.lock package.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
@@ -65,10 +59,6 @@ COPY app-config.yaml ./
 RUN yarn build:backend
 
 FROM debian:12-slim AS run
-
-ARG NODE_VERSION
-ARG YARN_VERSION
-ARG PYTHON_VERSION
 
 # Install dependencies
 RUN apt-get update && \
@@ -94,19 +84,23 @@ RUN apt-get update && \
     libffi-dev \
     liblzma-dev
 
-# Install mise and toolchains (Node.js + Python)
+WORKDIR /app
+
+# Install mise and toolchains using repo versions in mise.toml
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
-RUN mise install node@${NODE_VERSION} python@${PYTHON_VERSION}
-RUN mise use -g --pin node@${NODE_VERSION} python@${PYTHON_VERSION}
+COPY mise.toml ./
+RUN mise trust && mise install
 
-# Activate the desired Yarn version via Corepack
-RUN corepack enable && corepack prepare yarn@${YARN_VERSION} --activate
+# Enable Corepack; Yarn version is selected via package.json "packageManager"
+ENV COREPACK_ROOT=/root/.corepack
+ENV PATH=$COREPACK_ROOT:$PATH
+RUN mkdir -p $COREPACK_ROOT && \
+    mise exec node -- corepack enable --install-directory $COREPACK_ROOT
 
 WORKDIR /app
-
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=1000 --no-node-snapshot"
 

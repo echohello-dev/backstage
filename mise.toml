@@ -1,6 +1,6 @@
 [tools]
-node = "v20"
-python = "3.10.11"
+node = "22.11.0"
+python = "3.10.12"
 yarn = { version = "4.3.1" }
 helm = "3.14.1"
 k9s = "0.31.9"
