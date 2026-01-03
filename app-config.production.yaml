@@ -25,7 +25,7 @@ integrations:
           clientId: ${CATALOG_GITHUB_APP_CLIENT_ID}
           clientSecret: ${CATALOG_GITHUB_APP_CLIENT_SECRET}
           webhookSecret: ${CATALOG_GITHUB_APP_WEBHOOK_SECRET}
-          privateKey: ${GITHUB_APP_PRIVATE_KEY}
+          privateKey: ${CATALOG_GITHUB_APP_PRIVATE_KEY}
 
   gitlab:
     - host: gitlab.com
