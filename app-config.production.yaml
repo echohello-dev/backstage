@@ -20,6 +20,12 @@ integrations:
   github:
     - host: github.com
       token: ${GITHUB_TOKEN}
+      apps:
+        - appId: ${CATALOG_GITHUB_APP_ID}
+          clientId: ${CATALOG_GITHUB_APP_CLIENT_ID}
+          clientSecret: ${CATALOG_GITHUB_APP_CLIENT_SECRET}
+          webhookSecret: ${CATALOG_GITHUB_APP_WEBHOOK_SECRET}
+          privateKey: ${GITHUB_APP_PRIVATE_KEY}
 
   gitlab:
     - host: gitlab.com
@@ -33,8 +39,8 @@ auth:
       userEntityRef: user:default/guest
     github:
       default:
-        clientId: ${GITHUB_CLIENT_ID}
-        clientSecret: ${GITHUB_CLIENT_SECRET}
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
         signIn:
           resolvers:
             # Matches the GitHub username with the Backstage user entity name.
