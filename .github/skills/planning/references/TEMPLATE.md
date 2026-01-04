@@ -2,18 +2,6 @@
 
 Use this template when creating plan files in `./plans/`.
 
-## Frontmatter
-
-```yaml
----
-title: [Feature/Task Name]
-status: draft | review | approved | in-progress | completed
-created: YYYY-MM-DDTHH:MM:SS
-updated: YYYY-MM-DDTHH:MM:SS
-author: [who requested]
----
-```
-
 ## Full Template
 
 ```markdown

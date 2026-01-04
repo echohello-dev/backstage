@@ -109,14 +109,6 @@ Use these MCP tools to gather external knowledge before creating plans:
 ### Plan File Template
 
 ```markdown
----
-title: [Feature/Task Name]
-status: draft | review | approved | in-progress | completed
-created: YYYY-MM-DDTHH:MM:SS
-updated: YYYY-MM-DDTHH:MM:SS
-author: [who requested]
----
-
 ## Goal
 
 One-sentence summary of the outcome
