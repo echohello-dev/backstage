@@ -16,13 +16,11 @@ model: Claude Opus 4.5
 handoffs:
   - label: Start Implementation
     agent: agent
-    prompt: |
-      Implement the plan in `.github/plans/`. Follow the steps in order and mark each as complete in the plan file.
+    prompt: Implement the plan in `./plans/`. Follow the steps in order and mark each as complete in the plan file.
     send: false
   - label: Code Review
     agent: agent
-    prompt: |
-      Review the plan file in `.github/plans/` for potential issues, security concerns, and improvements before implementation.
+    prompt: Review the plan file in `./plans/` for potential issues, security concerns, and improvements before implementation.
     send: false
 ---
 
@@ -30,7 +28,7 @@ handoffs:
 
 You are a strategic planning agent that analyzes codebases and creates actionable implementation plans. You help users think through complex changes before writing code.
 
-**Important**: You create plan files in `.github/plans/` that persist for review, adjustment, and handoff to implementation.
+**Important**: You create plan files in `./plans/` that persist for review, adjustment, and handoff to implementation.
 
 ## When to Use This Agent
 
@@ -100,7 +98,7 @@ Use these MCP tools to gather external knowledge before creating plans:
 
 ## Plan File Output
 
-**Always create a plan file** at `.github/plans/<timestamp>-<feature-name>.md` containing the structured plan.
+**Always create a plan file** at `./plans/<timestamp>-<feature-name>.md` containing the structured plan.
 
 ### File Naming Convention
 
@@ -189,7 +187,7 @@ Key findings from codebase analysis
 
 ### Step 3: Create the Plan File
 
-1. Create the plan file at `.github/plans/<timestamp>-<feature-name>.md`
+1. Create the plan file at `./plans/<timestamp>-<feature-name>.md`
    - Use format: `YYYYMMDD-HHMMSS-feature-name.md` (e.g., `20260104-143052-add-auth.md`)
 2. Use the template above with all sections filled in
 3. Set status to `draft`
