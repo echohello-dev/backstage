@@ -1,5 +1,26 @@
 # Changelog
 
+## [2026.1.342](https://github.com/echohello-dev/backstage/compare/v2026.1.323...v2026.1.342) (2026-01-06)
+
+
+### Features
+
+* **agents:** add AGENTS.md authoring skill and validation scripts ([4cd5e41](https://github.com/echohello-dev/backstage/commit/4cd5e41f3f93716c3afd0d38c07b2b27692bce26))
+* **agents:** add Better Plan agent for structured implementation planning ([0b2a808](https://github.com/echohello-dev/backstage/commit/0b2a808716b7f361be9820b13361a0b5a2ebea25))
+* enhance application navigation and improve UI consistency ([54edcc0](https://github.com/echohello-dev/backstage/commit/54edcc03a7355fe0e1573e3dcc84a2a211f51648))
+* **prompts:** add migration plans for Backstage Canon and competitive developer portal ([e1ae898](https://github.com/echohello-dev/backstage/commit/e1ae898d640dd2692b8450c8825847d61efa320c))
+* **prompts:** add migration plans for Backstage Canon and competitive developer portal ([8634347](https://github.com/echohello-dev/backstage/commit/8634347a93910f3c49bc80722d8b0263ba444864))
+* **pulse-check:** add SystemHealthCard component for displaying system health status ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+* **scorecard:** develop ScorecardPage for comprehensive score tracking ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+* **scorecard:** implement EntityScoreCard and ScoreMetrics components ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+
+
+### Bug Fixes
+
+* add GitHub App integration and fix auth env var names ([4af8b42](https://github.com/echohello-dev/backstage/commit/4af8b4297ff47abdf844511bab1125b3d618046c))
+* correct command syntax in gha-output-calver task ([b6972cc](https://github.com/echohello-dev/backstage/commit/b6972cceff37a84bfbe1b2eeee1cdddced8f95bd))
+* use CATALOG_GITHUB_APP_PRIVATE_KEY for consistency ([dd73e6d](https://github.com/echohello-dev/backstage/commit/dd73e6deea9bb271ee66c058c33850ec4b089125))
+
 ## 2026.1.323 (2026-01-02)
 
 
