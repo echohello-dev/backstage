@@ -170,7 +170,7 @@ export const DeploymentMetrics = ({
           </Box>
         </Box>
 
-        <Grid container spacing={2} sx={{ mt: 2 }}>
+        <Grid container spacing={3} sx={{ mt: 2 }}>
           <Grid item xs={6} sm={3}>
             <Box
               sx={{

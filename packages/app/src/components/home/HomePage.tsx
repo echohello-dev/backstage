@@ -525,7 +525,7 @@ export const HomePage = () => {
               </Button>
             }
           />
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {catalogItems.map(item => (
               <Grid item xs={6} sm={4} md={2} key={item.label}>
                 <StatCard onClick={() => navigate(item.path)}>
@@ -559,7 +559,7 @@ export const HomePage = () => {
           </Grid>
         </Box>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Box sx={{ mb: 5 }}>
               <SectionHeader
@@ -579,7 +579,7 @@ export const HomePage = () => {
                 }
               />
               {loadingTemplates ? (
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                   {[1, 2, 3, 4].map(i => (
                     <Grid item xs={12} sm={6} key={i}>
                       <Skeleton
@@ -591,7 +591,7 @@ export const HomePage = () => {
                   ))}
                 </Grid>
               ) : templates.length > 0 ? (
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                   {templates.map(template => (
                     <Grid item xs={12} sm={6} key={template.name}>
                       <Card
@@ -793,7 +793,7 @@ export const HomePage = () => {
                       }}
                     />
                   </Box>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={3}>
                     <Grid item xs={6}>
                       <Box
                         sx={{
