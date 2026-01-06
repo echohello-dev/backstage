@@ -1,1101 +1,1054 @@
-import {
-  createTheme,
-  styled,
-  Theme,
-  ThemeProvider,
-  useTheme,
-} from '@mui/material/styles';
-import TrackChangesIcon from '@mui/icons-material/TrackChanges';
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
-import MonitorHeartOutlinedIcon from '@mui/icons-material/MonitorHeartOutlined';
-import MemoryRoundedIcon from '@mui/icons-material/MemoryRounded';
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
-import GroupIcon from '@mui/icons-material/Group';
-import Groups3Icon from '@mui/icons-material/Groups3';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import { styled, useTheme } from '@mui/material/styles';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CategoryIcon from '@mui/icons-material/Category';
 import ApiIcon from '@mui/icons-material/Api';
 import WidgetsIcon from '@mui/icons-material/Widgets';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import SpeedIcon from '@mui/icons-material/Speed';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import CodeIcon from '@mui/icons-material/Code';
+import GroupsIcon from '@mui/icons-material/Groups';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useState, useEffect, ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
-import { PieChart } from '@mui/x-charts/PieChart';
-import { LineChart, lineElementClasses } from '@mui/x-charts/LineChart';
+import CardActionArea from '@mui/material/CardActionArea';
 import TextField from '@mui/material/TextField';
-import SlackIcon from '../icons/Slack';
-import GrafanaIcon from '../icons/Grafana';
-import ConfluenceIcon from '../icons/Confluence';
-import BitbucketIcon from '../icons/Bitbucket';
-import AwsIcon from '../icons/Aws';
-import AzureIcon from '../icons/Azure';
-import DiscordIcon from '../icons/Discord';
+import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
-import { Page } from '@backstage/core-components';
+import { Page, Content } from '@backstage/core-components';
 import Chip from '@mui/material/Chip';
 import Skeleton from '@mui/material/Skeleton';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from '@mui/material/Avatar';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useNavigate } from 'react-router-dom';
+import { Entity } from '@backstage/catalog-model';
 
-const SearchTextField = styled(TextField)(({ theme }) => {
-  return {
-    width: '50vh',
-    borderRadius: theme.shape.borderRadius,
+const SearchTextField = styled(TextField)(({ theme }) => ({
+  width: '100%',
+  maxWidth: '600px',
+  '& .MuiOutlinedInput-root': {
+    borderRadius: theme.spacing(3),
     backgroundColor: theme.palette.background.paper,
-  };
-});
-
-const Header = styled('div')(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  backgroundColor: theme.palette.background.default,
-  gap: '10px',
-  padding: '20px 40px',
-  backgroundImage: theme.page.backgroundImage,
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
-  [theme.breakpoints.down('md')]: {
-    flexWrap: 'wrap',
-    padding: '0 20px',
+    '&:hover': {
+      backgroundColor:
+        theme.palette.mode === 'dark'
+          ? theme.palette.grey[800]
+          : theme.palette.grey[50],
+    },
   },
 }));
 
-const PageHeading = ({ icon, title }: { icon: ReactNode; title: string }) => (
-  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    {icon}
-    <Typography variant="h2" sx={{ paddingLeft: '.5rem', marginBottom: 0 }}>
-      {title}
-    </Typography>
-  </Box>
-);
+const HeroSection = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(6, 4),
+  background:
+    theme.palette.mode === 'dark'
+      ? `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.background.default} 100%)`
+      : `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.background.default} 100%)`,
+  borderRadius: theme.spacing(2),
+  marginBottom: theme.spacing(4),
+}));
+
+const QuickActionCard = styled(Card)(({ theme }) => ({
+  height: '100%',
+  transition: 'transform 0.2s, box-shadow 0.2s',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: theme.shadows[8],
+  },
+}));
+
+const StatCard = styled(Card)(({ theme }) => ({
+  height: '100%',
+  cursor: 'pointer',
+  transition: 'transform 0.2s, box-shadow 0.2s',
+  '&:hover': {
+    transform: 'translateY(-2px)',
+    boxShadow: theme.shadows[4],
+  },
+}));
 
 interface CatalogStats {
   services: number;
   apis: number;
   components: number;
   systems: number;
+  domains: number;
+  groups: number;
+  users: number;
+  docs: number;
   loading: boolean;
 }
 
+interface RecentEntity {
+  name: string;
+  kind: string;
+  type?: string;
+  namespace: string;
+}
+
+interface Template {
+  name: string;
+  title: string;
+  description: string;
+  tags: string[];
+}
+
+interface HealthStatus {
+  healthy: number;
+  warning: number;
+  critical: number;
+  unknown: number;
+}
+
+const SectionHeader = ({
+  icon,
+  title,
+  action,
+}: {
+  icon: ReactNode;
+  title: string;
+  action?: ReactNode;
+}) => (
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      mb: 3,
+    }}
+  >
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      {icon}
+      <Typography variant="h5" sx={{ mb: 0, fontWeight: 600 }}>
+        {title}
+      </Typography>
+    </Box>
+    {action}
+  </Box>
+);
+
 export const HomePage = () => {
-  const [isSquad, setIsSquad] = useState(true);
   const theme = useTheme();
   const navigate = useNavigate();
   const catalogApi = useApi(catalogApiRef);
+  const [searchQuery, setSearchQuery] = useState('');
   const [stats, setStats] = useState<CatalogStats>({
     services: 0,
     apis: 0,
     components: 0,
     systems: 0,
+    domains: 0,
+    groups: 0,
+    users: 0,
+    docs: 0,
     loading: true,
   });
+  const [recentEntities, setRecentEntities] = useState<RecentEntity[]>([]);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [healthStatus, setHealthStatus] = useState<HealthStatus>({
+    healthy: 0,
+    warning: 0,
+    critical: 0,
+    unknown: 0,
+  });
+  const [loadingRecent, setLoadingRecent] = useState(true);
+  const [loadingTemplates, setLoadingTemplates] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchAllData = async () => {
       try {
-        const [services, apis, components, systems] = await Promise.all([
+        const [
+          services,
+          apis,
+          components,
+          systems,
+          domains,
+          groups,
+          users,
+          docs,
+        ] = await Promise.all([
           catalogApi.getEntities({
             filter: [{ kind: 'component', 'spec.type': 'service' }],
           }),
+          catalogApi.getEntities({ filter: [{ kind: 'api' }] }),
+          catalogApi.getEntities({ filter: [{ kind: 'component' }] }),
+          catalogApi.getEntities({ filter: [{ kind: 'system' }] }),
+          catalogApi.getEntities({ filter: [{ kind: 'domain' }] }),
+          catalogApi.getEntities({ filter: [{ kind: 'group' }] }),
+          catalogApi.getEntities({ filter: [{ kind: 'user' }] }),
           catalogApi.getEntities({
-            filter: [{ kind: 'api' }],
-          }),
-          catalogApi.getEntities({
-            filter: [{ kind: 'component' }],
-          }),
-          catalogApi.getEntities({
-            filter: [{ kind: 'system' }],
+            filter: [{ 'metadata.annotations.backstage.io/techdocs-ref': '*' }],
           }),
         ]);
+
         setStats({
           services: services.items.length,
           apis: apis.items.length,
           components: components.items.length,
           systems: systems.items.length,
+          domains: domains.items.length,
+          groups: groups.items.length,
+          users: users.items.length,
+          docs: docs.items.length,
           loading: false,
         });
+
+        const healthCounts: HealthStatus = {
+          healthy: 0,
+          warning: 0,
+          critical: 0,
+          unknown: 0,
+        };
+        components.items.forEach((entity: Entity) => {
+          const lifecycle = entity.spec?.lifecycle as string;
+          if (lifecycle === 'production') healthCounts.healthy++;
+          else if (lifecycle === 'experimental') healthCounts.warning++;
+          else if (lifecycle === 'deprecated') healthCounts.critical++;
+          else healthCounts.unknown++;
+        });
+        setHealthStatus(healthCounts);
+
+        const allEntities = [
+          ...components.items,
+          ...apis.items,
+          ...systems.items,
+        ];
+        const sortedEntities = allEntities
+          .filter((e: Entity) => e.metadata?.name)
+          .slice(0, 5)
+          .map((e: Entity) => ({
+            name: e.metadata.name,
+            kind: e.kind,
+            type: (e.spec?.type as string) || undefined,
+            namespace: e.metadata.namespace || 'default',
+          }));
+        setRecentEntities(sortedEntities);
+        setLoadingRecent(false);
+
+        const templateResponse = await catalogApi.getEntities({
+          filter: [{ kind: 'template' }],
+        });
+        const templateList = templateResponse.items
+          .slice(0, 4)
+          .map((t: Entity) => ({
+            name: t.metadata.name,
+            title: t.metadata.title || t.metadata.name,
+            description: t.metadata.description || 'No description available',
+            tags: (t.metadata.tags as string[]) || [],
+          }));
+        setTemplates(templateList);
+        setLoadingTemplates(false);
       } catch (err) {
-        console.error('Failed to fetch catalog stats:', err);
+        console.error('Failed to fetch catalog data:', err);
         setStats(prev => ({ ...prev, loading: false }));
+        setLoadingRecent(false);
+        setLoadingTemplates(false);
       }
     };
-    fetchStats();
+
+    fetchAllData();
   }, [catalogApi]);
 
-  const months = [
-    new Date(2021, 7, 1),
-    new Date(2021, 8, 1),
-    new Date(2021, 9, 1),
-    new Date(2021, 10, 1),
-    new Date(2021, 11, 1),
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const quickActions = [
+    {
+      icon: (
+        <AddIcon sx={{ fontSize: 40, color: theme.palette.primary.main }} />
+      ),
+      title: 'Create New',
+      description: 'Scaffold a new project from templates',
+      path: '/self-service',
+    },
+    {
+      icon: (
+        <ImportExportIcon
+          sx={{ fontSize: 40, color: theme.palette.secondary.main }}
+        />
+      ),
+      title: 'Register Existing',
+      description: 'Import an existing component to the catalog',
+      path: '/catalog-import',
+    },
+    {
+      icon: (
+        <DescriptionIcon
+          sx={{ fontSize: 40, color: theme.palette.info.main }}
+        />
+      ),
+      title: 'Browse Docs',
+      description: 'Explore technical documentation',
+      path: '/docs',
+    },
+    {
+      icon: (
+        <ApiIcon sx={{ fontSize: 40, color: theme.palette.success.main }} />
+      ),
+      title: 'API Explorer',
+      description: 'Discover and explore available APIs',
+      path: '/api-docs',
+    },
   ];
 
-  const serviceHealthSeries = [
+  const catalogItems = [
     {
-      data: [
-        {
-          id: 0,
-          value: 10,
-          label: 'Uptime',
-          color: theme.palette.success.main,
-        },
-        {
-          id: 1,
-          value: 1,
-          label: 'Downtime',
-          color: theme.palette.error.main,
-        },
-      ],
-      innerRadius: 30,
-      paddingAngle: 5,
-      cornerRadius: 5,
+      icon: <WidgetsIcon />,
+      label: 'Services',
+      count: stats.services,
+      path: '/catalog?filters[kind]=component&filters[type]=service',
+      color: theme.palette.primary.main,
+    },
+    {
+      icon: <ApiIcon />,
+      label: 'APIs',
+      count: stats.apis,
+      path: '/api-docs',
+      color: theme.palette.secondary.main,
+    },
+    {
+      icon: <CategoryIcon />,
+      label: 'Components',
+      count: stats.components,
+      path: '/catalog?filters[kind]=component',
+      color: theme.palette.info.main,
+    },
+    {
+      icon: <AccountTreeIcon />,
+      label: 'Systems',
+      count: stats.systems,
+      path: '/catalog?filters[kind]=system',
+      color: theme.palette.success.main,
+    },
+    {
+      icon: <LibraryBooksIcon />,
+      label: 'Documentation',
+      count: stats.docs,
+      path: '/docs',
+      color: theme.palette.warning.main,
+    },
+    {
+      icon: <GroupsIcon />,
+      label: 'Teams',
+      count: stats.groups,
+      path: '/catalog?filters[kind]=group',
+      color: theme.palette.error.main,
     },
   ];
 
-  const costSeries = [
-    {
-      id: '1',
-      label: 'Compute',
-      data: [1000, 2000, 7000, 6500, 8000],
-      stack: 'total',
-      area: true,
-      showMark: false,
-      valueFormatter: (value: number | bigint) =>
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(value),
-    },
-    {
-      id: '2',
-      label: 'Databases',
-      data: [2000, 4000, 8000, 7500, 9000],
-      stack: 'total',
-      area: true,
-      showMark: false,
-      valueFormatter: (value: number | bigint) =>
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(value),
-    },
-  ];
+  const totalHealth =
+    healthStatus.healthy +
+    healthStatus.warning +
+    healthStatus.critical +
+    healthStatus.unknown;
+  const healthPercentage =
+    totalHealth > 0
+      ? Math.round((healthStatus.healthy / totalHealth) * 100)
+      : 0;
 
   return (
     <Page themeId="home">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-          gridArea: 'pageContent',
-          minWidth: 0,
-        }}
-      >
-        <Header>
-          <Box
+      <Content>
+        <HeroSection>
+          <Typography
+            variant="h3"
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
+              fontWeight: 700,
+              mb: 1,
+              textAlign: 'center',
               color: theme.palette.text.primary,
             }}
           >
-            <Typography variant="h2" sx={{ marginBottom: 0 }}>
-              Welcome John!
-            </Typography>
-            <Typography variant="subtitle1">
-              Backstage, the Developer Portal!
-            </Typography>
-          </Box>
-          <Box
+            Welcome to the Developer Portal
+          </Typography>
+          <Typography
+            variant="subtitle1"
             sx={{
-              display: 'flex',
-              margin: 'auto 0',
-              [theme.breakpoints.down('lg')]: {
-                display: 'none',
-              },
+              mb: 4,
+              textAlign: 'center',
+              color: theme.palette.text.secondary,
+              maxWidth: 600,
             }}
           >
-            <ThemeProvider
-              theme={(parentTheme: Theme) =>
-                createTheme({
-                  ...parentTheme,
-                  components: {
-                    MuiFilledInput: {
-                      styleOverrides: {
-                        root: {
-                          '&::before, &::after': {
-                            borderBottom: 'none',
-                          },
-                          '&:hover:not(.Mui-disabled, .Mui-error):before': {
-                            borderBottom: 'none',
-                          },
-                          '&.Mui-focused:after': {
-                            borderBottom: 'none',
-                          },
-                        },
-                      },
-                    },
-                  },
-                })
-              }
-            >
-              <SearchTextField label="Search" variant="filled" />
-            </ThemeProvider>
-          </Box>
-        </Header>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            flex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              gap: '2rem',
-              padding: '2rem',
-              overflow: 'hidden',
+            Your single pane of glass for discovering services, APIs, and
+            documentation
+          </Typography>
+          <SearchTextField
+            placeholder="Search for services, APIs, docs, or teams..."
+            variant="outlined"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyPress={handleSearchKeyPress}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
+              endAdornment: searchQuery && (
+                <InputAdornment position="end">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={handleSearch}
+                    sx={{ borderRadius: 2 }}
+                  >
+                    Search
+                  </Button>
+                </InputAdornment>
+              ),
             }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <PageHeading
-                icon={
-                  <TrackChangesIcon sx={{ width: '3rem', height: '3rem' }} />
-                }
-                title="Squad Metrics"
-              />
-              <ToggleButtonGroup
-                exclusive
-                value={isSquad}
-                onChange={(_, newValue) => {
-                  setIsSquad(newValue);
-                }}
-              >
-                <ToggleButton
-                  sx={{
-                    paddingLeft: '1.5rem',
-                    paddingRight: '1.5rem',
-                    paddingTop: '.4rem',
-                    paddingBottom: '.4rem',
-                    borderTopLeftRadius: 10,
-                    borderBottomLeftRadius: 10,
-                  }}
-                  value
-                >
-                  <GroupIcon sx={{ width: 24, height: 24 }} />
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      paddingLeft: '.5rem',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    Squad
-                  </Typography>
-                </ToggleButton>
-                <ToggleButton
-                  sx={{
-                    paddingLeft: '1.5rem',
-                    paddingRight: '1.5rem',
-                    paddingTop: '.4rem',
-                    paddingBottom: '.4rem',
-                    borderTopRightRadius: 10,
-                    borderBottomRightRadius: 10,
-                  }}
-                  value={false}
-                >
-                  <Groups3Icon sx={{ width: 32, height: 32 }} />
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ paddingLeft: '.5rem', fontWeight: 'bold' }}
-                  >
-                    Everyone
-                  </Typography>
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-            <Typography variant="subtitle1">
-              Scores are an aggregate across all software entities owned by your
-              squad.
-            </Typography>
-            <Box sx={{ position: 'relative' }}>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  width: '128px',
-                  pointerEvents: 'none',
-                  background: `linear-gradient(to left, ${theme.palette.background.default} 60%, transparent)`,
-                  zIndex: 2,
-                }}
-              />
-              <ArrowForwardIcon
-                sx={{
-                  position: 'absolute',
-                  right: 0,
-                  top: 0,
-                  width: '32px',
-                  height: '100%',
-                  zIndex: 4,
-                }}
-              />
-              <Box sx={{ width: '100%', overflow: 'hidden' }}>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    overflowX: 'auto',
-                    whiteSpace: 'nowrap',
-                    scrollbarWidth: 'none',
-                    paddingBottom: '2px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      gap: '20px',
-                    }}
-                  >
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        zIndex: 1,
-                      }}
-                    >
-                      <CardContent
-                        sx={{ display: 'flex', flexDirection: 'column' }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <MonitorHeartOutlinedIcon
-                            sx={{ width: '1.5rem', height: '1.5rem' }}
-                          />
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              paddingLeft: '0.4rem',
-                            }}
-                          >
-                            Service Health
-                          </Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant="subtitle1" sx={{ pb: '0.4rem' }}>
-                            Past 7 days
-                          </Typography>
-                          <Chip
-                            color="error"
-                            variant="outlined"
-                            icon={<TrendingDownIcon />}
-                            label="13%"
-                            sx={{
-                              pl: 1,
-                              pr: 1,
-                              mr: 0,
-                              mb: 0,
-                              borderRadius: '0.4rem',
-                              backgroundColor: '#f8bcbc',
-                            }}
-                            size="small"
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flex: 1,
-                          }}
-                        >
-                          <PieChart
-                            series={serviceHealthSeries}
-                            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                            slots={{ legend: () => null }}
-                            height={140}
-                            width={140}
-                          />
-                        </Box>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        zIndex: 1,
-                      }}
-                    >
-                      <CardContent
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Typography variant="h5">Cost Overview</Typography>
-                        <Box>
-                          <Typography variant="subtitle1" sx={{ pb: '0.4rem' }}>
-                            Past 6 months
-                          </Typography>
-                          <Chip
-                            color="success"
-                            variant="outlined"
-                            icon={<TrendingUpIcon />}
-                            label="3.4%"
-                            sx={{
-                              pl: 1,
-                              pr: 1,
-                              mr: 0,
-                              mb: 0,
-                              borderRadius: '0.4rem',
-                              backgroundColor: '#cff7cf',
-                            }}
-                            size="small"
-                          />
-                        </Box>
-                        <LineChart
-                          xAxis={[
-                            {
-                              id: 'Months',
-                              data: months,
-                              scaleType: 'time',
-                              valueFormatter: date =>
-                                date.getMonth().toString(),
-                            },
-                          ]}
-                          // @ts-ignore
-                          series={costSeries}
-                          height={180}
-                          leftAxis={null}
-                          bottomAxis={null}
-                          slots={{ legend: () => null }}
-                          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                          sx={{
-                            [`& .${lineElementClasses.root}`]: {
-                              strokeWidth: 4,
-                              borderRadius: 10,
-                            },
-                            '& .v5-MuiLineElement-series-1': {
-                              stroke: theme.palette.primary.main,
-                            },
-                            '& .v5-MuiAreaElement-series-1': {
-                              fill: "url('#gradient1')",
-                            },
-                            '& .v5-MuiLineElement-series-2': {
-                              stroke: theme.palette.success.main,
-                            },
-                            '& .v5-MuiAreaElement-series-2': {
-                              fill: "url('#gradient2')",
-                            },
-                          }}
-                        >
-                          <defs>
-                            <linearGradient
-                              id="gradient1"
-                              gradientTransform="rotate(90)"
-                            >
-                              <stop
-                                offset="0%"
-                                stopColor={theme.palette.primary.main}
-                                stopOpacity="1"
-                              />
-                              <stop
-                                offset="70%"
-                                stopColor={theme.palette.primary.main}
-                                stopOpacity="0.4"
-                              />
-                              <stop
-                                offset="90%"
-                                stopColor={theme.palette.primary.main}
-                                stopOpacity="0.2"
-                              />
-                              <stop
-                                offset="100%"
-                                stopColor={theme.palette.primary.main}
-                                stopOpacity="0.1"
-                              />
-                            </linearGradient>
-                            <linearGradient
-                              id="gradient2"
-                              gradientTransform="rotate(90)"
-                            >
-                              <stop
-                                offset="0%"
-                                stopColor={theme.palette.success.main}
-                                stopOpacity="1"
-                              />
-                              <stop
-                                offset="70%"
-                                stopColor={theme.palette.success.main}
-                                stopOpacity="0.4"
-                              />
-                              <stop
-                                offset="90%"
-                                stopColor={theme.palette.success.main}
-                                stopOpacity="0.2"
-                              />
-                              <stop
-                                offset="100%"
-                                stopColor={theme.palette.success.main}
-                                stopOpacity="0.1"
-                              />
-                            </linearGradient>
-                          </defs>
-                        </LineChart>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        [theme.breakpoints.down('lg')]: {
-                          width: '256px',
-                        },
-                        flexShrink: 0,
-                      }}
-                    >
-                      <CardContent
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        <Typography variant="h5">Incidents</Typography>
-                        <Box
-                          sx={{
-                            flex: 1,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                          }}
-                        >
-                          <Typography
-                            variant="h2"
-                            component="div"
-                            sx={() => {
-                              return {
-                                color: theme.palette.success.main,
-                              };
-                            }}
-                          >
-                            3
-                          </Typography>
-                          <Typography variant="subtitle1" component="div">
-                            Past 30 days
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
-                    <Card
-                      sx={{
-                        borderRadius: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        width: '20rem',
-                        zIndex: 1,
-                      }}
-                    >
-                      <CardContent
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        <Typography variant="h5">Deployment Time</Typography>
-                        <Box
-                          sx={{
-                            flex: 1,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                          }}
-                        >
-                          <Typography
-                            variant="h2"
-                            component="div"
-                            sx={() => {
-                              return {
-                                color: theme.palette.success.main,
-                              };
-                            }}
-                          >
-                            3 days
-                          </Typography>
-                          <Typography variant="subtitle1" component="div">
-                            Since the last deployment
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                      <CardActions
-                        sx={{ display: 'flex', justifyContent: 'start' }}
-                      >
-                        <Button variant="text" sx={{ padding: '1rem' }}>
-                          <Typography
-                            sx={{ paddingRight: '.2rem', fontWeight: 'bold' }}
-                          >
-                            View more
-                          </Typography>
-                          <ArrowForwardIcon />
-                        </Button>
-                      </CardActions>
-                    </Card>
+          />
+        </HeroSection>
 
-                    <Box sx={{ width: '256px' }} />
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-            <PageHeading
-              icon={
-                <MenuBookRoundedIcon sx={{ width: '3rem', height: '3rem' }} />
-              }
-              title="Ownership"
-            />
-            <Typography variant="subtitle1">
-              All the things your squad owns in our ecosystem.
-            </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '20px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <Card
-                sx={{
-                  borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  width: '18rem',
-                  zIndex: 1,
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: theme.shadows[8],
-                  },
-                }}
-                onClick={() =>
-                  navigate(
-                    '/catalog?filters[kind]=component&filters[type]=service',
-                  )
-                }
-              >
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    pt: '1rem',
-                    pr: '1rem',
-                    pl: '1rem',
-                    pb: 0,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <MemoryRoundedIcon
-                      sx={{ width: '1.5rem', height: '1.5rem' }}
-                    />
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        pl: '0.4rem',
-                        mb: 0,
-                      }}
-                    >
-                      {stats.loading ? (
-                        <Skeleton width={60} />
-                      ) : (
-                        `${stats.services} Services`
-                      )}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      pl: '0.4rem',
-                      mb: 0,
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    Backend Services
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'end',
-                    pt: 0,
-                    pr: '1rem',
-                    pb: '1rem',
-                    pl: '1rem',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CircleRoundedIcon
-                      sx={{
-                        width: '1rem',
-                        height: '1rem',
-                        fill: theme.palette.success.main,
-                      }}
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      sx={{
-                        paddingLeft: '.4rem',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        fontSize: '0.75rem',
-                      }}
-                    >
-                      Live data
-                    </Typography>
-                  </Box>
-                  <Button variant="text" sx={{ padding: 0 }}>
-                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
-                  </Button>
-                </CardActions>
-              </Card>
-              <Card
-                sx={{
-                  borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  width: '18rem',
-                  zIndex: 1,
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: theme.shadows[8],
-                  },
-                }}
-                onClick={() => navigate('/api-docs')}
-              >
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    pt: '1rem',
-                    pr: '1rem',
-                    pl: '1rem',
-                    pb: 0,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <ApiIcon sx={{ width: '1.5rem', height: '1.5rem' }} />
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        pl: '0.4rem',
-                        mb: 0,
-                      }}
-                    >
-                      {stats.loading ? (
-                        <Skeleton width={60} />
-                      ) : (
-                        `${stats.apis} APIs`
-                      )}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      pl: '0.4rem',
-                      mb: 0,
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    API Definitions
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'end',
-                    pt: 0,
-                    pr: '1rem',
-                    pb: '1rem',
-                    pl: '1rem',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CircleRoundedIcon
-                      sx={{
-                        width: '1rem',
-                        height: '1rem',
-                        fill: theme.palette.success.main,
-                      }}
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      sx={{
-                        paddingLeft: '.4rem',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        fontSize: '0.75rem',
-                      }}
-                    >
-                      Live data
-                    </Typography>
-                  </Box>
-                  <Button variant="text" sx={{ padding: 0 }}>
-                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
-                  </Button>
-                </CardActions>
-              </Card>
-              <Card
-                sx={{
-                  borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  width: '18rem',
-                  zIndex: 1,
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: theme.shadows[8],
-                  },
-                }}
-                onClick={() => navigate('/catalog?filters[kind]=component')}
-              >
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    pt: '1rem',
-                    pr: '1rem',
-                    pl: '1rem',
-                    pb: 0,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <WidgetsIcon sx={{ width: '1.5rem', height: '1.5rem' }} />
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        pl: '0.4rem',
-                        mb: 0,
-                      }}
-                    >
-                      {stats.loading ? (
-                        <Skeleton width={60} />
-                      ) : (
-                        `${stats.components} Components`
-                      )}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      pl: '0.4rem',
-                      mb: 0,
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    All Component Types
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'end',
-                    pt: 0,
-                    pr: '1rem',
-                    pb: '1rem',
-                    pl: '1rem',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CircleRoundedIcon
-                      sx={{
-                        width: '1rem',
-                        height: '1rem',
-                        fill: theme.palette.success.main,
-                      }}
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      sx={{
-                        paddingLeft: '.4rem',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        fontSize: '0.75rem',
-                      }}
-                    >
-                      Live data
-                    </Typography>
-                  </Box>
-                  <Button variant="text" sx={{ padding: 0 }}>
-                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
-                  </Button>
-                </CardActions>
-              </Card>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              borderLeft: `1px solid ${theme.palette.divider}`,
-            }}
+        <Box sx={{ mb: 4 }}>
+          <Alert
+            severity="info"
+            icon={<AnnouncementIcon />}
+            action={
+              <Button color="inherit" size="small">
+                Learn More
+              </Button>
+            }
           >
-            <Button
-              href="https://example.echohello.dev/slack"
-              target="_blank"
-              sx={{ padding: '1rem' }}
+            <AlertTitle>Getting Started?</AlertTitle>
+            Check out our{' '}
+            <Box
+              component="span"
+              sx={{
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                textDecoration: 'underline',
+              }}
+              onClick={() => navigate('/docs')}
             >
-              <SlackIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://example.echohello.dev/slack"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <DiscordIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://backstage.io"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <GrafanaIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://backstage.io"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <ConfluenceIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://backstage.io"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <BitbucketIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://backstage.io"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <AwsIcon width={32} height={32} />
-            </Button>
-            <Button
-              href="https://backstage.io"
-              target="_blank"
-              sx={{ padding: '1rem' }}
-            >
-              <AzureIcon width={32} height={32} />
-            </Button>
-          </Box>
+              documentation
+            </Box>{' '}
+            to learn how to create your first service and register it in the
+            catalog.
+          </Alert>
         </Box>
-      </Box>
+
+        <Box sx={{ mb: 5 }}>
+          <SectionHeader
+            icon={
+              <RocketLaunchIcon
+                sx={{ fontSize: 28, color: theme.palette.primary.main }}
+              />
+            }
+            title="Quick Actions"
+          />
+          <Grid container spacing={3}>
+            {quickActions.map(action => (
+              <Grid item xs={12} sm={6} md={3} key={action.title}>
+                <QuickActionCard>
+                  <CardActionArea
+                    onClick={() => navigate(action.path)}
+                    sx={{ height: '100%', p: 3 }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        gap: 2,
+                      }}
+                    >
+                      {action.icon}
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        {action.title}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {action.description}
+                      </Typography>
+                    </Box>
+                  </CardActionArea>
+                </QuickActionCard>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        <Box sx={{ mb: 5 }}>
+          <SectionHeader
+            icon={
+              <CategoryIcon
+                sx={{ fontSize: 28, color: theme.palette.secondary.main }}
+              />
+            }
+            title="Catalog Overview"
+            action={
+              <Button
+                endIcon={<ArrowForwardIcon />}
+                onClick={() => navigate('/catalog')}
+              >
+                View All
+              </Button>
+            }
+          />
+          <Grid container spacing={2}>
+            {catalogItems.map(item => (
+              <Grid item xs={6} sm={4} md={2} key={item.label}>
+                <StatCard onClick={() => navigate(item.path)}>
+                  <CardContent sx={{ textAlign: 'center', py: 3 }}>
+                    <Avatar
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        mx: 'auto',
+                        mb: 1.5,
+                        bgcolor: `${item.color}20`,
+                        color: item.color,
+                      }}
+                    >
+                      {item.icon}
+                    </Avatar>
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
+                      {stats.loading ? (
+                        <Skeleton width={40} sx={{ mx: 'auto' }} />
+                      ) : (
+                        item.count
+                      )}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.label}
+                    </Typography>
+                  </CardContent>
+                </StatCard>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Box sx={{ mb: 5 }}>
+              <SectionHeader
+                icon={
+                  <CodeIcon
+                    sx={{ fontSize: 28, color: theme.palette.info.main }}
+                  />
+                }
+                title="Popular Templates"
+                action={
+                  <Button
+                    endIcon={<ArrowForwardIcon />}
+                    onClick={() => navigate('/self-service')}
+                  >
+                    View All
+                  </Button>
+                }
+              />
+              {loadingTemplates ? (
+                <Grid container spacing={2}>
+                  {[1, 2, 3, 4].map(i => (
+                    <Grid item xs={12} sm={6} key={i}>
+                      <Skeleton
+                        variant="rectangular"
+                        height={120}
+                        sx={{ borderRadius: 2 }}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : templates.length > 0 ? (
+                <Grid container spacing={2}>
+                  {templates.map(template => (
+                    <Grid item xs={12} sm={6} key={template.name}>
+                      <Card
+                        sx={{
+                          height: '100%',
+                          cursor: 'pointer',
+                          transition: 'transform 0.2s, box-shadow 0.2s',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: theme.shadows[4],
+                          },
+                        }}
+                        onClick={() =>
+                          navigate(
+                            `/self-service/templates/default/${template.name}`,
+                          )
+                        }
+                      >
+                        <CardContent>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, mb: 1 }}
+                          >
+                            {template.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                              mb: 2,
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            {template.description}
+                          </Typography>
+                          <Box
+                            sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}
+                          >
+                            {template.tags.slice(0, 3).map(tag => (
+                              <Chip
+                                key={tag}
+                                label={tag}
+                                size="small"
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                            ))}
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <Paper sx={{ p: 3, textAlign: 'center' }}>
+                  <InfoOutlinedIcon
+                    sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }}
+                  />
+                  <Typography color="text.secondary">
+                    No templates available yet.{' '}
+                    <Box
+                      component="span"
+                      sx={{ color: 'primary.main', cursor: 'pointer' }}
+                      onClick={() => navigate('/self-service')}
+                    >
+                      Create your first template
+                    </Box>
+                  </Typography>
+                </Paper>
+              )}
+            </Box>
+
+            <Box sx={{ mb: 5 }}>
+              <SectionHeader
+                icon={
+                  <TrendingUpIcon
+                    sx={{ fontSize: 28, color: theme.palette.success.main }}
+                  />
+                }
+                title="Catalog Highlights"
+                action={
+                  <Button
+                    endIcon={<ArrowForwardIcon />}
+                    onClick={() => navigate('/catalog')}
+                  >
+                    View Catalog
+                  </Button>
+                }
+              />
+              <Paper sx={{ overflow: 'hidden' }}>
+                {loadingRecent ? (
+                  <Box sx={{ p: 2 }}>
+                    {[1, 2, 3, 4, 5].map(i => (
+                      <Skeleton key={i} height={48} sx={{ mb: 1 }} />
+                    ))}
+                  </Box>
+                ) : recentEntities.length > 0 ? (
+                  <List disablePadding>
+                    {recentEntities.map((entity, index) => (
+                      <Box key={`${entity.kind}-${entity.name}`}>
+                        <ListItem disablePadding>
+                          <ListItemButton
+                            onClick={() =>
+                              navigate(
+                                `/catalog/${
+                                  entity.namespace
+                                }/${entity.kind.toLowerCase()}/${entity.name}`,
+                              )
+                            }
+                          >
+                            <ListItemIcon>
+                              <Avatar
+                                sx={{
+                                  width: 36,
+                                  height: 36,
+                                  bgcolor: theme.palette.primary.main,
+                                  fontSize: '0.875rem',
+                                }}
+                              >
+                                {entity.kind.charAt(0)}
+                              </Avatar>
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={entity.name}
+                              secondary={`${entity.kind}${
+                                entity.type ? ` · ${entity.type}` : ''
+                              }`}
+                            />
+                            <Chip
+                              label={entity.kind}
+                              size="small"
+                              sx={{ fontSize: '0.7rem' }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                        {index < recentEntities.length - 1 && <Divider />}
+                      </Box>
+                    ))}
+                  </List>
+                ) : (
+                  <Box sx={{ p: 3, textAlign: 'center' }}>
+                    <Typography color="text.secondary">
+                      No entities in the catalog yet.
+                    </Typography>
+                  </Box>
+                )}
+              </Paper>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Box sx={{ mb: 4 }}>
+              <SectionHeader
+                icon={
+                  <SpeedIcon
+                    sx={{ fontSize: 28, color: theme.palette.warning.main }}
+                  />
+                }
+                title="System Health"
+              />
+              <Card>
+                <CardContent>
+                  <Box sx={{ mb: 3 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="body2" color="text.secondary">
+                        Overall Health
+                      </Typography>
+                      <Typography variant="body2" fontWeight={600}>
+                        {stats.loading ? (
+                          <Skeleton width={30} />
+                        ) : (
+                          `${healthPercentage}%`
+                        )}
+                      </Typography>
+                    </Box>
+                    <LinearProgress
+                      variant="determinate"
+                      value={healthPercentage}
+                      sx={{
+                        height: 8,
+                        borderRadius: 4,
+                        bgcolor: theme.palette.grey[200],
+                        '& .MuiLinearProgress-bar': {
+                          bgcolor:
+                            healthPercentage >= 80
+                              ? theme.palette.success.main
+                              : healthPercentage >= 50
+                              ? theme.palette.warning.main
+                              : theme.palette.error.main,
+                        },
+                      }}
+                    />
+                  </Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 1.5,
+                          bgcolor: `${theme.palette.success.main}10`,
+                          borderRadius: 1,
+                        }}
+                      >
+                        <CheckCircleOutlineIcon
+                          sx={{ color: theme.palette.success.main }}
+                        />
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, lineHeight: 1 }}
+                          >
+                            {stats.loading ? (
+                              <Skeleton width={20} />
+                            ) : (
+                              healthStatus.healthy
+                            )}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Production
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 1.5,
+                          bgcolor: `${theme.palette.warning.main}10`,
+                          borderRadius: 1,
+                        }}
+                      >
+                        <WarningAmberIcon
+                          sx={{ color: theme.palette.warning.main }}
+                        />
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, lineHeight: 1 }}
+                          >
+                            {stats.loading ? (
+                              <Skeleton width={20} />
+                            ) : (
+                              healthStatus.warning
+                            )}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Experimental
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 1.5,
+                          bgcolor: `${theme.palette.error.main}10`,
+                          borderRadius: 1,
+                        }}
+                      >
+                        <ErrorOutlineIcon
+                          sx={{ color: theme.palette.error.main }}
+                        />
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, lineHeight: 1 }}
+                          >
+                            {stats.loading ? (
+                              <Skeleton width={20} />
+                            ) : (
+                              healthStatus.critical
+                            )}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Deprecated
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 1.5,
+                          bgcolor: theme.palette.grey[100],
+                          borderRadius: 1,
+                        }}
+                      >
+                        <InfoOutlinedIcon
+                          sx={{ color: theme.palette.grey[500] }}
+                        />
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, lineHeight: 1 }}
+                          >
+                            {stats.loading ? (
+                              <Skeleton width={20} />
+                            ) : (
+                              healthStatus.unknown
+                            )}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Other
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                  <Button
+                    fullWidth
+                    sx={{ mt: 2 }}
+                    endIcon={<ArrowForwardIcon />}
+                    onClick={() => navigate('/pulse-check')}
+                  >
+                    View Pulse Check
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
+
+            <Box sx={{ mb: 4 }}>
+              <SectionHeader
+                icon={
+                  <WidgetsIcon
+                    sx={{ fontSize: 28, color: theme.palette.info.main }}
+                  />
+                }
+                title="Quick Links"
+              />
+              <Paper>
+                <List disablePadding>
+                  <ListItemButton onClick={() => navigate('/scorecard')}>
+                    <ListItemIcon>
+                      <SpeedIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Scorecard"
+                      secondary="Entity quality metrics"
+                    />
+                  </ListItemButton>
+                  <Divider />
+                  <ListItemButton onClick={() => navigate('/explore')}>
+                    <ListItemIcon>
+                      <SearchIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Explore"
+                      secondary="Discover tools & services"
+                    />
+                  </ListItemButton>
+                  <Divider />
+                  <ListItemButton onClick={() => navigate('/catalog-graph')}>
+                    <ListItemIcon>
+                      <AccountTreeIcon color="info" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Catalog Graph"
+                      secondary="Visualize dependencies"
+                    />
+                  </ListItemButton>
+                  <Divider />
+                  <ListItemButton onClick={() => navigate('/notifications')}>
+                    <ListItemIcon>
+                      <AnnouncementIcon color="warning" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Notifications"
+                      secondary="System alerts"
+                    />
+                  </ListItemButton>
+                </List>
+              </Paper>
+            </Box>
+
+            <Box>
+              <SectionHeader
+                icon={
+                  <InfoOutlinedIcon
+                    sx={{ fontSize: 28, color: theme.palette.text.secondary }}
+                  />
+                }
+                title="Getting Started"
+              />
+              <Card
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.grey[800]
+                      : theme.palette.grey[50],
+                }}
+              >
+                <CardContent>
+                  <Typography variant="body2" sx={{ mb: 2 }}>
+                    New to the Developer Portal? Here are some helpful
+                    resources:
+                  </Typography>
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                  >
+                    <Button
+                      variant="text"
+                      size="small"
+                      sx={{ justifyContent: 'flex-start' }}
+                      onClick={() => navigate('/docs')}
+                    >
+                      📚 Read the Documentation
+                    </Button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      sx={{ justifyContent: 'flex-start' }}
+                      onClick={() => navigate('/self-service')}
+                    >
+                      🚀 Create Your First Service
+                    </Button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      sx={{ justifyContent: 'flex-start' }}
+                      onClick={() => navigate('/catalog-import')}
+                    >
+                      📦 Register Existing Component
+                    </Button>
+                    <Button
+                      variant="text"
+                      size="small"
+                      sx={{ justifyContent: 'flex-start' }}
+                      onClick={() => navigate('/api-docs')}
+                    >
+                      🔌 Explore Available APIs
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Box>
+          </Grid>
+        </Grid>
+      </Content>
     </Page>
   );
 };
