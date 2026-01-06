@@ -50,6 +50,9 @@ import {
   brandLightTheme,
 } from '@internal/backstage-theme-github';
 import { PrimerDemoPage } from './components/PrimerDemoPage';
+import { ScorecardPage } from './components/scorecard';
+import { PulseCheckPage } from './components/pulse-check';
+import { ExplorePage } from './components/explore';
 
 const app = createApp({
   apis,
@@ -194,6 +197,9 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
+    <Route path="/scorecard" element={<ScorecardPage />} />
+    <Route path="/pulse-check" element={<PulseCheckPage />} />
+    <Route path="/explore" element={<ExplorePage />} />
   </FlatRoutes>
 );
 

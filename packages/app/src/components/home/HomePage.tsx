@@ -15,7 +15,9 @@ import Groups3Icon from '@mui/icons-material/Groups3';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import * as React from 'react';
+import ApiIcon from '@mui/icons-material/Api';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import { useState, useEffect, ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
@@ -36,6 +38,10 @@ import DiscordIcon from '../icons/Discord';
 import Button from '@mui/material/Button';
 import { Page } from '@backstage/core-components';
 import Chip from '@mui/material/Chip';
+import Skeleton from '@mui/material/Skeleton';
+import { useApi } from '@backstage/core-plugin-api';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { useNavigate } from 'react-router-dom';
 
 const SearchTextField = styled(TextField)(({ theme }) => {
   return {
@@ -60,10 +66,7 @@ const Header = styled('div')(({ theme }) => ({
   },
 }));
 
-const PageHeading: React.FC<{ icon: React.ReactNode; title: string }> = ({
-  icon,
-  title,
-}) => (
+const PageHeading = ({ icon, title }: { icon: ReactNode; title: string }) => (
   <Box sx={{ display: 'flex', alignItems: 'center' }}>
     {icon}
     <Typography variant="h2" sx={{ paddingLeft: '.5rem', marginBottom: 0 }}>
@@ -72,9 +75,58 @@ const PageHeading: React.FC<{ icon: React.ReactNode; title: string }> = ({
   </Box>
 );
 
+interface CatalogStats {
+  services: number;
+  apis: number;
+  components: number;
+  systems: number;
+  loading: boolean;
+}
+
 export const HomePage = () => {
-  const [isSquad, setIsSquad] = React.useState(true);
+  const [isSquad, setIsSquad] = useState(true);
   const theme = useTheme();
+  const navigate = useNavigate();
+  const catalogApi = useApi(catalogApiRef);
+  const [stats, setStats] = useState<CatalogStats>({
+    services: 0,
+    apis: 0,
+    components: 0,
+    systems: 0,
+    loading: true,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [services, apis, components, systems] = await Promise.all([
+          catalogApi.getEntities({
+            filter: [{ kind: 'component', 'spec.type': 'service' }],
+          }),
+          catalogApi.getEntities({
+            filter: [{ kind: 'api' }],
+          }),
+          catalogApi.getEntities({
+            filter: [{ kind: 'component' }],
+          }),
+          catalogApi.getEntities({
+            filter: [{ kind: 'system' }],
+          }),
+        ]);
+        setStats({
+          services: services.items.length,
+          apis: apis.items.length,
+          components: components.items.length,
+          systems: systems.items.length,
+          loading: false,
+        });
+      } catch (err) {
+        console.error('Failed to fetch catalog stats:', err);
+        setStats(prev => ({ ...prev, loading: false }));
+      }
+    };
+    fetchStats();
+  }, [catalogApi]);
 
   const months = [
     new Date(2021, 7, 1),
@@ -673,6 +725,7 @@ export const HomePage = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 gap: '20px',
+                flexWrap: 'wrap',
               }}
             >
               <Card
@@ -681,9 +734,16 @@ export const HomePage = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  width: '20rem',
+                  width: '18rem',
                   zIndex: 1,
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: theme.shadows[8],
+                  },
                 }}
+                onClick={() => navigate('/catalog?filters[kind]=component&filters[type]=service')}
               >
                 <CardContent
                   sx={{
@@ -711,7 +771,11 @@ export const HomePage = () => {
                         mb: 0,
                       }}
                     >
-                      43 Services
+                      {stats.loading ? (
+                        <Skeleton width={60} />
+                      ) : (
+                        `${stats.services} Services`
+                      )}
                     </Typography>
                   </Box>
                   <Typography
@@ -755,18 +819,221 @@ export const HomePage = () => {
                         paddingLeft: '.4rem',
                         fontWeight: 'bold',
                         textTransform: 'uppercase',
-                        fontSize: '0.875rem',
+                        fontSize: '0.75rem',
                       }}
                     >
-                      Updated 2 days ago
+                      Live data
                     </Typography>
                   </Box>
                   <Button variant="text" sx={{ padding: 0 }}>
-                    <ArrowForwardIcon sx={{ width: '3rem', height: '3rem' }} />
+                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
                   </Button>
                 </CardActions>
               </Card>
-              <Box sx={{ width: '256px' }} />
+              <Card
+                sx={{
+                  borderRadius: '10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: '18rem',
+                  zIndex: 1,
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: theme.shadows[8],
+                  },
+                }}
+                onClick={() => navigate('/api-docs')}
+              >
+                <CardContent
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    pt: '1rem',
+                    pr: '1rem',
+                    pl: '1rem',
+                    pb: 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <ApiIcon
+                      sx={{ width: '1.5rem', height: '1.5rem' }}
+                    />
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        pl: '0.4rem',
+                        mb: 0,
+                      }}
+                    >
+                      {stats.loading ? (
+                        <Skeleton width={60} />
+                      ) : (
+                        `${stats.apis} APIs`
+                      )}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      pl: '0.4rem',
+                      mb: 0,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    API Definitions
+                  </Typography>
+                </CardContent>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'end',
+                    pt: 0,
+                    pr: '1rem',
+                    pb: '1rem',
+                    pl: '1rem',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CircleRoundedIcon
+                      sx={{
+                        width: '1rem',
+                        height: '1rem',
+                        fill: theme.palette.success.main,
+                      }}
+                    />
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        paddingLeft: '.4rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        fontSize: '0.75rem',
+                      }}
+                    >
+                      Live data
+                    </Typography>
+                  </Box>
+                  <Button variant="text" sx={{ padding: 0 }}>
+                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
+                  </Button>
+                </CardActions>
+              </Card>
+              <Card
+                sx={{
+                  borderRadius: '10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: '18rem',
+                  zIndex: 1,
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: theme.shadows[8],
+                  },
+                }}
+                onClick={() => navigate('/catalog?filters[kind]=component')}
+              >
+                <CardContent
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    pt: '1rem',
+                    pr: '1rem',
+                    pl: '1rem',
+                    pb: 0,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <WidgetsIcon
+                      sx={{ width: '1.5rem', height: '1.5rem' }}
+                    />
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        pl: '0.4rem',
+                        mb: 0,
+                      }}
+                    >
+                      {stats.loading ? (
+                        <Skeleton width={60} />
+                      ) : (
+                        `${stats.components} Components`
+                      )}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      pl: '0.4rem',
+                      mb: 0,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    All Component Types
+                  </Typography>
+                </CardContent>
+                <CardActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'end',
+                    pt: 0,
+                    pr: '1rem',
+                    pb: '1rem',
+                    pl: '1rem',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CircleRoundedIcon
+                      sx={{
+                        width: '1rem',
+                        height: '1rem',
+                        fill: theme.palette.success.main,
+                      }}
+                    />
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        paddingLeft: '.4rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        fontSize: '0.75rem',
+                      }}
+                    >
+                      Live data
+                    </Typography>
+                  </Box>
+                  <Button variant="text" sx={{ padding: 0 }}>
+                    <ArrowForwardIcon sx={{ width: '2rem', height: '2rem' }} />
+                  </Button>
+                </CardActions>
+              </Card>
             </Box>
           </Box>
           <Box
