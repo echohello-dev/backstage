@@ -67,7 +67,6 @@ export default defineConfig({
       testDir: './packages/app/e2e-tests',
       use: {
         ...devices['Desktop Chrome'],
-        channel: 'chrome',
       },
     },
   ],
