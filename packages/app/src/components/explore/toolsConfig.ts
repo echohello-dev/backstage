@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type ToolCategory = 
+export type ToolCategory =
   | 'development'
   | 'infrastructure'
   | 'monitoring'

@@ -101,7 +101,7 @@ export const DeploymentMetrics = ({
 
   return (
     <Card sx={{ borderRadius: 2 }}>
-      <CardContent>
+      <CardContent sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
           Deployment Metrics
         </Typography>

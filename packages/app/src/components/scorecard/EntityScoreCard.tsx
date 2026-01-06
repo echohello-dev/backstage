@@ -37,13 +37,7 @@ const getScoreIcon = (score: number) => {
   return <ErrorIcon fontSize="small" />;
 };
 
-const ScoreBar = ({
-  label,
-  score,
-}: {
-  label: string;
-  score: number;
-}) => {
+const ScoreBar = ({ label, score }: { label: string; score: number }) => {
   const theme = useTheme();
   const color = getScoreColor(score);
 
@@ -76,8 +70,7 @@ export const EntityScoreCard = ({ entityScore }: EntityScoreCardProps) => {
   const { entity, scores, overallScore } = entityScore;
   const entityName = entity.metadata.name;
   const entityKind = entity.kind;
-  const entityType =
-    (entity.spec?.type as string) || entityKind.toLowerCase();
+  const entityType = (entity.spec?.type as string) || entityKind.toLowerCase();
 
   return (
     <Card

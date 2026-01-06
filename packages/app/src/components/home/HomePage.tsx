@@ -743,7 +743,11 @@ export const HomePage = () => {
                     boxShadow: theme.shadows[8],
                   },
                 }}
-                onClick={() => navigate('/catalog?filters[kind]=component&filters[type]=service')}
+                onClick={() =>
+                  navigate(
+                    '/catalog?filters[kind]=component&filters[type]=service',
+                  )
+                }
               >
                 <CardContent
                   sx={{
@@ -863,9 +867,7 @@ export const HomePage = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <ApiIcon
-                      sx={{ width: '1.5rem', height: '1.5rem' }}
-                    />
+                    <ApiIcon sx={{ width: '1.5rem', height: '1.5rem' }} />
                     <Typography
                       variant="h5"
                       sx={{
@@ -965,9 +967,7 @@ export const HomePage = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <WidgetsIcon
-                      sx={{ width: '1.5rem', height: '1.5rem' }}
-                    />
+                    <WidgetsIcon sx={{ width: '1.5rem', height: '1.5rem' }} />
                     <Typography
                       variant="h5"
                       sx={{

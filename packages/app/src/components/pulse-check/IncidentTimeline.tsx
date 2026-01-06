@@ -37,11 +37,17 @@ const getSeverityConfig = (severity: IncidentSeverity) => {
     case 'critical':
       return { icon: <ErrorIcon fontSize="small" />, color: 'error' as const };
     case 'major':
-      return { icon: <WarningIcon fontSize="small" />, color: 'warning' as const };
+      return {
+        icon: <WarningIcon fontSize="small" />,
+        color: 'warning' as const,
+      };
     case 'minor':
       return { icon: <InfoIcon fontSize="small" />, color: 'info' as const };
     case 'resolved':
-      return { icon: <CheckCircleIcon fontSize="small" />, color: 'success' as const };
+      return {
+        icon: <CheckCircleIcon fontSize="small" />,
+        color: 'success' as const,
+      };
     default:
       return { icon: <InfoIcon fontSize="small" />, color: 'grey' as const };
   }
@@ -51,7 +57,7 @@ const formatTimestamp = (date: Date): string => {
   const now = new Date();
   const diff = now.getTime() - date.getTime();
   const hours = Math.floor(diff / 3600000);
-  
+
   if (hours < 1) {
     const minutes = Math.floor(diff / 60000);
     return `${minutes}m ago`;
@@ -78,7 +84,7 @@ export const IncidentTimeline = ({
   if (incidents.length === 0) {
     return (
       <Card sx={{ borderRadius: 2, height: '100%' }}>
-        <CardContent>
+        <CardContent sx={{ p: 3 }}>
           <Typography variant="h6" gutterBottom>
             Recent Incidents
           </Typography>
@@ -109,8 +115,8 @@ export const IncidentTimeline = ({
 
   return (
     <Card sx={{ borderRadius: 2, height: '100%' }}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
+      <CardContent sx={{ p: 3 }}>
+        <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
           Recent Incidents
         </Typography>
         <Timeline position="right" sx={{ p: 0, m: 0 }}>

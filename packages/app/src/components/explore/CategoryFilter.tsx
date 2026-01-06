@@ -22,9 +22,9 @@ export const CategoryFilter = ({
     <Box
       sx={{
         display: 'flex',
-        gap: 1,
+        gap: 1.5,
         flexWrap: 'wrap',
-        mb: 3,
+        mb: 4,
       }}
     >
       <Chip
@@ -44,14 +44,18 @@ export const CategoryFilter = ({
         return (
           <Chip
             key={category}
-            label={`${categoryLabels[category]}${count !== undefined ? ` (${count})` : ''}`}
+            label={`${categoryLabels[category]}${
+              count !== undefined ? ` (${count})` : ''
+            }`}
             onClick={() => onCategoryChange(category)}
             variant={isSelected ? 'filled' : 'outlined'}
             sx={{
               fontWeight: isSelected ? 600 : 400,
               backgroundColor: isSelected ? color : 'transparent',
               borderColor: isSelected ? color : theme.palette.divider,
-              color: isSelected ? theme.palette.getContrastText(color) : theme.palette.text.primary,
+              color: isSelected
+                ? theme.palette.getContrastText(color)
+                : theme.palette.text.primary,
               '&:hover': {
                 backgroundColor: isSelected ? color : alpha(color, 0.1),
               },

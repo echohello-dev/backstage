@@ -65,7 +65,7 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
         <Card sx={{ borderRadius: 2, height: '100%' }}>
-          <CardContent>
+          <CardContent sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Overall Health
             </Typography>
@@ -74,14 +74,10 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                py: 2,
+                py: 3,
               }}
             >
-              <Typography
-                variant="h2"
-                fontWeight="bold"
-                color="primary.main"
-              >
+              <Typography variant="h2" fontWeight="bold" color="primary.main">
                 {Math.round(overallAvg)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -101,7 +97,7 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
 
       <Grid item xs={12} md={4}>
         <Card sx={{ borderRadius: 2, height: '100%' }}>
-          <CardContent>
+          <CardContent sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Score Distribution
             </Typography>
@@ -147,7 +143,7 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
 
       <Grid item xs={12} md={4}>
         <Card sx={{ borderRadius: 2, height: '100%' }}>
-          <CardContent>
+          <CardContent sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Category Averages
             </Typography>

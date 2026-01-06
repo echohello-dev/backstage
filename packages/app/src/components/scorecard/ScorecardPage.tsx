@@ -36,9 +36,8 @@ const calculateEntityScore = (entity: Entity): EntityScore => {
   };
 
   // Documentation score: Check for techdocs annotation
-  const hasTechdocs = !!entity.metadata.annotations?.[
-    'backstage.io/techdocs-ref'
-  ];
+  const hasTechdocs =
+    !!entity.metadata.annotations?.['backstage.io/techdocs-ref'];
   const hasDescription = !!entity.metadata.description;
   scores.documentation = (hasTechdocs ? 50 : 0) + (hasDescription ? 50 : 0);
 
@@ -52,7 +51,8 @@ const calculateEntityScore = (entity: Entity): EntityScore => {
     !!entity.metadata.annotations?.['github.com/project-slug'];
   const hasGitlabCi =
     !!entity.metadata.annotations?.['gitlab.com/project-slug'];
-  const hasJenkins = !!entity.metadata.annotations?.['jenkins.io/job-full-name'];
+  const hasJenkins =
+    !!entity.metadata.annotations?.['jenkins.io/job-full-name'];
   scores.cicd = hasGithubActions || hasGitlabCi || hasJenkins ? 100 : 0;
 
   // Metadata score: Check for labels, tags, links
@@ -90,11 +90,7 @@ export const ScorecardPage = () => {
       try {
         setLoading(true);
         const response = await catalogApi.getEntities({
-          filter: [
-            { kind: 'component' },
-            { kind: 'api' },
-            { kind: 'system' },
-          ],
+          filter: [{ kind: 'component' }, { kind: 'api' }, { kind: 'system' }],
         });
         setEntities(response.items);
       } catch (err) {
@@ -111,11 +107,7 @@ export const ScorecardPage = () => {
   // Get unique kinds and types for filters
   const kinds = [...new Set(entities.map(e => e.kind))];
   const types = [
-    ...new Set(
-      entities
-        .map(e => e.spec?.type as string)
-        .filter(Boolean),
-    ),
+    ...new Set(entities.map(e => e.spec?.type as string).filter(Boolean)),
   ];
 
   // Filter entities
@@ -128,8 +120,7 @@ export const ScorecardPage = () => {
       es.entity.metadata.description
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase());
-    const matchesKind =
-      kindFilter === 'all' || es.entity.kind === kindFilter;
+    const matchesKind = kindFilter === 'all' || es.entity.kind === kindFilter;
     const matchesType =
       typeFilter === 'all' || es.entity.spec?.type === typeFilter;
     return matchesSearch && matchesKind && matchesType;
@@ -188,13 +179,13 @@ export const ScorecardPage = () => {
         subtitle="Track the health and quality of your software catalog"
       />
       <Content>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 5 }}>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1,
-              mb: 2,
+              gap: 1.5,
+              mb: 3,
             }}
           >
             <ChecklistIcon size={24} />
@@ -203,17 +194,17 @@ export const ScorecardPage = () => {
           <ScoreMetrics entityScores={entityScores} />
         </Box>
 
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h5" gutterBottom>
-            Entity Scores
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h5" gutterBottom sx={{ mb: 1 }}>
+            Entity Scorecards
           </Typography>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Scores are calculated based on documentation, ownership, CI/CD
             integration, and metadata completeness.
           </Typography>
         </Box>
 
-        <FilterContainer>
+        <FilterContainer sx={{ mb: 4 }}>
           <TextField
             placeholder="Search entities..."
             value={searchTerm}

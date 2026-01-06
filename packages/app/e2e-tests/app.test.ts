@@ -16,12 +16,42 @@
 
 import { test, expect } from '@playwright/test';
 
-test('App should render the welcome page', async ({ page }) => {
-  await page.goto('/');
+test.describe('App', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    const enterButton = page.getByRole('button', { name: 'Enter' });
+    await expect(enterButton).toBeVisible();
+    await enterButton.click();
+  });
 
-  const enterButton = page.getByRole('button', { name: 'Enter' });
-  await expect(enterButton).toBeVisible();
-  await enterButton.click();
+  test('should render the home page with dashboard', async ({ page }) => {
+    // Wait for the home page to load with catalog data
+    await expect(page.getByText('Dashboard')).toBeVisible({ timeout: 10000 });
+  });
 
-  await expect(page.getByText('My Company Catalog')).toBeVisible();
+  test('should navigate to scorecard page', async ({ page }) => {
+    await page.goto('/scorecard');
+    await expect(page.getByText('Entity Scorecards')).toBeVisible({
+      timeout: 10000,
+    });
+  });
+
+  test('should navigate to pulse check page', async ({ page }) => {
+    await page.goto('/pulse-check');
+    await expect(page.getByText('Pulse Check')).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should navigate to explore page', async ({ page }) => {
+    await page.goto('/explore');
+    await expect(page.getByText('Explore Tools & Services')).toBeVisible({
+      timeout: 10000,
+    });
+  });
+
+  test('should navigate to catalog page', async ({ page }) => {
+    await page.goto('/catalog');
+    await expect(page.getByText('My Company Catalog')).toBeVisible({
+      timeout: 10000,
+    });
+  });
 });

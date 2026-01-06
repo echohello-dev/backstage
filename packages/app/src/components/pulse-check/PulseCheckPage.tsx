@@ -14,13 +14,23 @@ import { PulseIcon } from '@primer/octicons-react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
-import { SystemHealthCard, SystemHealth, HealthStatus } from './SystemHealthCard';
+import {
+  SystemHealthCard,
+  SystemHealth,
+  HealthStatus,
+} from './SystemHealthCard';
 import { IncidentTimeline, Incident } from './IncidentTimeline';
 import { DeploymentMetrics, DeploymentStats } from './DeploymentMetrics';
 
 // Mock function to generate health status for demo
 const generateMockHealth = (entity: Entity): SystemHealth => {
-  const statuses: HealthStatus[] = ['healthy', 'healthy', 'healthy', 'degraded', 'unknown'];
+  const statuses: HealthStatus[] = [
+    'healthy',
+    'healthy',
+    'healthy',
+    'degraded',
+    'unknown',
+  ];
   const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
   const uptimes: Record<HealthStatus, number> = {
     healthy: 99.5 + Math.random() * 0.49,
@@ -38,8 +48,8 @@ const generateMockHealth = (entity: Entity): SystemHealth => {
       randomStatus === 'degraded'
         ? 'Elevated error rates detected'
         : randomStatus === 'down'
-          ? 'Service unreachable'
-          : undefined,
+        ? 'Service unreachable'
+        : undefined,
   };
 };
 
@@ -166,20 +176,20 @@ export const PulseCheckPage = () => {
         subtitle="Monitor the health and status of your services"
       />
       <Content>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 5 }}>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1,
-              mb: 2,
+              gap: 1.5,
+              mb: 3,
             }}
           >
             <PulseIcon size={24} />
             <Typography variant="h5">System Status Overview</Typography>
           </Box>
 
-          <Grid container spacing={2} sx={{ mb: 3 }}>
+          <Grid container spacing={3}>
             <Grid item xs={6} sm={3}>
               <Card
                 sx={{
@@ -187,8 +197,8 @@ export const PulseCheckPage = () => {
                   borderLeft: `4px solid ${theme.palette.success.main}`,
                 }}
               >
-                <CardContent sx={{ py: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <CheckCircleIcon color="success" />
                     <Box>
                       <Typography variant="h4" fontWeight="bold">
@@ -209,8 +219,8 @@ export const PulseCheckPage = () => {
                   borderLeft: `4px solid ${theme.palette.warning.main}`,
                 }}
               >
-                <CardContent sx={{ py: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <WarningIcon color="warning" />
                     <Box>
                       <Typography variant="h4" fontWeight="bold">
@@ -231,8 +241,8 @@ export const PulseCheckPage = () => {
                   borderLeft: `4px solid ${theme.palette.error.main}`,
                 }}
               >
-                <CardContent sx={{ py: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <ErrorIcon color="error" />
                     <Box>
                       <Typography variant="h4" fontWeight="bold">
@@ -253,8 +263,8 @@ export const PulseCheckPage = () => {
                   borderLeft: `4px solid ${theme.palette.grey[400]}`,
                 }}
               >
-                <CardContent sx={{ py: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                       sx={{
                         width: 24,
@@ -286,20 +296,22 @@ export const PulseCheckPage = () => {
           </Grid>
         </Box>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <DeploymentMetrics stats={mockDeploymentStats} />
+        <Box sx={{ mb: 5 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8}>
+              <DeploymentMetrics stats={mockDeploymentStats} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <IncidentTimeline incidents={mockIncidents} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={4}>
-            <IncidentTimeline incidents={mockIncidents} />
-          </Grid>
-        </Grid>
+        </Box>
 
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" gutterBottom>
+        <Box>
+          <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
             Service Health
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {healthData.map(health => (
               <Grid
                 item

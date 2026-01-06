@@ -33,7 +33,9 @@ export const ExplorePage = () => {
   // Get unique categories from tools
   const categories = useMemo(() => {
     const cats = [...new Set(defaultTools.map(t => t.category))];
-    return cats.sort((a, b) => categoryLabels[a].localeCompare(categoryLabels[b]));
+    return cats.sort((a, b) =>
+      categoryLabels[a].localeCompare(categoryLabels[b]),
+    );
   }, []);
 
   // Calculate counts per category
@@ -99,25 +101,25 @@ export const ExplorePage = () => {
         subtitle="Discover tools, resources, and integrations available to your team"
       />
       <Content>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 5 }}>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1,
+              gap: 1.5,
               mb: 2,
             }}
           >
             <TelescopeIcon size={24} />
-            <Typography variant="h5">Developer Tools & Resources</Typography>
+            <Typography variant="h5">Explore Tools & Services</Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          <Typography variant="body2" color="text.secondary">
             A curated collection of tools and resources to help you build,
             deploy, and monitor your applications.
           </Typography>
         </Box>
 
-        <SearchContainer>
+        <SearchContainer sx={{ mb: 4 }}>
           <TextField
             placeholder="Search tools..."
             value={searchTerm}
@@ -154,10 +156,10 @@ export const ExplorePage = () => {
               ),
             )
             .map(([category, tools]) => (
-              <Box key={category} sx={{ mb: 4 }}>
+              <Box key={category} sx={{ mb: 5 }}>
                 <Typography
                   variant="h6"
-                  sx={{ mb: 2, color: 'text.secondary' }}
+                  sx={{ mb: 3, color: 'text.secondary' }}
                 >
                   {categoryLabels[category as ToolCategory]}
                 </Typography>
