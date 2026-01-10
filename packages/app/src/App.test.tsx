@@ -4,7 +4,7 @@ import App from './App';
 describe('App', () => {
   // Skip this test as app.createRoot() in newer versions doesn't work with standard test utilities
   // The app structure is validated by other tests and by the build process
-  it.skip('should render', async () => {
+  it('should render', async () => {
     process.env = {
       NODE_ENV: 'test',
       APP_CONFIG: [
