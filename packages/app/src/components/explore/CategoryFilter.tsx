@@ -6,7 +6,7 @@ import { ToolCategory, categoryLabels, categoryColors } from './toolsConfig';
 interface CategoryFilterProps {
   categories: ToolCategory[];
   selectedCategory: ToolCategory | 'all';
-  onCategoryChange: (category: ToolCategory | 'all') => void;
+  onCategoryChange: (_selection: ToolCategory | 'all') => void;
   categoryCounts?: Record<ToolCategory | 'all', number>;
 }
 
