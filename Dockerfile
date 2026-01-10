@@ -1,4 +1,4 @@
-FROM debian:12-slim AS build
+FROM debian:13.2-slim AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
@@ -59,7 +59,7 @@ RUN yarn tsc
 COPY app-config.yaml ./
 RUN yarn build:backend
 
-FROM debian:12-slim AS run
+FROM debian:13.2-slim AS run
 
 # Install dependencies
 RUN apt-get update && \
