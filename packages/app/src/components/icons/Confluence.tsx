@@ -1,11 +1,9 @@
-import * as React from 'react';
-
 interface IconProps {
   width: number;
   height: number;
 }
 
-const icon: React.FC<IconProps> = ({ width, height }) => {
+const icon = ({ width, height }: IconProps) => {
   return (
     <svg
       width={width}

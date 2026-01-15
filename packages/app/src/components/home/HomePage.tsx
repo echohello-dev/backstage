@@ -268,7 +268,7 @@ export const HomePage = () => {
         setTemplates(templateList);
         setLoadingTemplates(false);
       } catch (err) {
-        console.error('Failed to fetch catalog data:', err);
+        // Failed to fetch catalog data
         setStats(prev => ({ ...prev, loading: false }));
         setLoadingRecent(false);
         setLoadingTemplates(false);
@@ -578,92 +578,102 @@ export const HomePage = () => {
                   </Button>
                 }
               />
-              {loadingTemplates ? (
-                <Grid container spacing={3}>
-                  {[1, 2, 3, 4].map(i => (
-                    <Grid item xs={12} sm={6} key={i}>
-                      <Skeleton
-                        variant="rectangular"
-                        height={120}
-                        sx={{ borderRadius: 2 }}
-                      />
+              {(() => {
+                if (loadingTemplates) {
+                  return (
+                    <Grid container spacing={3}>
+                      {[1, 2, 3, 4].map(i => (
+                        <Grid item xs={12} sm={6} key={i}>
+                          <Skeleton
+                            variant="rectangular"
+                            height={120}
+                            sx={{ borderRadius: 2 }}
+                          />
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid>
-              ) : templates.length > 0 ? (
-                <Grid container spacing={3}>
-                  {templates.map(template => (
-                    <Grid item xs={12} sm={6} key={template.name}>
-                      <Card
-                        sx={{
-                          height: '100%',
-                          cursor: 'pointer',
-                          transition: 'transform 0.2s, box-shadow 0.2s',
-                          '&:hover': {
-                            transform: 'translateY(-2px)',
-                            boxShadow: theme.shadows[4],
-                          },
-                        }}
-                        onClick={() =>
-                          navigate(
-                            `/self-service/templates/default/${template.name}`,
-                          )
-                        }
-                      >
-                        <CardContent>
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 600, mb: 1 }}
-                          >
-                            {template.title}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
+                  );
+                }
+
+                if (templates.length > 0) {
+                  return (
+                    <Grid container spacing={3}>
+                      {templates.map(template => (
+                        <Grid item xs={12} sm={6} key={template.name}>
+                          <Card
                             sx={{
-                              mb: 2,
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden',
+                              height: '100%',
+                              cursor: 'pointer',
+                              transition: 'transform 0.2s, box-shadow 0.2s',
+                              '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: theme.shadows[4],
+                              },
                             }}
+                            onClick={() =>
+                              navigate(
+                                `/self-service/templates/default/${template.name}`,
+                              )
+                            }
                           >
-                            {template.description}
-                          </Typography>
-                          <Box
-                            sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}
-                          >
-                            {template.tags.slice(0, 3).map(tag => (
-                              <Chip
-                                key={tag}
-                                label={tag}
-                                size="small"
-                                sx={{ fontSize: '0.7rem' }}
-                              />
-                            ))}
-                          </Box>
-                        </CardContent>
-                      </Card>
+                            <CardContent>
+                              <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 1 }}
+                              >
+                                {template.title}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{
+                                  mb: 2,
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 2,
+                                  WebkitBoxOrient: 'vertical',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                {template.description}
+                              </Typography>
+                              <Box
+                                sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}
+                              >
+                                {template.tags.slice(0, 3).map(tag => (
+                                  <Chip
+                                    key={tag}
+                                    label={tag}
+                                    size="small"
+                                    sx={{ fontSize: '0.7rem' }}
+                                  />
+                                ))}
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid>
-              ) : (
-                <Paper sx={{ p: 3, textAlign: 'center' }}>
-                  <InfoOutlinedIcon
-                    sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }}
-                  />
-                  <Typography color="text.secondary">
-                    No templates available yet.{' '}
-                    <Box
-                      component="span"
-                      sx={{ color: 'primary.main', cursor: 'pointer' }}
-                      onClick={() => navigate('/self-service')}
-                    >
-                      Create your first template
-                    </Box>
-                  </Typography>
-                </Paper>
-              )}
+                  );
+                }
+
+                return (
+                  <Paper sx={{ p: 3, textAlign: 'center' }}>
+                    <InfoOutlinedIcon
+                      sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }}
+                    />
+                    <Typography color="text.secondary">
+                      No templates available yet.{' '}
+                      <Box
+                        component="span"
+                        sx={{ color: 'primary.main', cursor: 'pointer' }}
+                        onClick={() => navigate('/self-service')}
+                      >
+                        Create your first template
+                      </Box>
+                    </Typography>
+                  </Paper>
+                );
+              })()}
             </Box>
 
             <Box sx={{ mb: 5 }}>
@@ -684,62 +694,72 @@ export const HomePage = () => {
                 }
               />
               <Paper sx={{ overflow: 'hidden' }}>
-                {loadingRecent ? (
-                  <Box sx={{ p: 2 }}>
-                    {[1, 2, 3, 4, 5].map(i => (
-                      <Skeleton key={i} height={48} sx={{ mb: 1 }} />
-                    ))}
-                  </Box>
-                ) : recentEntities.length > 0 ? (
-                  <List disablePadding>
-                    {recentEntities.map((entity, index) => (
-                      <Box key={`${entity.kind}-${entity.name}`}>
-                        <ListItem disablePadding>
-                          <ListItemButton
-                            onClick={() =>
-                              navigate(
-                                `/catalog/${
-                                  entity.namespace
-                                }/${entity.kind.toLowerCase()}/${entity.name}`,
-                              )
-                            }
-                          >
-                            <ListItemIcon>
-                              <Avatar
-                                sx={{
-                                  width: 36,
-                                  height: 36,
-                                  bgcolor: theme.palette.primary.main,
-                                  fontSize: '0.875rem',
-                                }}
-                              >
-                                {entity.kind.charAt(0)}
-                              </Avatar>
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={entity.name}
-                              secondary={`${entity.kind}${
-                                entity.type ? ` · ${entity.type}` : ''
-                              }`}
-                            />
-                            <Chip
-                              label={entity.kind}
-                              size="small"
-                              sx={{ fontSize: '0.7rem' }}
-                            />
-                          </ListItemButton>
-                        </ListItem>
-                        {index < recentEntities.length - 1 && <Divider />}
+                {(() => {
+                  if (loadingRecent) {
+                    return (
+                      <Box sx={{ p: 2 }}>
+                        {[1, 2, 3, 4, 5].map(i => (
+                          <Skeleton key={i} height={48} sx={{ mb: 1 }} />
+                        ))}
                       </Box>
-                    ))}
-                  </List>
-                ) : (
-                  <Box sx={{ p: 3, textAlign: 'center' }}>
-                    <Typography color="text.secondary">
-                      No entities in the catalog yet.
-                    </Typography>
-                  </Box>
-                )}
+                    );
+                  }
+
+                  if (recentEntities.length > 0) {
+                    return (
+                      <List disablePadding>
+                        {recentEntities.map((entity, index) => (
+                          <Box key={`${entity.kind}-${entity.name}`}>
+                            <ListItem disablePadding>
+                              <ListItemButton
+                                onClick={() =>
+                                  navigate(
+                                    `/catalog/${
+                                      entity.namespace
+                                    }/${entity.kind.toLowerCase()}/${entity.name}`,
+                                  )
+                                }
+                              >
+                                <ListItemIcon>
+                                  <Avatar
+                                    sx={{
+                                      width: 36,
+                                      height: 36,
+                                      bgcolor: theme.palette.primary.main,
+                                      fontSize: '0.875rem',
+                                    }}
+                                  >
+                                    {entity.kind.charAt(0)}
+                                  </Avatar>
+                                </ListItemIcon>
+                                <ListItemText
+                                  primary={entity.name}
+                                  secondary={`${entity.kind}${
+                                    entity.type ? ` · ${entity.type}` : ''
+                                  }`}
+                                />
+                                <Chip
+                                  label={entity.kind}
+                                  size="small"
+                                  sx={{ fontSize: '0.7rem' }}
+                                />
+                              </ListItemButton>
+                            </ListItem>
+                            {index < recentEntities.length - 1 && <Divider />}
+                          </Box>
+                        ))}
+                      </List>
+                    );
+                  }
+
+                  return (
+                    <Box sx={{ p: 3, textAlign: 'center' }}>
+                      <Typography color="text.secondary">
+                        No entities in the catalog yet.
+                      </Typography>
+                    </Box>
+                  );
+                })()}
               </Paper>
             </Box>
           </Grid>
@@ -783,12 +803,15 @@ export const HomePage = () => {
                         borderRadius: 4,
                         bgcolor: theme.palette.grey[200],
                         '& .MuiLinearProgress-bar': {
-                          bgcolor:
-                            healthPercentage >= 80
-                              ? theme.palette.success.main
-                              : healthPercentage >= 50
-                              ? theme.palette.warning.main
-                              : theme.palette.error.main,
+                          bgcolor: (() => {
+                            if (healthPercentage >= 80) {
+                              return theme.palette.success.main;
+                            }
+                            if (healthPercentage >= 50) {
+                              return theme.palette.warning.main;
+                            }
+                            return theme.palette.error.main;
+                          })(),
                         },
                       }}
                     />

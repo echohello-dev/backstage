@@ -44,12 +44,15 @@ const generateMockHealth = (entity: Entity): SystemHealth => {
     status: randomStatus,
     uptime: uptimes[randomStatus],
     lastChecked: new Date(Date.now() - Math.random() * 3600000),
-    message:
-      randomStatus === 'degraded'
-        ? 'Elevated error rates detected'
-        : randomStatus === 'down'
-        ? 'Service unreachable'
-        : undefined,
+    message: (() => {
+      if (randomStatus === 'degraded') {
+        return 'Elevated error rates detected';
+      }
+      if (randomStatus === 'down') {
+        return 'Service unreachable';
+      }
+      return undefined;
+    })(),
   };
 };
 
