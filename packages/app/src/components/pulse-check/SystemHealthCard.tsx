@@ -47,7 +47,7 @@ const getStatusConfig = (status: HealthStatus) => {
     default:
       return {
         icon: <HelpIcon />,
-        color: 'default' as const,
+        color: 'grey' as const,
         label: 'Unknown',
       };
   }
