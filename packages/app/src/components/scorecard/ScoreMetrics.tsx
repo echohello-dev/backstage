@@ -125,10 +125,6 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
                     legend: {
                       direction: 'vertical',
                       position: { vertical: 'middle', horizontal: 'end' },
-                      itemMarkWidth: 10,
-                      itemMarkHeight: 10,
-                      markGap: 5,
-                      itemGap: 8,
                     },
                   }}
                 />
