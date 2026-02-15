@@ -42,7 +42,6 @@ const MetricCard = ({
 }) => {
   const theme = useTheme();
   const isPositive = trend === 'up';
-  const isNegative = trend === 'down';
 
   return (
     <Box>
