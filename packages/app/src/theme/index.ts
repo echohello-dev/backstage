@@ -88,24 +88,7 @@ export const backstageTheme = createUnifiedTheme({
         },
       },
     },
-    MuiGrid: {
-      styleOverrides: {
-        item: {
-          padding: '1rem',
-        },
-        root: {
-          '&.v5-MuiGrid-container': {
-            margin: 0,
-          },
-          '&.v5-MuiGrid-item': {
-            padding: '1rem',
-          },
-          '&.MuiGrid-item': {
-            padding: '1rem',
-          },
-        },
-      },
-    },
+
   },
   pageTheme: {
     home: genPageTheme({

@@ -162,18 +162,6 @@ export const brandLightTheme = createUnifiedTheme({
         },
       },
     },
-    MuiGrid: {
-      styleOverrides: {
-        root: {
-          '&.MuiGrid-container': {
-            margin: 0,
-          },
-          '&.MuiGrid-item': {
-            padding: '1rem',
-          },
-        },
-      },
-    },
     MuiCard: {
       styleOverrides: {
         root: {
@@ -182,7 +170,6 @@ export const brandLightTheme = createUnifiedTheme({
         },
       },
     },
-    // Ensure the drawer uses the same nav background (some variants read MUI Drawer styles)
     MuiDrawer: {
       styleOverrides: {
         paper: {
@@ -273,18 +260,6 @@ export const brandDarkTheme = createUnifiedTheme({
         root: {
           wordSpacing: '0.02rem',
           letterSpacing: '0.02rem',
-        },
-      },
-    },
-    MuiGrid: {
-      styleOverrides: {
-        root: {
-          '&.MuiGrid-container': {
-            margin: 0,
-          },
-          '&.MuiGrid-item': {
-            padding: '1rem',
-          },
         },
       },
     },
