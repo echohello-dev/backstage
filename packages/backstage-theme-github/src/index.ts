@@ -4,6 +4,7 @@ import {
   palettes,
   shapes,
 } from '@backstage/theme';
+import './styles.css';
 
 // GitHub Primer-inspired font stack
 const BRAND_FONT_FAMILY =
@@ -104,6 +105,10 @@ export const brandLightTheme = createUnifiedTheme({
     warning: { main: primer.light.warning },
     error: { main: primer.light.error },
     info: { main: primer.light.info },
+    text: {
+      primary: primer.light.textPrimary,
+      secondary: primer.light.textSecondary,
+    },
     background: {
       ...palettes.light.background,
       default: primer.light.bgDefault,
@@ -149,6 +154,34 @@ export const brandLightTheme = createUnifiedTheme({
     }),
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          wordSpacing: '0.02rem',
+          letterSpacing: '0.02rem',
+        },
+      },
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          '&.MuiGrid-container': {
+            margin: 0,
+          },
+          '&.MuiGrid-item': {
+            padding: '1rem',
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '0.75rem',
+          border: `1px solid ${primer.light.divider}`,
+        },
+      },
+    },
     // Ensure the drawer uses the same nav background (some variants read MUI Drawer styles)
     MuiDrawer: {
       styleOverrides: {
@@ -186,6 +219,10 @@ export const brandDarkTheme = createUnifiedTheme({
     warning: { main: primer.dark.warning },
     error: { main: primer.dark.error },
     info: { main: primer.dark.info },
+    text: {
+      primary: primer.dark.textPrimary,
+      secondary: primer.dark.textSecondary,
+    },
     background: {
       ...palettes.dark.background,
       default: primer.dark.bgDefault,
@@ -231,6 +268,34 @@ export const brandDarkTheme = createUnifiedTheme({
     }),
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          wordSpacing: '0.02rem',
+          letterSpacing: '0.02rem',
+        },
+      },
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          '&.MuiGrid-container': {
+            margin: 0,
+          },
+          '&.MuiGrid-item': {
+            padding: '1rem',
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '0.75rem',
+          border: `1px solid ${primer.dark.divider}`,
+        },
+      },
+    },
     MuiDrawer: {
       styleOverrides: {
         paper: {
