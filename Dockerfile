@@ -29,6 +29,7 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
 ENV MISE_HTTP_TIMEOUT=120
+ENV MISE_PYTHON_GITHUB_ATTESTATIONS=false
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
 COPY mise.toml ./
@@ -47,14 +48,14 @@ COPY packages/app/package.json ./packages/app/package.json
 COPY packages/backstage-theme-github/package.json ./packages/backstage-theme-github/package.json
 COPY plugins/ plugins/
 COPY .yarnrc.yml ./
+COPY .yarn/plugins/ .yarn/plugins/
+COPY backstage.json ./
 RUN yarn install --immutable
 
 COPY tsconfig.json ./
 COPY lerna.json ./
-COPY backstage.json ./
 COPY packages/ packages/
 COPY plugins/ plugins/
-RUN yarn tsc
 
 COPY app-config.yaml ./
 RUN yarn build:backend
@@ -91,6 +92,7 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 ENV MISE_YES=1
 ENV MISE_HTTP_TIMEOUT=120
+ENV MISE_PYTHON_GITHUB_ATTESTATIONS=false
 ENV PATH=/root/.local/bin:/root/.local/share/mise/shims:$PATH
 RUN curl -fsSL https://mise.run | sh
 COPY mise.toml ./
@@ -115,6 +117,8 @@ COPY --from=build /app/packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
 COPY .yarnrc.yml ./
+COPY .yarn/plugins/ .yarn/plugins/
+COPY backstage.json ./
 RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
 # Then copy the rest of the backend bundle, along with any other files we might want.

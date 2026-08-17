@@ -3,5 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import '@backstage/ui/css/styles.css';
 import '@internal/backstage-theme-github/src/styles.css';
+import './styles/grid-fix.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
