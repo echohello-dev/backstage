@@ -1,5 +1,43 @@
 # Changelog
 
+## [2026.8.363](https://github.com/echohello-dev/backstage/compare/v2026.1.323...v2026.8.363) (2026-08-18)
+
+
+### Features
+
+* **agents:** add AGENTS.md authoring skill and validation scripts ([4cd5e41](https://github.com/echohello-dev/backstage/commit/4cd5e41f3f93716c3afd0d38c07b2b27692bce26))
+* **agents:** add Better Plan agent for structured implementation planning ([0b2a808](https://github.com/echohello-dev/backstage/commit/0b2a808716b7f361be9820b13361a0b5a2ebea25))
+* enhance application navigation and improve UI consistency ([54edcc0](https://github.com/echohello-dev/backstage/commit/54edcc03a7355fe0e1573e3dcc84a2a211f51648))
+* **prompts:** add migration plans for Backstage Canon and competitive developer portal ([e1ae898](https://github.com/echohello-dev/backstage/commit/e1ae898d640dd2692b8450c8825847d61efa320c))
+* **prompts:** add migration plans for Backstage Canon and competitive developer portal ([8634347](https://github.com/echohello-dev/backstage/commit/8634347a93910f3c49bc80722d8b0263ba444864))
+* **pulse-check:** add SystemHealthCard component for displaying system health status ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+* **scorecard:** develop ScorecardPage for comprehensive score tracking ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+* **scorecard:** implement EntityScoreCard and ScoreMetrics components ([796c000](https://github.com/echohello-dev/backstage/commit/796c0002f74a403097d97f34d6a7f1ca25016d85))
+* upgrade Backstage from 1.46.0 to 1.51.1 ([#89](https://github.com/echohello-dev/backstage/issues/89)) ([982677e](https://github.com/echohello-dev/backstage/commit/982677eed0bbda5479c519e757ac2c29585b90cb))
+* upgrade Backstage from 1.51.1 to 1.53.1 ([#95](https://github.com/echohello-dev/backstage/issues/95)) ([68a2154](https://github.com/echohello-dev/backstage/commit/68a2154d08f07137e7438eb5b7825f749887db83))
+
+
+### Bug Fixes
+
+* add GitHub App integration and fix auth env var names ([4af8b42](https://github.com/echohello-dev/backstage/commit/4af8b4297ff47abdf844511bab1125b3d618046c))
+* add mise install step to build workflow ([9e9415b](https://github.com/echohello-dev/backstage/commit/9e9415b3b26e9235d382ebb85bbd0ac2d2bf2de0))
+* **ci:** copy backstage.json before yarn install ([90bd4d5](https://github.com/echohello-dev/backstage/commit/90bd4d55abcbadb0b3df7e89669350f183641953))
+* **ci:** copy backstage.json before yarn workspaces focus in run stage ([f8ddc12](https://github.com/echohello-dev/backstage/commit/f8ddc122f504fdc59c9210dc838205a83486687a))
+* **ci:** disable python github attestations in mise ([2035516](https://github.com/echohello-dev/backstage/commit/20355163187d4eb92bd1e9c823f85b588dff8477))
+* **ci:** drop yarn tsc from Dockerfile (broken under Backstage 1.51.1) ([8be1279](https://github.com/echohello-dev/backstage/commit/8be127996d5d705073d209bd6e3a79e218ef4157))
+* **ci:** resolve app lint blockers in build workflow ([5925660](https://github.com/echohello-dev/backstage/commit/5925660719a89157c92516c283274d82c343decb))
+* **ci:** restore mise trust step in build workflow ([#81](https://github.com/echohello-dev/backstage/issues/81)) ([d685c38](https://github.com/echohello-dev/backstage/commit/d685c38e11c87f9ddb2df60cc45bf11fe3dac5ef))
+* correct command syntax in gha-output-calver task ([b6972cc](https://github.com/echohello-dev/backstage/commit/b6972cceff37a84bfbe1b2eeee1cdddced8f95bd))
+* GitHub theme and catalog view padding gaps ([#93](https://github.com/echohello-dev/backstage/issues/93)) ([31171a1](https://github.com/echohello-dev/backstage/commit/31171a17a1288c7f740a7f1140d4cd096644286e))
+* packages/backend/package.json to reduce vulnerabilities ([#78](https://github.com/echohello-dev/backstage/issues/78)) ([00bce8a](https://github.com/echohello-dev/backstage/commit/00bce8a99e50ae857e2aab004679c7b1088f2f84))
+* packages/backend/package.json to reduce vulnerabilities ([#79](https://github.com/echohello-dev/backstage/issues/79)) ([90dd253](https://github.com/echohello-dev/backstage/commit/90dd253ab448f6bd2a41430aa4d1e8325b000dbf))
+* remove invalid padding prop from PieChart legend ([00734be](https://github.com/echohello-dev/backstage/commit/00734bee0cf8db502d0577c3c08b512e789bb24b))
+* remove kubectl from mise.toml as it's not needed for publish workflow ([981366f](https://github.com/echohello-dev/backstage/commit/981366f2ec4bba9e6a5fc1ebd542e6836898b549))
+* resolve remaining TypeScript errors in pulse-check and scorecard ([8241ce0](https://github.com/echohello-dev/backstage/commit/8241ce0800ba773df4b3a97ba92dcd95fafab1f0))
+* resolve TypeScript compilation errors in pulse-check and scorecard components ([3035b47](https://github.com/echohello-dev/backstage/commit/3035b4719da834cdadbeaa808451b1dc69404a87))
+* simplify PieChart legend props to valid properties only ([958ca0f](https://github.com/echohello-dev/backstage/commit/958ca0fea9f0cbf4352f04555aeea9fe64c99028))
+* use CATALOG_GITHUB_APP_PRIVATE_KEY for consistency ([dd73e6d](https://github.com/echohello-dev/backstage/commit/dd73e6deea9bb271ee66c058c33850ec4b089125))
+
 ## 2026.1.323 (2026-01-02)
 
 
