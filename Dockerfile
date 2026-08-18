@@ -54,7 +54,6 @@ COPY tsconfig.json ./
 COPY lerna.json ./
 COPY packages/ packages/
 COPY plugins/ plugins/
-RUN yarn tsc
 
 COPY app-config.yaml ./
 RUN yarn build:backend
