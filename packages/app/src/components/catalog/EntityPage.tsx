@@ -122,12 +122,12 @@ const entityWarningContent = (
 );
 
 const overviewContent = (
-  <Grid container alignItems="stretch">
+  <Grid container alignItems="stretch" spacing={2}>
     {entityWarningContent}
-    <Grid item md={6} marginBottom={-1}>
+    <Grid item md={6}>
       <EntityAboutCard />
     </Grid>
-    <Grid item md={6} marginBottom={-1}>
+    <Grid item md={6}>
       <EntityCatalogGraphCard height={400} />
     </Grid>
 
@@ -151,7 +151,7 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
-      <Grid container alignItems="stretch">
+      <Grid container alignItems="stretch" spacing={2}>
         <Grid item md={6}>
           <EntityProvidedApisCard />
         </Grid>
@@ -162,7 +162,7 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container alignItems="stretch">
+      <Grid container alignItems="stretch" spacing={2}>
         <Grid item md={6}>
           <EntityDependsOnComponentsCard />
         </Grid>
@@ -189,7 +189,7 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container alignItems="stretch">
+      <Grid container alignItems="stretch" spacing={2}>
         <Grid item md={6}>
           <EntityDependsOnComponentsCard />
         </Grid>
@@ -241,20 +241,22 @@ const componentPage = (
 const apiPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container>
+      <Grid container spacing={2}>
         {entityWarningContent}
-        <Grid item md={6} marginBottom={-1}>
+        <Grid item md={6}>
           <EntityAboutCard />
         </Grid>
-        <Grid item md={6} marginBottom={-1}>
+        <Grid item md={6}>
           <EntityCatalogGraphCard height={400} />
         </Grid>
-        <Grid md={8}>
-          <Grid item md={12}>
-            <EntityProvidingComponentsCard />
-          </Grid>
-          <Grid item md={12}>
-            <EntityConsumingComponentsCard />
+        <Grid item md={8}>
+          <Grid container spacing={2}>
+            <Grid item md={12}>
+              <EntityProvidingComponentsCard />
+            </Grid>
+            <Grid item md={12}>
+              <EntityConsumingComponentsCard />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item md={4}>
@@ -264,7 +266,7 @@ const apiPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/definition" title="Definition">
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs>
           <EntityApiDefinitionCard />
         </Grid>
@@ -276,7 +278,7 @@ const apiPage = (
 const userPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container>
+      <Grid container spacing={2}>
         {entityWarningContent}
         <Grid item md={6}>
           <EntityUserProfileCard />
@@ -292,7 +294,7 @@ const userPage = (
 const groupPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container>
+      <Grid container spacing={2}>
         {entityWarningContent}
         <Grid item md={6}>
           <EntityGroupProfileCard />
@@ -314,7 +316,7 @@ const groupPage = (
 const systemPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container alignItems="stretch">
+      <Grid container alignItems="stretch" spacing={2}>
         {entityWarningContent}
         <Grid item md={6}>
           <EntityAboutCard />
@@ -360,7 +362,7 @@ const systemPage = (
 const domainPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container alignItems="stretch">
+      <Grid container alignItems="stretch" spacing={2}>
         {entityWarningContent}
         <Grid item md={6}>
           <EntityAboutCard />
