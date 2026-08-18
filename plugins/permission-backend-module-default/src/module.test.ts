@@ -21,12 +21,6 @@ describe('policy', () => {
     },
   });
   const createUser = (name: string, groups: string[]): PolicyQueryUser => ({
-    identity: {
-      type: 'user',
-      userEntityRef: `user:default/${name}`,
-      ownershipEntityRefs: groups.map(g => `group:default/${g}`),
-    },
-    token: 'example-token',
     info: {
       userEntityRef: `user:default/${name}`,
       ownershipEntityRefs: groups.map(g => `group:default/${g}`),

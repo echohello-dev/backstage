@@ -20,11 +20,15 @@
     "lint": "backstage-cli package lint"
   },
   "dependencies": {
-    "@backstage/theme": "^0.7.1",
+    "@backstage/theme": "backstage:^",
     "@fontsource/inter": "^5.0.18"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.35.0",
+    "@backstage/cli": "backstage:^",
+    "jest": "^29.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
     "typescript": "~5.3.0"
   },
   "eslintConfig": {
