@@ -25,7 +25,7 @@ export class DefaultPermissionPolicy implements PermissionPolicy {
   ): Promise<PolicyDecision> {
     if (
       request.permission.attributes.action === 'read' &&
-      user?.identity.ownershipEntityRefs.some(ref => readGroups.includes(ref))
+      user?.info?.ownershipEntityRefs.some((ref: string) => readGroups.includes(ref))
     ) {
       return { result: AuthorizeResult.ALLOW };
     }
@@ -37,7 +37,7 @@ export class DefaultPermissionPolicy implements PermissionPolicy {
         request.permission.attributes.action === 'read' ||
         request.permission.attributes.action === 'delete' ||
         request.permission.attributes.action === 'update') &&
-      user?.identity.ownershipEntityRefs.some(ref => writeGroups.includes(ref))
+      user?.info?.ownershipEntityRefs.some((ref: string) => writeGroups.includes(ref))
     ) {
       return { result: AuthorizeResult.ALLOW };
     }

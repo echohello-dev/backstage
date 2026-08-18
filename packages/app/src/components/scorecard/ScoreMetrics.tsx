@@ -123,13 +123,8 @@ export const ScoreMetrics = ({ entityScores }: ScoreMetricsProps) => {
                   height={200}
                   slotProps={{
                     legend: {
-                      direction: 'column',
-                      position: { vertical: 'middle', horizontal: 'right' },
-                      padding: 0,
-                      itemMarkWidth: 10,
-                      itemMarkHeight: 10,
-                      markGap: 5,
-                      itemGap: 8,
+                      direction: 'vertical',
+                      position: { vertical: 'middle', horizontal: 'end' },
                     },
                   }}
                 />

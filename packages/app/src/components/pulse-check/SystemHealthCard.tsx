@@ -75,12 +75,15 @@ export const SystemHealthCard = ({ health }: SystemHealthCardProps) => {
   const statusConfig = getStatusConfig(status);
   const entityName = entity.metadata.name;
   const entityType = (entity.spec?.type as string) || 'service';
+  const borderColor = statusConfig.color === 'default' 
+    ? theme.palette.grey[500] 
+    : theme.palette[statusConfig.color].main;
 
   return (
     <Card
       sx={{
         borderRadius: 2,
-        borderLeft: `4px solid ${theme.palette[statusConfig.color].main}`,
+        borderLeft: `4px solid ${borderColor}`,
         height: '100%',
       }}
     >
