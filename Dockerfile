@@ -42,6 +42,7 @@ RUN mkdir -p $COREPACK_ROOT && \
 
 WORKDIR /app
 COPY yarn.lock package.json ./
+COPY backstage.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
 COPY packages/backstage-theme-github/package.json ./packages/backstage-theme-github/package.json
@@ -51,7 +52,6 @@ RUN yarn install --immutable
 
 COPY tsconfig.json ./
 COPY lerna.json ./
-COPY backstage.json ./
 COPY packages/ packages/
 COPY plugins/ plugins/
 RUN yarn tsc
