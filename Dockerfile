@@ -43,6 +43,7 @@ RUN mkdir -p $COREPACK_ROOT && \
 
 WORKDIR /app
 COPY yarn.lock package.json ./
+COPY backstage.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/app/package.json ./packages/app/package.json
 COPY packages/backstage-theme-github/package.json ./packages/backstage-theme-github/package.json
@@ -113,6 +114,7 @@ ENV NODE_OPTIONS="--max-old-space-size=1000 --no-node-snapshot"
 # and along with yarn.lock and the root package.json, that's enough to run yarn install.
 COPY yarn.lock ./ 
 COPY package.json ./
+COPY backstage.json ./
 COPY --from=build /app/packages/backend/dist/skeleton.tar.gz ./
 RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
