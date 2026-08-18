@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { useTheme, alpha } from '@mui/material/styles';
+import type { Dispatch, SetStateAction } from 'react';
 import { ToolCategory, categoryLabels, categoryColors } from './toolsConfig';
 
 interface CategoryFilterProps {
   categories: ToolCategory[];
   selectedCategory: ToolCategory | 'all';
-  onCategoryChange: (category: ToolCategory | 'all') => void;
+  onCategoryChange: Dispatch<SetStateAction<ToolCategory | 'all'>>;
   categoryCounts?: Record<ToolCategory | 'all', number>;
 }
 

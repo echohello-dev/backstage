@@ -8,6 +8,9 @@ skaffold = "2.10.1"
 sops = "3.8.1"
 docker-compose = "2.40.3"
 
+[settings]
+python.github_attestations = false
+
 [env]
 _.file = ".env"
 

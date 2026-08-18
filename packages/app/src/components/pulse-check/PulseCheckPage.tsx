@@ -22,6 +22,16 @@ import {
 import { IncidentTimeline, Incident } from './IncidentTimeline';
 import { DeploymentMetrics, DeploymentStats } from './DeploymentMetrics';
 
+const getSystemMessage = (status: HealthStatus): string | undefined => {
+  if (status === 'degraded') {
+    return 'Elevated error rates detected';
+  }
+  if (status === 'down') {
+    return 'Service unreachable';
+  }
+  return undefined;
+};
+
 // Mock function to generate health status for demo
 const generateMockHealth = (entity: Entity): SystemHealth => {
   const statuses: HealthStatus[] = [
@@ -44,12 +54,7 @@ const generateMockHealth = (entity: Entity): SystemHealth => {
     status: randomStatus,
     uptime: uptimes[randomStatus],
     lastChecked: new Date(Date.now() - Math.random() * 3600000),
-    message:
-      randomStatus === 'degraded'
-        ? 'Elevated error rates detected'
-        : randomStatus === 'down'
-        ? 'Service unreachable'
-        : undefined,
+    message: getSystemMessage(randomStatus),
   };
 };
 

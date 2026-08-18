@@ -8,6 +8,7 @@ import {
   configApiRef,
   createApiFactory,
 } from '@backstage/core-plugin-api';
+import { toastApiRef } from '@backstage/frontend-plugin-api';
 
 export const apis: AnyApiFactory[] = [
   createApiFactory({
@@ -16,4 +17,11 @@ export const apis: AnyApiFactory[] = [
     factory: ({ configApi }) => ScmIntegrationsApi.fromConfig(configApi),
   }),
   ScmAuth.createDefaultApiFactory(),
+  createApiFactory({
+    api: toastApiRef,
+    deps: {},
+    factory: () => ({
+      post: () => ({ close: () => {} }),
+    }),
+  }),
 ];
