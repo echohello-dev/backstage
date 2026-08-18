@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  description: >-
+    {% if values.description %}
+    ${{ values.description | dump }}
+    {% else %}
+    Answer engine worker
+    {% endif %}
+  tags:
+    - ai-native
+    - answer-engine
+    - rag
+  annotations:
+    github.com/project-slug: ${{ values.destination.owner + "/" + values.destination.repo }}
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  lifecycle: experimental
+  owner: ${{ values.owner | dump }}
