@@ -18,6 +18,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CodeIcon from '@mui/icons-material/Code';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useState, useEffect, ReactNode } from 'react';
 import Box from '@mui/material/Box';
@@ -40,8 +41,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
@@ -122,6 +121,15 @@ interface Template {
   tags: string[];
 }
 
+interface OnboardingDoc {
+  name: string;
+  title: string;
+  description: string;
+  kind: string;
+  namespace: string;
+  tags: string[];
+}
+
 interface HealthStatus {
   healthy: number;
   warning: number;
@@ -174,6 +182,7 @@ export const HomePage = () => {
   });
   const [recentEntities, setRecentEntities] = useState<RecentEntity[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [onboardingDocs, setOnboardingDocs] = useState<OnboardingDoc[]>([]);
   const [healthStatus, setHealthStatus] = useState<HealthStatus>({
     healthy: 0,
     warning: 0,
@@ -182,6 +191,7 @@ export const HomePage = () => {
   });
   const [loadingRecent, setLoadingRecent] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
+  const [loadingDocs, setLoadingDocs] = useState(true);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -255,7 +265,7 @@ export const HomePage = () => {
         setLoadingRecent(false);
 
         const templateResponse = await catalogApi.getEntities({
-          filter: [{ kind: 'template' }],
+          filter: [{ kind: 'template', 'metadata.tags': 'recommended' }],
         });
         const templateList = templateResponse.items
           .slice(0, 4)
@@ -267,10 +277,28 @@ export const HomePage = () => {
           }));
         setTemplates(templateList);
         setLoadingTemplates(false);
+
+        const docsResponse = await catalogApi.getEntities({
+          filter: [
+            { kind: 'component', 'metadata.tags': 'onboarding' },
+            { kind: 'component', 'metadata.tags': 'getting-started' },
+          ],
+        });
+        const docsList = docsResponse.items.slice(0, 4).map((e: Entity) => ({
+          name: e.metadata.name,
+          title: e.metadata.title || e.metadata.name,
+          description: e.metadata.description || '',
+          kind: e.kind.toLowerCase(),
+          namespace: e.metadata.namespace || 'default',
+          tags: (e.metadata.tags as string[]) || [],
+        }));
+        setOnboardingDocs(docsList);
+        setLoadingDocs(false);
       } catch (err) {
         setStats(prev => ({ ...prev, loading: false }));
         setLoadingRecent(false);
         setLoadingTemplates(false);
+        setLoadingDocs(false);
       }
     };
 
@@ -289,24 +317,15 @@ export const HomePage = () => {
     }
   };
 
-  const quickActions = [
+  const startHereCards = [
     {
       icon: (
         <AddIcon sx={{ fontSize: 40, color: theme.palette.primary.main }} />
       ),
-      title: 'Create New',
-      description: 'Scaffold a new project from templates',
+      title: 'Create your first service',
+      description: 'Scaffold a new project from a curated template',
       path: '/self-service',
-    },
-    {
-      icon: (
-        <ImportExportIcon
-          sx={{ fontSize: 40, color: theme.palette.secondary.main }}
-        />
-      ),
-      title: 'Register Existing',
-      description: 'Import an existing component to the catalog',
-      path: '/catalog-import',
+      ariaLabel: 'Create your first service from a software template',
     },
     {
       icon: (
@@ -314,19 +333,28 @@ export const HomePage = () => {
           sx={{ fontSize: 40, color: theme.palette.info.main }}
         />
       ),
-      title: 'Browse Docs',
-      description: 'Explore technical documentation',
+      title: 'Browse the docs',
+      description: 'Read the onboarding and platform documentation',
       path: '/docs',
+      ariaLabel: 'Browse the documentation index',
     },
     {
       icon: (
-        <ApiIcon sx={{ fontSize: 40, color: theme.palette.success.main }} />
+        <ImportExportIcon
+          sx={{ fontSize: 40, color: theme.palette.secondary.main }}
+        />
       ),
-      title: 'API Explorer',
-      description: 'Discover and explore available APIs',
-      path: '/api-docs',
+      title: 'Register an existing repo',
+      description: 'Import an existing component into the catalog',
+      path: '/catalog-import',
+      ariaLabel: 'Register an existing repository in the catalog',
     },
   ];
+
+  const supportDoc = onboardingDocs.find(d => d.tags.includes('support'));
+  const supportPath = supportDoc
+    ? `/docs/${supportDoc.namespace}/${supportDoc.kind}/${supportDoc.name}`
+    : '/docs';
 
   const catalogItems = [
     {
@@ -441,14 +469,29 @@ export const HomePage = () => {
                   {template.description}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                  {template.tags.slice(0, 3).map(tag => (
-                    <Chip
-                      key={tag}
-                      label={tag}
-                      size="small"
-                      sx={{ fontSize: '0.7rem' }}
-                    />
-                  ))}
+                  {template.tags
+                    .filter(tag => tag.startsWith('family:'))
+                    .map(tag => (
+                      <Chip
+                        key={tag}
+                        label={tag.replace('family:', '')}
+                        size="small"
+                        color="primary"
+                        variant="outlined"
+                        sx={{ fontSize: '0.7rem' }}
+                      />
+                    ))}
+                  {template.tags
+                    .filter(tag => !tag.startsWith('family:'))
+                    .slice(0, 3)
+                    .map(tag => (
+                      <Chip
+                        key={tag}
+                        label={tag}
+                        size="small"
+                        sx={{ fontSize: '0.7rem' }}
+                      />
+                    ))}
                 </Box>
               </CardContent>
             </Card>
@@ -469,6 +512,88 @@ export const HomePage = () => {
           >
             Create your first template
           </Box>
+        </Typography>
+      </Paper>
+    );
+  }
+
+  let onboardingDocsContent: ReactNode;
+  if (loadingDocs) {
+    onboardingDocsContent = (
+      <Grid container spacing={3}>
+        {[1, 2, 3, 4].map(i => (
+          <Grid item xs={12} sm={6} key={i}>
+            <Skeleton
+              variant="rectangular"
+              height={100}
+              sx={{ borderRadius: 2 }}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  } else if (onboardingDocs.length > 0) {
+    onboardingDocsContent = (
+      <Grid container spacing={3}>
+        {onboardingDocs.map(doc => (
+          <Grid item xs={12} sm={6} key={doc.name}>
+            <Card
+              sx={{
+                height: '100%',
+                cursor: 'pointer',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: theme.shadows[4],
+                },
+              }}
+              onClick={() =>
+                navigate(`/docs/${doc.namespace}/${doc.kind}/${doc.name}`)
+              }
+            >
+              <CardContent>
+                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                  {doc.title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    mb: 2,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {doc.description}
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  {doc.tags.slice(0, 3).map(tag => (
+                    <Chip
+                      key={tag}
+                      label={tag}
+                      size="small"
+                      sx={{ fontSize: '0.7rem' }}
+                    />
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  } else {
+    onboardingDocsContent = (
+      <Paper sx={{ p: 3, textAlign: 'center' }}>
+        <InfoOutlinedIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+        <Typography color="text.secondary">
+          No onboarding docs tagged yet. Tag a docs entity with{' '}
+          <Box component="span" sx={{ fontWeight: 'bold' }}>
+            onboarding
+          </Box>{' '}
+          to surface it here.
         </Typography>
       </Paper>
     );
@@ -587,34 +712,6 @@ export const HomePage = () => {
           />
         </HeroSection>
 
-        <Box sx={{ mb: 4 }}>
-          <Alert
-            severity="info"
-            icon={<AnnouncementIcon />}
-            action={
-              <Button color="inherit" size="small">
-                Learn More
-              </Button>
-            }
-          >
-            <AlertTitle>Getting Started?</AlertTitle>
-            Check out our{' '}
-            <Box
-              component="span"
-              sx={{
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                textDecoration: 'underline',
-              }}
-              onClick={() => navigate('/docs')}
-            >
-              documentation
-            </Box>{' '}
-            to learn how to create your first service and register it in the
-            catalog.
-          </Alert>
-        </Box>
-
         <Box sx={{ mb: 5 }}>
           <SectionHeader
             icon={
@@ -622,14 +719,15 @@ export const HomePage = () => {
                 sx={{ fontSize: 28, color: theme.palette.primary.main }}
               />
             }
-            title="Quick Actions"
+            title="Start here"
           />
           <Grid container spacing={3}>
-            {quickActions.map(action => (
-              <Grid item xs={12} sm={6} md={3} key={action.title}>
+            {startHereCards.map(action => (
+              <Grid item xs={12} sm={6} md={4} key={action.title}>
                 <QuickActionCard>
                   <CardActionArea
                     onClick={() => navigate(action.path)}
+                    aria-label={action.ariaLabel}
                     sx={{ height: '100%', p: 3 }}
                   >
                     <Box
@@ -712,6 +810,27 @@ export const HomePage = () => {
             <Box sx={{ mb: 5 }}>
               <SectionHeader
                 icon={
+                  <LibraryBooksIcon
+                    sx={{ fontSize: 28, color: theme.palette.warning.main }}
+                  />
+                }
+                title="Onboarding Docs"
+                action={
+                  <Button
+                    endIcon={<ArrowForwardIcon />}
+                    onClick={() => navigate('/docs')}
+                    aria-label="View all documentation"
+                  >
+                    All Docs
+                  </Button>
+                }
+              />
+              {onboardingDocsContent}
+            </Box>
+
+            <Box sx={{ mb: 5 }}>
+              <SectionHeader
+                icon={
                   <CodeIcon
                     sx={{ fontSize: 28, color: theme.palette.info.main }}
                   />
@@ -721,8 +840,9 @@ export const HomePage = () => {
                   <Button
                     endIcon={<ArrowForwardIcon />}
                     onClick={() => navigate('/self-service')}
+                    aria-label="See all software templates"
                   >
-                    View All
+                    See All Templates
                   </Button>
                 }
               />
@@ -937,45 +1057,44 @@ export const HomePage = () => {
             <Box sx={{ mb: 4 }}>
               <SectionHeader
                 icon={
-                  <WidgetsIcon
+                  <HelpOutlineIcon
                     sx={{ fontSize: 28, color: theme.palette.info.main }}
                   />
                 }
-                title="Quick Links"
+                title="Support & Reference"
               />
               <Paper>
                 <List disablePadding>
-                  <ListItemButton onClick={() => navigate('/scorecard')}>
+                  <ListItemButton
+                    onClick={() => navigate('/docs')}
+                    aria-label="Open the TechDocs documentation index"
+                  >
                     <ListItemIcon>
-                      <SpeedIcon color="primary" />
+                      <LibraryBooksIcon color="primary" />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Scorecard"
-                      secondary="Entity quality metrics"
+                      primary="Documentation"
+                      secondary="TechDocs index"
                     />
                   </ListItemButton>
                   <Divider />
-                  <ListItemButton onClick={() => navigate('/explore')}>
+                  <ListItemButton
+                    onClick={() => navigate('/api-docs')}
+                    aria-label="Open the API explorer"
+                  >
                     <ListItemIcon>
-                      <SearchIcon color="secondary" />
+                      <ApiIcon color="secondary" />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Explore"
-                      secondary="Discover tools & services"
+                      primary="API Reference"
+                      secondary="Explore available APIs"
                     />
                   </ListItemButton>
                   <Divider />
-                  <ListItemButton onClick={() => navigate('/catalog-graph')}>
-                    <ListItemIcon>
-                      <AccountTreeIcon color="info" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Catalog Graph"
-                      secondary="Visualize dependencies"
-                    />
-                  </ListItemButton>
-                  <Divider />
-                  <ListItemButton onClick={() => navigate('/notifications')}>
+                  <ListItemButton
+                    onClick={() => navigate('/notifications')}
+                    aria-label="Open notifications and system alerts"
+                  >
                     <ListItemIcon>
                       <AnnouncementIcon color="warning" />
                     </ListItemIcon>
@@ -984,70 +1103,21 @@ export const HomePage = () => {
                       secondary="System alerts"
                     />
                   </ListItemButton>
+                  <Divider />
+                  <ListItemButton
+                    onClick={() => navigate(supportPath)}
+                    aria-label="Get help and support documentation"
+                  >
+                    <ListItemIcon>
+                      <HelpOutlineIcon color="info" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Get Help"
+                      secondary="Support & FAQ"
+                    />
+                  </ListItemButton>
                 </List>
               </Paper>
-            </Box>
-
-            <Box>
-              <SectionHeader
-                icon={
-                  <InfoOutlinedIcon
-                    sx={{ fontSize: 28, color: theme.palette.text.secondary }}
-                  />
-                }
-                title="Getting Started"
-              />
-              <Card
-                sx={{
-                  bgcolor:
-                    theme.palette.mode === 'dark'
-                      ? theme.palette.grey[800]
-                      : theme.palette.grey[50],
-                }}
-              >
-                <CardContent>
-                  <Typography variant="body2" sx={{ mb: 2 }}>
-                    New to the Developer Portal? Here are some helpful
-                    resources:
-                  </Typography>
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
-                  >
-                    <Button
-                      variant="text"
-                      size="small"
-                      sx={{ justifyContent: 'flex-start' }}
-                      onClick={() => navigate('/docs')}
-                    >
-                      📚 Read the Documentation
-                    </Button>
-                    <Button
-                      variant="text"
-                      size="small"
-                      sx={{ justifyContent: 'flex-start' }}
-                      onClick={() => navigate('/self-service')}
-                    >
-                      🚀 Create Your First Service
-                    </Button>
-                    <Button
-                      variant="text"
-                      size="small"
-                      sx={{ justifyContent: 'flex-start' }}
-                      onClick={() => navigate('/catalog-import')}
-                    >
-                      📦 Register Existing Component
-                    </Button>
-                    <Button
-                      variant="text"
-                      size="small"
-                      sx={{ justifyContent: 'flex-start' }}
-                      onClick={() => navigate('/api-docs')}
-                    >
-                      🔌 Explore Available APIs
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
             </Box>
           </Grid>
         </Grid>

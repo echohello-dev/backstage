@@ -7,6 +7,8 @@ metadata:
     - recommended
     - example
     - github
+    - family:repo
+    - provider:github
   description: |
     This template creates a new blank repository in GitHub.
     It fetches a template from the local filesystem, and then publishes the result to a new repository.

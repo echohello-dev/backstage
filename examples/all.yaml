@@ -13,3 +13,4 @@ spec:
     - ./domains/*.yaml
     - ./apis/*.yaml
     - ./templates/*/template.yaml
+    - ./portal-docs/catalog-info.yaml

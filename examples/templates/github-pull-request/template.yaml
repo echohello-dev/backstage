@@ -3,6 +3,13 @@ kind: Template
 metadata:
   name: github-pull-request-docs
   title: GitHub Pull Request Docs
+  tags:
+    - recommended
+    - example
+    - github
+    - techdocs
+    - family:docs
+    - provider:github
   description: |
     This template creates a new documentation site in a GitHub repository.
     It fetches a template from the local filesystem, fetches some docs from

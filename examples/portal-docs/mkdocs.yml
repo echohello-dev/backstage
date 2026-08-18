@@ -1,0 +1,9 @@
+site_name: Developer Portal Docs
+site_description: Onboarding, support, and how-to guides for the Developer Portal.
+
+nav:
+  - Getting Started: index.md
+  - Support & FAQ: support.md
+
+plugins:
+  - techdocs-core

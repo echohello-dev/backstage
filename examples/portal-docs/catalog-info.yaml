@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: portal-docs
+  title: Developer Portal Docs
+  description: Onboarding, support, and how-to guides for the Developer Portal.
+  tags:
+    - onboarding
+    - getting-started
+    - support
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: documentation
+  lifecycle: production
+  owner: group:platform-engineering
