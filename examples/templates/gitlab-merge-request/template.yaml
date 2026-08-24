@@ -3,6 +3,13 @@ kind: Template
 metadata:
   name: docs-template-gitlab-merge-request
   title: Documentation Template in GitLab with Merge Request
+  tags:
+    - recommended
+    - example
+    - gitlab
+    - techdocs
+    - family:docs
+    - provider:gitlab
   description: |
     This template creates a new documentation site in a GitLab repository.
     It fetches a template from the local filesystem, fetches some docs from
