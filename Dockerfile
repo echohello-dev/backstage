@@ -50,7 +50,6 @@ COPY packages/backstage-theme-github/package.json ./packages/backstage-theme-git
 COPY plugins/ plugins/
 COPY .yarnrc.yml ./
 COPY .yarn/plugins/ .yarn/plugins/
-COPY .yarn/patches/ .yarn/patches/
 COPY backstage.json ./
 RUN yarn install --immutable
 
@@ -121,7 +120,6 @@ RUN tar xzf skeleton.tar.gz && rm skeleton.tar.gz
 
 COPY .yarnrc.yml ./
 COPY .yarn/plugins/ .yarn/plugins/
-COPY .yarn/patches/ .yarn/patches/
 COPY backstage.json ./
 RUN yarn workspaces focus --all --production && rm -rf "$(yarn cache clean)"
 
