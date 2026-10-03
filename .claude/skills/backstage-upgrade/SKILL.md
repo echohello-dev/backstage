@@ -27,6 +27,15 @@ Use this skill when upgrading a Backstage monorepo to a newer version.
 - Backstage Yarn plugin installed (makes version management easier)
 - Clean git state (commit or stash changes before upgrading)
 
+## Vanilla-first policy
+
+This repo should stay as close to the vanilla `create-app` template as possible. Every upgrade is a chance to remove drift, not add it.
+
+- Apply the create-app template changes from the upgrade-helper diff by default. Skip one only when a deliberate customisation already lives in that file (custom theming, `@internal/*` plugins, RBAC policy, Plausible), and say so in the commit or PR body.
+- When an upgrade breaks, use the fix vanilla adopters would need. A one-line entry in existing config (e.g. a `resolutions` workaround for an upstream packaging bug) beats vendored files, version pins, extra Docker layers, or forked patches.
+- Do not add permanent deviations to structural files (`Dockerfile`, `tsconfig.json`, `app-config.yaml`, workspace manifests) beyond what the repo already customises for a documented reason.
+- If a local workaround is unavoidable, keep it minimal, reference the upstream issue, and delete it once upstream is fixed.
+
 ## Upgrade Workflow
 
 ### Step 1: Check current state
@@ -70,17 +79,19 @@ yarn backstage-cli versions:bump --pattern '@{backstage,roadiehq}/*'
 
 This updates `backstage.json` and migrates package.json deps to use `backstage:^` if the yarn plugin is installed.
 
-### Step 4: Pull in template changes
+### Step 4: Reconcile with the vanilla template
 
-The `create-app` template changes are NOT auto-applied. Check manually:
+The `create-app` template changes are NOT auto-applied. Fetch the upgrade-helper diff for the exact jump and work through it file by file:
 
 ```bash
+# Use upgrade helper for diff between versions
+open https://backstage.github.io/upgrade-helper/?from=<old>&to=<new>&yarnPlugin=1
+
 # View changelog
 yarn dlx @backstage/create-app@latest --version 2>/dev/null
-
-# Use upgrade helper for diff between versions
-open https://backstage.github.io/upgrade-helper/?yarnPlugin=0
 ```
+
+Apply the template version of every changed file by default. Keep local edits only where this repo deliberately deviates (theming, `@internal/*` plugins, RBAC, Plausible), re-applied on top of the template's file rather than skipping the update. List anything kept back in the commit or PR body.
 
 Key files that often change in templates:
 - `packages/backend/src/index.ts`
