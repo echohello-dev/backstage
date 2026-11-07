@@ -19,6 +19,7 @@ import {
   ChecklistIcon,
   PulseIcon,
   TelescopeIcon,
+  StarIcon,
 } from '@primer/octicons-react';
 import {
   Sidebar,
@@ -73,6 +74,7 @@ const RocketOcticon: IconComponent = () => <RocketIcon size={20} />;
 const ChecklistOcticon: IconComponent = () => <ChecklistIcon size={20} />;
 const PulseOcticon: IconComponent = () => <PulseIcon size={20} />;
 const TelescopeOcticon: IconComponent = () => <TelescopeIcon size={20} />;
+const StarOcticon: IconComponent = () => <StarIcon size={20} />;
 
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   if (
@@ -114,6 +116,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
         <SidebarItem icon={ChecklistOcticon} to="scorecard" text="Scorecard" />
         <SidebarItem icon={PulseOcticon} to="pulse-check" text="Pulse Check" />
         <SidebarItem icon={TelescopeOcticon} to="explore" text="Explore" />
+        <SidebarItem icon={StarOcticon} to="showcase" text="Showcase" />
         <SidebarSpace />
         <SidebarDivider />
         <SidebarGroup
