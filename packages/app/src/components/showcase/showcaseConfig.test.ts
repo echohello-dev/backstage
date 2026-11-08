@@ -2,6 +2,7 @@ import {
   showcaseItems,
   filterShowcaseItems,
   countByCategory,
+  templateShowcaseLink,
 } from './showcaseConfig';
 
 describe('showcaseConfig', () => {
@@ -31,10 +32,38 @@ describe('showcaseConfig', () => {
   it('every item links to a live portal surface', () => {
     const allowed = ['/self-service', '/catalog', '/api-docs', '/search', '/docs', '/catalog-graph'];
     showcaseItems.forEach(item => {
-      expect(allowed).toContain(item.link);
+      const isTemplateLink = item.link.startsWith('/self-service/templates/default/');
+      expect(allowed.includes(item.link) || isTemplateLink).toBe(true);
       expect(item.linkLabel.length).toBeGreaterThan(0);
       expect(item.description.length).toBeGreaterThan(20);
     });
+  });
+
+  it('deep-links every template card to its real template entity', () => {
+    // Entity names from examples/templates/*/template.yaml (metadata.name)
+    const realTemplateNames = [
+      'ai-hub-service',
+      'answer-engine-worker',
+      'mcp-server',
+      'github-blank-repo',
+      'github-pull-request-docs',
+      'docs-blank-repo',
+      'docs-template-gitlab-merge-request',
+    ];
+    const templates = showcaseItems.filter(i => i.category === 'templates');
+    templates.forEach(item => {
+      expect(item.link.startsWith('/self-service/templates/default/')).toBe(true);
+      const templateName = item.link.replace('/self-service/templates/default/', '');
+      expect(realTemplateNames).toContain(templateName);
+    });
+    expect(templates.map(t => t.link).sort()).toEqual(
+      realTemplateNames.map(name => templateShowcaseLink(name)).sort(),
+    );
+    const workerCard = showcaseItems.find(i => i.id === 'answer-engine-worker-card');
+    expect(workerCard?.link).toBe(templateShowcaseLink('answer-engine-worker'));
+    expect(templateShowcaseLink('ai-hub-service')).toBe(
+      '/self-service/templates/default/ai-hub-service',
+    );
   });
 
   it('filters by category', () => {
