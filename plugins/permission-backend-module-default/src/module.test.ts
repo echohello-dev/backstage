@@ -91,6 +91,38 @@ describe('policy', () => {
     expect(decision.result).toBe(AuthorizeResult.DENY);
   });
 
+  test('allows the guest demo user to read', async () => {
+    const request = createRequest('example.permission', {
+      action: 'read',
+    });
+    const user = createUser('guest', ['readers']);
+
+    const decision = await policy.handle(request, user);
+
+    expect(decision.result).toBe(AuthorizeResult.ALLOW);
+  });
+
+  test.each(['create', 'update', 'delete'] as const)(
+    'denies the guest demo user the %s action',
+    async action => {
+      const request = createRequest('example.permission', { action });
+      const user = createUser('guest', ['readers']);
+
+      const decision = await policy.handle(request, user);
+
+      expect(decision.result).toBe(AuthorizeResult.DENY);
+    },
+  );
+
+  test('denies the guest demo user scaffolder actions', async () => {
+    const request = createRequest('scaffolder.action.execute');
+    const user = createUser('guest', ['readers']);
+
+    const decision = await policy.handle(request, user);
+
+    expect(decision.result).toBe(AuthorizeResult.DENY);
+  });
+
   test('denies permission for unknown actions', async () => {
     const request = createRequest('example.permission', {
       action: undefined,
