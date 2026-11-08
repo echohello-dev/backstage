@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: readers
+  description: Read-only access group used by the guest demo user
+spec:
+  type: team
+  profile:
+    displayName: Readers
+    email: readers@echohello.example.com
+  children: []

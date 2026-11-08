@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+  description: Guest demo user with read-only access
+spec:
+  profile:
+    displayName: Guest
+    email: guest@echohello.example.com
+  memberOf: [readers]

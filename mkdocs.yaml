@@ -2,6 +2,7 @@ site_name: echoHello Backstage
 
 nav:
   - index.md
+  - demo-baseline.md
   - auth.md
   - customization.md
   - tracking.md
