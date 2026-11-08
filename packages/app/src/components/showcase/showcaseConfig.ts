@@ -29,6 +29,10 @@ export const showcaseCategoryColors: Record<ShowcaseCategory, string> = {
   platform: '#1a7f37',
 };
 
+export function templateShowcaseLink(templateName: string): string {
+  return `/self-service/templates/default/${templateName}`;
+}
+
 export const showcaseItems: ShowcaseItem[] = [
   {
     id: 'template-ai-hub-service',
@@ -36,7 +40,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Scaffold a provider-agnostic gateway in front of your organisation LLM providers, with auth, rate limiting, cost tracking and audit logging.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('ai-hub-service'),
     linkLabel: 'Use template',
     tags: ['recommended', 'ai', 'llm', 'github'],
     isRecommended: true,
@@ -47,7 +51,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Scaffold a queue consumer that retrieves context from a document index and produces cited answers, with an indexer and query API.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('answer-engine-worker'),
     linkLabel: 'Use template',
     tags: ['recommended', 'ai', 'rag', 'github'],
     isRecommended: true,
@@ -58,7 +62,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Scaffold a Model Context Protocol server that AI assistants connect to for domain-specific tools and context.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('mcp-server'),
     linkLabel: 'Use template',
     tags: ['recommended', 'ai', 'mcp', 'github'],
     isRecommended: true,
@@ -69,7 +73,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Create a new blank repository in GitHub from a local skeleton and register it in the catalog.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('github-blank-repo'),
     linkLabel: 'Use template',
     tags: ['recommended', 'github', 'repo'],
     isRecommended: true,
@@ -80,7 +84,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Create a documentation site in a GitHub repository and open it as a pull request for review.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('github-pull-request-docs'),
     linkLabel: 'Use template',
     tags: ['recommended', 'github', 'techdocs'],
     isRecommended: true,
@@ -91,7 +95,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Create a new blank repository in GitLab from a local skeleton and register it in the catalog.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('docs-blank-repo'),
     linkLabel: 'Use template',
     tags: ['recommended', 'gitlab', 'repo'],
     isRecommended: true,
@@ -102,7 +106,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Create a documentation site in a GitLab repository and open it as a merge request for review.',
     category: 'templates',
-    link: '/self-service',
+    link: templateShowcaseLink('docs-template-gitlab-merge-request'),
     linkLabel: 'Use template',
     tags: ['recommended', 'gitlab', 'techdocs'],
     isRecommended: true,
@@ -154,7 +158,7 @@ export const showcaseItems: ShowcaseItem[] = [
     description:
       'Start your own answer engine worker with retrieval, citation handling and catalog registration built in.',
     category: 'answer-engine',
-    link: '/self-service',
+    link: templateShowcaseLink('answer-engine-worker'),
     linkLabel: 'Use template',
     tags: ['ai', 'rag', 'template'],
     isRecommended: true,
