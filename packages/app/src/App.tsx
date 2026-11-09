@@ -54,6 +54,7 @@ import { ScorecardPage } from './components/scorecard';
 import { PulseCheckPage } from './components/pulse-check';
 import { ExplorePage } from './components/explore';
 import { ShowcasePage } from './components/showcase';
+import { LandingPage } from './components/landing';
 
 const app = createApp({
   apis,
@@ -202,6 +203,7 @@ const routes = (
     <Route path="/pulse-check" element={<PulseCheckPage />} />
     <Route path="/explore" element={<ExplorePage />} />
     <Route path="/showcase" element={<ShowcasePage />} />
+    <Route path="/landing" element={<LandingPage />} />
   </FlatRoutes>
 );
 
