@@ -89,7 +89,7 @@ export const LandingPage = () => {
         <ScreenshotFrame data-testid="landing-screenshot">
           <Box
             component="img"
-            src={`${process.env.PUBLIC_URL}/portal-showcase.png`}
+            src="/portal-showcase.png"
             alt="The plugin showcase in this portal, listing templates, GitHub integration and the answer engine"
             sx={{
               display: 'block',
