@@ -4,6 +4,5 @@ metadata:
   name: default-catalog
 spec:
   targets:
-    - ./groups.yaml
     - ./organizations.yaml
     - ./users.yaml
