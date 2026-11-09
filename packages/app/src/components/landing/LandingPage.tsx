@@ -32,6 +32,43 @@ const ScreenshotFrame = styled('figure')(({ theme }) => ({
   },
 }));
 
+const FeatureCard = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1.5),
+  padding: theme.spacing(3),
+  borderRadius: theme.spacing(1),
+  border: `3px solid ${theme.palette.text.primary}`,
+  backgroundColor: theme.palette.background.paper,
+}));
+
+const highlights = [
+  {
+    title: 'Software templates',
+    body: 'Start a service, docs site or AI worker from a template that publishes to GitHub and registers itself in the catalog.',
+    link: '/self-service',
+    linkLabel: 'Use a template',
+  },
+  {
+    title: 'Software catalog',
+    body: 'Every service, API and team in one searchable place, with ownership and lifecycle kept next to the code.',
+    link: '/catalog',
+    linkLabel: 'Browse services',
+  },
+  {
+    title: 'GitHub integration',
+    body: 'Templates open repositories and pull requests, and the catalog stays in sync with what is actually on GitHub.',
+    link: '/showcase',
+    linkLabel: 'See GitHub integration',
+  },
+  {
+    title: 'Answer engine',
+    body: 'Ask questions across the catalog and docs and get cited answers grounded in your own content, not the open web.',
+    link: '/search',
+    linkLabel: 'Ask the answer engine',
+  },
+];
+
 export const LandingPage = () => {
   const theme = useTheme();
 
@@ -107,6 +144,86 @@ export const LandingPage = () => {
             The plugin showcase running live in this portal.
           </Typography>
         </ScreenshotFrame>
+
+        <Box
+          component="section"
+          data-testid="landing-highlights"
+          sx={{ mt: 6 }}
+        >
+          <Typography variant="h4" sx={{ fontWeight: 800, mb: 3 }}>
+            What you can try
+          </Typography>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+              gap: 3,
+            }}
+          >
+            {highlights.map(highlight => (
+              <FeatureCard key={highlight.title}>
+                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                  {highlight.title}
+                </Typography>
+                <Typography color="text.secondary" sx={{ flexGrow: 1 }}>
+                  {highlight.body}
+                </Typography>
+                <Button
+                  component={RouterLink}
+                  to={highlight.link}
+                  variant="text"
+                  sx={{
+                    alignSelf: 'flex-start',
+                    fontWeight: 700,
+                    px: 0,
+                    '&:hover': { backgroundColor: 'transparent' },
+                  }}
+                >
+                  {highlight.linkLabel}
+                </Button>
+              </FeatureCard>
+            ))}
+          </Box>
+        </Box>
+
+        <Box
+          component="footer"
+          data-testid="landing-footer"
+          sx={{
+            mt: 6,
+            pt: 4,
+            borderTop: `3px solid ${theme.palette.text.primary}`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 700 }}>
+            Ready to look around?
+          </Typography>
+          <Typography color="text.secondary" sx={{ maxWidth: 640 }}>
+            The demo runs as a guest with read-only access, so you can open
+            every page without signing up.
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            <Button
+              component={RouterLink}
+              to="/showcase"
+              variant="contained"
+              sx={{ fontWeight: 700 }}
+            >
+              Start with the showcase
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/catalog"
+              variant="outlined"
+              sx={{ fontWeight: 700, borderWidth: 2, '&:hover': { borderWidth: 2 } }}
+            >
+              Open the catalog
+            </Button>
+          </Box>
+        </Box>
       </Content>
     </Page>
   );
