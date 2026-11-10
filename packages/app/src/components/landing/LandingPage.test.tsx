@@ -39,6 +39,9 @@ describe('LandingPage', () => {
     expect(screen.getByText('Software catalog')).toBeInTheDocument();
     expect(screen.getByText('GitHub integration')).toBeInTheDocument();
     expect(screen.getByText('Answer engine')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Search the catalog and TechDocs in one place/),
+    ).toBeInTheDocument();
   });
 
   it('links each highlight to its live surface', async () => {
@@ -54,7 +57,7 @@ describe('LandingPage', () => {
       screen.getByRole('link', { name: 'See GitHub integration' }),
     ).toHaveAttribute('href', '/showcase');
     expect(
-      screen.getByRole('link', { name: 'Ask the answer engine' }),
+      screen.getByRole('link', { name: 'Search catalog and docs' }),
     ).toHaveAttribute('href', '/search');
   });
 

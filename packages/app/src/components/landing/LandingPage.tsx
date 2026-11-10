@@ -63,9 +63,9 @@ const highlights = [
   },
   {
     title: 'Answer engine',
-    body: 'Ask questions across the catalog and docs and get cited answers grounded in your own content, not the open web.',
+    body: 'Search the catalog and TechDocs in one place. The showcase explains how an answer engine can extend this search foundation.',
     link: '/search',
-    linkLabel: 'Ask the answer engine',
+    linkLabel: 'Search catalog and docs',
   },
 ];
 
