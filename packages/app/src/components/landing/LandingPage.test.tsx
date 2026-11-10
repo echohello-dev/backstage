@@ -31,6 +31,51 @@ describe('LandingPage', () => {
     expect(cta).toHaveAttribute('href', '/catalog');
   });
 
+  it('renders the four feature highlights', async () => {
+    await renderInTestApp(<LandingPage />);
+
+    expect(screen.getByText('What you can try')).toBeInTheDocument();
+    expect(screen.getByText('Software templates')).toBeInTheDocument();
+    expect(screen.getByText('Software catalog')).toBeInTheDocument();
+    expect(screen.getByText('GitHub integration')).toBeInTheDocument();
+    expect(screen.getByText('Answer engine')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Search the catalog and TechDocs in one place/),
+    ).toBeInTheDocument();
+  });
+
+  it('links each highlight to its live surface', async () => {
+    await renderInTestApp(<LandingPage />);
+
+    expect(
+      screen.getByRole('link', { name: 'Use a template' }),
+    ).toHaveAttribute('href', '/self-service');
+    expect(
+      screen.getByRole('link', { name: 'Browse services' }),
+    ).toHaveAttribute('href', '/catalog');
+    expect(
+      screen.getByRole('link', { name: 'See GitHub integration' }),
+    ).toHaveAttribute('href', '/showcase');
+    expect(
+      screen.getByRole('link', { name: 'Search catalog and docs' }),
+    ).toHaveAttribute('href', '/search');
+  });
+
+  it('renders the footer with a second path into the demo', async () => {
+    await renderInTestApp(<LandingPage />);
+
+    expect(screen.getByText('Ready to look around?')).toBeInTheDocument();
+    expect(
+      screen.getByText(/The demo runs as a guest with read-only access/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Start with the showcase' }),
+    ).toHaveAttribute('href', '/showcase');
+    expect(
+      screen.getByRole('link', { name: 'Open the catalog' }),
+    ).toHaveAttribute('href', '/catalog');
+  });
+
   it('shows the portal screenshot with alt text', async () => {
     await renderInTestApp(<LandingPage />);
 
