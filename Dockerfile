@@ -99,6 +99,11 @@ RUN curl -fsSL https://mise.run | sh
 COPY mise.toml ./
 RUN mise trust && mise install
 
+# TechDocs generates docs by spawning the mkdocs CLI (techdocs.generator.runIn: 'local').
+# User install puts it in /root/.local/bin, which is first on PATH above.
+RUN mise exec python -- python -m pip install --no-cache-dir --user mkdocs mkdocs-techdocs-core \
+    && mkdocs --version
+
 # Enable Corepack; Yarn version is selected via package.json "packageManager"
 ENV COREPACK_ROOT=/root/.corepack
 ENV PATH=$COREPACK_ROOT:$PATH

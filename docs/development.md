@@ -55,7 +55,11 @@ npm install -g @backstage/cli
 
 ### TechDocs Local Development
 
-Ensure you have the following installed:
+TechDocs generates docs by spawning the `mkdocs` CLI (`techdocs.generator.runIn: 'local'`),
+so `mkdocs` must be on your `PATH`. `mise run install` bootstraps it into
+`~/.local/share/backstage-techdocs-venv` and links it into `~/.local/bin` when missing.
+
+To install it manually:
 
 ```bash
 pip install mkdocs mkdocs-techdocs-core
@@ -64,8 +68,11 @@ pip install mkdocs mkdocs-techdocs-core
 Then run the following command to start the local development server:
 
 ```bash
-make dev
+mise run dev
 ```
+
+If doc builds fail with `spawn mkdocs ENOENT`, the backend cannot find `mkdocs`.
+Ensure `~/.local/bin` is on your `PATH` and restart the dev server.
 
 To quickly test the TechDocs site, run the following command in the respective component directory that contains the `mkdocs.yml` file:
 

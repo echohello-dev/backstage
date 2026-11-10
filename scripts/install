@@ -7,3 +7,18 @@ if [ "${CI:-false}" = "true" ]; then
 else
   yarn install
 fi
+
+# TechDocs generates docs by spawning the mkdocs CLI (techdocs.generator.runIn: 'local').
+# Install it into a dedicated venv and link it into ~/.local/bin when missing.
+if [ "${CI:-false}" != "true" ] && ! command -v mkdocs >/dev/null 2>&1; then
+  techdocs_venv="${XDG_DATA_HOME:-$HOME/.local/share}/backstage-techdocs-venv"
+  echo "mkdocs not found; installing mkdocs + techdocs-core into ${techdocs_venv}"
+  python3 -m venv "${techdocs_venv}"
+  "${techdocs_venv}/bin/pip" install --quiet mkdocs mkdocs-techdocs-core
+  mkdir -p "${HOME}/.local/bin"
+  ln -sf "${techdocs_venv}/bin/mkdocs" "${HOME}/.local/bin/mkdocs"
+  case ":${PATH}:" in
+    *":${HOME}/.local/bin:"*) ;;
+    *) echo "Add ${HOME}/.local/bin to PATH so the backend can spawn mkdocs." ;;
+  esac
+fi
