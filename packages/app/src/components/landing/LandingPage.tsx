@@ -93,7 +93,7 @@ export const LandingPage = () => {
             sx={{ fontWeight: 400, maxWidth: 640 }}
           >
             Software templates that publish to GitHub, a catalog that keeps
-            services findable, and an answer engine grounded in your own docs.
+            services findable, and search across your catalog and docs.
             Try it as a guest, no account needed.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>

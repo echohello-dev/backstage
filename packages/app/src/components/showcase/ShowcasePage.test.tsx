@@ -1,9 +1,41 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, within } from '@testing-library/react';
 import { renderInTestApp } from '@backstage/test-utils';
 import { ShowcasePage } from './ShowcasePage';
 import { showcaseItems, countByCategory } from './showcaseConfig';
 
 describe('ShowcasePage', () => {
+  it('distinguishes live keyword search from the answer-engine extension', async () => {
+    await renderInTestApp(<ShowcasePage />);
+
+    fireEvent.click(screen.getByText(/^Answer Engine \(/));
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'The demo does not generate answers.',
+    );
+    const search = within(
+      screen.getByTestId('showcase-card-answer-engine-search'),
+    );
+    expect(search.getByText('Built-in search')).toBeInTheDocument();
+    expect(search.getByText('Catalog and Docs Search')).toBeInTheDocument();
+    expect(
+      search.getByRole('link', { name: 'Search catalog and docs' }),
+    ).toHaveAttribute('href', '/search');
+
+    const extension = within(
+      screen.getByTestId('showcase-card-answer-engine-worker-card'),
+    );
+    expect(extension.getByText('Extension template')).toBeInTheDocument();
+    expect(
+      extension.getByText(/your own document index and AI Hub/),
+    ).toBeInTheDocument();
+    expect(extension.getByRole('link', { name: 'Use template' })).toHaveAttribute(
+      'href',
+      '/self-service/templates/default/answer-engine-worker',
+    );
+    expect(screen.queryByText('Answer Engine Search')).not.toBeInTheDocument();
+    expect(screen.getByText('2 items available')).toBeInTheDocument();
+  });
+
   it('renders every item with the total count and category chips', async () => {
     await renderInTestApp(<ShowcasePage />);
     const counts = countByCategory(showcaseItems);
