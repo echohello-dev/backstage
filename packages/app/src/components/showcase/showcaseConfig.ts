@@ -13,6 +13,7 @@ export interface ShowcaseItem {
   linkLabel: string;
   tags: string[];
   isRecommended?: boolean;
+  availability?: 'Built-in search' | 'Extension template';
 }
 
 export const showcaseCategoryLabels: Record<ShowcaseCategory, string> = {
@@ -143,25 +144,27 @@ export const showcaseItems: ShowcaseItem[] = [
   },
   {
     id: 'answer-engine-search',
-    name: 'Answer Engine Search',
+    name: 'Catalog and Docs Search',
     description:
-      'Ask questions across the catalog and docs and get cited answers grounded in your own content.',
+      'Find services and documentation with keyword search across the catalog and TechDocs.',
     category: 'answer-engine',
     link: '/search',
-    linkLabel: 'Try search',
-    tags: ['ai', 'search', 'rag'],
+    linkLabel: 'Search catalog and docs',
+    tags: ['catalog', 'search', 'techdocs'],
     isRecommended: true,
+    availability: 'Built-in search',
   },
   {
     id: 'answer-engine-worker-card',
     name: 'Answer Engine Worker Template',
     description:
-      'Start your own answer engine worker with retrieval, citation handling and catalog registration built in.',
+      'Scaffold an answer engine worker to connect to your own document index and AI Hub for cited answers.',
     category: 'answer-engine',
     link: templateShowcaseLink('answer-engine-worker'),
     linkLabel: 'Use template',
     tags: ['ai', 'rag', 'template'],
     isRecommended: true,
+    availability: 'Extension template',
   },
   {
     id: 'platform-techdocs',

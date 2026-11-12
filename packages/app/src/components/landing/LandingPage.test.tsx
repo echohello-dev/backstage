@@ -15,6 +15,12 @@ describe('LandingPage', () => {
     expect(
       screen.getByText(/Try it as a guest, no account needed/),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(/search across your catalog and docs/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/an answer engine grounded in your own docs/),
+    ).not.toBeInTheDocument();
   });
 
   it('links the primary call to action into the showcase', async () => {

@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
+import Alert from '@mui/material/Alert';
 import { Page, Header, Content } from '@backstage/core-components';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -39,7 +40,7 @@ export const ShowcasePage = () => {
     <Page themeId="tool">
       <Header
         title="Plugin Showcase"
-        subtitle="Templates, GitHub integration and the answer engine, curated from what this portal already ships"
+        subtitle="Templates, GitHub integration and search, with an answer-engine extension to build on"
       />
       <Content>
         <Box sx={{ mb: 4 }}>
@@ -48,10 +49,17 @@ export const ShowcasePage = () => {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Start a new service from a proven template, publish it to GitHub,
-            and make it findable through the catalog and answer engine. Pick a
-            card to jump straight to the live surface.
+            and make it findable through the catalog and docs search. Pick a
+            card to explore a portal feature or preview a software template.
           </Typography>
         </Box>
+
+        <Alert severity="info" sx={{ mb: 3 }}>
+          Catalog and TechDocs keyword search runs in this portal. Generated
+          answers are an extension you can build with the Answer Engine Worker
+          template, your own document index and AI Hub. The demo does not generate
+          answers.
+        </Alert>
 
         <Box
           sx={{

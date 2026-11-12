@@ -63,6 +63,11 @@ export const ShowcaseCard = ({ item }: { item: ShowcaseItem }) => {
             fontWeight: 500,
           }}
         />
+        {item.availability && (
+          <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 600 }}>
+            {item.availability}
+          </Typography>
+        )}
         <Typography
           variant="body2"
           color="text.secondary"
