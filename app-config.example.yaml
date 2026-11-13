@@ -9,13 +9,7 @@ catalog:
     - type: file
       target: ../../default-catalog/catalog-info.yaml
     - type: file
-      target: ../../examples/entities.yaml
-    - type: file
-      target: ../../examples/org.yaml
-    - type: file
       target: ../../examples/all.yaml
-    - type: file
-      target: ../../examples/acme-corp.yaml
 ## Uncomment the following to enable Plausible analytics in development mode
 # plausible:
 #   enabled: true
