@@ -1,5 +1,26 @@
 # Development
 
+## Verification
+
+Run the repository checks through mise after installing dependencies.
+
+```bash
+mise run install
+mise run typecheck
+mise run lint
+mise run test
+mise run build
+```
+
+`mise run typecheck` checks the source in every workspace without emitting files
+or using an incremental cache. `mise run lint` runs the same compiler check before
+ESLint, so the pull request workflow catches type errors as well as lint errors.
+The compiler inherits Backstage's defaults from `@backstage/cli/config/tsconfig.json`.
+Keep the root and GitHub theme TypeScript versions aligned with the app template
+for the installed Backstage release when upgrading.
+
+`mise run build` builds the Docker image locally. It does not publish an image.
+
 ## Creating a New Plugin
 
 On the command line, run the following command to create a new plugin.

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
+yarn typecheck
 yarn lint:all
