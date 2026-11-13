@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -6,6 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
 import { Page, Header, Content } from '@backstage/core-components';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -25,6 +26,7 @@ const categories: ShowcaseCategory[] = [
 ];
 
 export const ShowcasePage = () => {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<
     ShowcaseCategory | 'all'
@@ -57,8 +59,8 @@ export const ShowcasePage = () => {
         <Alert severity="info" sx={{ mb: 3 }}>
           Catalog and TechDocs keyword search runs in this portal. Generated
           answers are an extension you can build with the Answer Engine Worker
-          template, your own document index and AI Hub. The demo does not generate
-          answers.
+          template, your own document index and AI Hub. The demo does not
+          generate answers.
         </Alert>
 
         <Box
@@ -71,11 +73,13 @@ export const ShowcasePage = () => {
           }}
         >
           <TextField
+            label="Search showcase"
             placeholder="Search showcase..."
+            inputRef={searchInputRef}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             size="small"
-            sx={{ minWidth: 300, maxWidth: 400 }}
+            sx={{ width: '100%', maxWidth: 400 }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -84,14 +88,19 @@ export const ShowcasePage = () => {
               ),
             }}
           />
-          <Typography variant="body2" color="text.secondary">
+          <Typography role="status" variant="body2" color="text.secondary">
             {filtered.length} item{filtered.length !== 1 ? 's' : ''} available
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mb: 4 }}>
+        <Box
+          role="group"
+          aria-label="Showcase categories"
+          sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', mb: 4 }}
+        >
           <Chip
             label={`All (${counts.all})`}
+            aria-pressed={selectedCategory === 'all'}
             onClick={() => setSelectedCategory('all')}
             variant={selectedCategory === 'all' ? 'filled' : 'outlined'}
             color={selectedCategory === 'all' ? 'primary' : 'default'}
@@ -101,6 +110,7 @@ export const ShowcasePage = () => {
             <Chip
               key={category}
               label={`${showcaseCategoryLabels[category]} (${counts[category]})`}
+              aria-pressed={selectedCategory === category}
               onClick={() => setSelectedCategory(category)}
               variant={selectedCategory === category ? 'filled' : 'outlined'}
               color={selectedCategory === category ? 'primary' : 'default'}
@@ -126,6 +136,17 @@ export const ShowcasePage = () => {
               {selectedCategory !== 'all' &&
                 ` in ${showcaseCategoryLabels[selectedCategory]}`}
             </Typography>
+            <Button
+              sx={{ mt: 2 }}
+              variant="outlined"
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('all');
+                searchInputRef.current?.focus();
+              }}
+            >
+              Clear filters
+            </Button>
           </Box>
         )}
       </Content>
