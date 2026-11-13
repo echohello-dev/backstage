@@ -4,6 +4,66 @@ import { ShowcasePage } from './ShowcasePage';
 import { showcaseItems, countByCategory } from './showcaseConfig';
 
 describe('ShowcasePage', () => {
+  it('labels search and exposes the active category and result count', async () => {
+    await renderInTestApp(<ShowcasePage />);
+
+    expect(
+      screen.getByRole('textbox', { name: 'Search showcase' }),
+    ).toBeInTheDocument();
+    const categories = within(
+      screen.getByRole('group', { name: 'Showcase categories' }),
+    );
+    expect(
+      categories.getByRole('button', { name: /^All \(/, pressed: true }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(categories.getByRole('button', { name: /^GitHub \(/ }));
+
+    expect(
+      categories.getByRole('button', { name: /^GitHub \(/, pressed: true }),
+    ).toBeInTheDocument();
+    expect(
+      categories.getByRole('button', { name: /^All \(/, pressed: false }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('3 items available');
+  });
+
+  it('combines search and category filters and restores all cards from an empty result', async () => {
+    await renderInTestApp(<ShowcasePage />);
+    const search = screen.getByRole('textbox', { name: 'Search showcase' });
+
+    fireEvent.change(search, { target: { value: 'mcp' } });
+    expect(screen.getByRole('status')).toHaveTextContent('1 item available');
+    expect(
+      screen.getByTestId('showcase-card-template-mcp-server'),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /^GitHub \(/ }));
+
+    expect(screen.getByRole('status')).toHaveTextContent('0 items available');
+    expect(screen.getByText(/No showcase items found/)).toHaveTextContent(
+      'in GitHub',
+    );
+    expect(screen.queryAllByTestId(/^showcase-card-/)).toHaveLength(0);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(search).toHaveValue('');
+    expect(search).toHaveFocus();
+    expect(
+      screen.getByRole('button', { name: /^All \(/, pressed: true }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      `${showcaseItems.length} items available`,
+    );
+    expect(screen.getAllByTestId(/^showcase-card-/)).toHaveLength(
+      showcaseItems.length,
+    );
+    expect(
+      screen.queryByRole('button', { name: 'Clear filters' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('distinguishes live keyword search from the answer-engine extension', async () => {
     await renderInTestApp(<ShowcasePage />);
 
@@ -28,7 +88,9 @@ describe('ShowcasePage', () => {
     expect(
       extension.getByText(/your own document index and AI Hub/),
     ).toBeInTheDocument();
-    expect(extension.getByRole('link', { name: 'Use template' })).toHaveAttribute(
+    expect(
+      extension.getByRole('link', { name: 'Use template' }),
+    ).toHaveAttribute(
       'href',
       '/self-service/templates/default/answer-engine-worker',
     );
@@ -71,7 +133,9 @@ describe('ShowcasePage', () => {
       ).not.toBeNull();
     });
     expect(
-      document.querySelector('[data-testid="showcase-card-template-mcp-server"]'),
+      document.querySelector(
+        '[data-testid="showcase-card-template-mcp-server"]',
+      ),
     ).toBeNull();
   });
 
@@ -83,7 +147,9 @@ describe('ShowcasePage', () => {
     });
 
     expect(
-      document.querySelector('[data-testid="showcase-card-template-mcp-server"]'),
+      document.querySelector(
+        '[data-testid="showcase-card-template-mcp-server"]',
+      ),
     ).not.toBeNull();
     expect(
       document.querySelector(
