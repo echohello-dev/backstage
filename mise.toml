@@ -51,6 +51,10 @@ run = 'bash -c "set -euo pipefail; git fetch --tags --force; echo version=$(./sc
 description = "Run linting and type checking"
 run = './scripts/lint'
 
+[tasks.typecheck]
+description = "Check TypeScript across all workspaces without emitting files"
+run = 'yarn typecheck'
+
 [tasks.test]
 description = "Run the test suite"
 run = 'yarn test --watchAll=false'

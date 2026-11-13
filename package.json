@@ -14,6 +14,7 @@
     "build-image": "yarn workspace backend build-image",
     "tsc": "tsc",
     "tsc:full": "tsc --skipLibCheck false --incremental false",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false --incremental false",
     "clean": "backstage-cli repo clean",
     "test": "backstage-cli repo test",
     "test:all": "backstage-cli repo test --coverage",
@@ -42,7 +43,7 @@
     "lerna": "^7.3.0",
     "node-gyp": "^9.0.0",
     "prettier": "^2.3.2",
-    "typescript": "~5.3.0"
+    "typescript": "~5.8.0"
   },
   "resolutions": {
     "@yarnpkg/core": "4.9.1",
