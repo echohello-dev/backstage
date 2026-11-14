@@ -10,7 +10,7 @@ const baseItem: ShowcaseItem = {
     'Scaffold a Model Context Protocol server that AI assistants connect to for domain-specific tools and context.',
   category: 'templates',
   link: templateShowcaseLink('mcp-server'),
-  linkLabel: 'Use template',
+  linkLabel: 'Preview template',
   tags: ['recommended', 'ai', 'mcp', 'github'],
   isRecommended: true,
 };
@@ -50,7 +50,7 @@ describe('ShowcaseCard', () => {
   it('links the action button to the item link with its label', async () => {
     await renderInTestApp(<ShowcaseCard item={baseItem} />);
 
-    const link = screen.getByRole('link', { name: 'Use template' });
+    const link = screen.getByRole('link', { name: 'Preview template' });
     expect(link).toHaveAttribute(
       'href',
       '/self-service/templates/default/mcp-server',
