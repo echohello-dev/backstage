@@ -1,5 +1,29 @@
 # Changelog
 
+## [2026.11.389](https://github.com/echohello-dev/backstage/compare/v2026.8.364...v2026.11.389) (2026-11-14)
+
+
+### Features
+
+* add feature highlights and footer to landing page ([#121](https://github.com/echohello-dev/backstage/issues/121)) ([e6df107](https://github.com/echohello-dev/backstage/commit/e6df107cdb3e9f386fd90e174aeb25c171ba0550))
+* add landing page hero with value prop and demo calls to action ([#119](https://github.com/echohello-dev/backstage/issues/119)) ([88bbec3](https://github.com/echohello-dev/backstage/commit/88bbec3f5dbb7323d877fddbed7aced69cf26152))
+* add plugin showcase page for templates, GitHub and answer engine ([#108](https://github.com/echohello-dev/backstage/issues/108)) ([ffbbcda](https://github.com/echohello-dev/backstage/commit/ffbbcda8bc45c1fd4822bfb74c3eb21217d198ff))
+* deep-link showcase template cards to scaffolder pages ([#113](https://github.com/echohello-dev/backstage/issues/113)) ([d0b5a81](https://github.com/echohello-dev/backstage/commit/d0b5a81021b3db408c4543385264bb0de4529160))
+* define guest demo baseline with readers group and read-only tests ([#111](https://github.com/echohello-dev/backstage/issues/111)) ([b7ebec4](https://github.com/echohello-dev/backstage/commit/b7ebec46f1dc0592b2fb5c81f05d3be853482fdb))
+* upgrade Backstage from 1.55.3 to 1.56.5 ([#125](https://github.com/echohello-dev/backstage/issues/125)) ([bc0a518](https://github.com/echohello-dev/backstage/commit/bc0a518a2f2b913dc1e969335cf93f0e0aa29e9d))
+
+
+### Bug Fixes
+
+* bootstrap mkdocs for TechDocs generation ([#122](https://github.com/echohello-dev/backstage/issues/122)) ([23f9602](https://github.com/echohello-dev/backstage/commit/23f9602511cdbc16318589255233a99465693a18))
+* clarify guest template previews in showcase ([#138](https://github.com/echohello-dev/backstage/issues/138)) ([264094e](https://github.com/echohello-dev/backstage/commit/264094e7abc1d3c083790837b9586aeeb0f59ee6))
+* clarify search and answer-engine availability ([#124](https://github.com/echohello-dev/backstage/issues/124)) ([a7b1c5c](https://github.com/echohello-dev/backstage/commit/a7b1c5c973db8959109ee5b01e2c3d0297eaa549))
+* dedupe catalog group and user definitions to examples as single source ([#115](https://github.com/echohello-dev/backstage/issues/115)) ([227f1a5](https://github.com/echohello-dev/backstage/commit/227f1a5745da62bf8b1d3bab37028f44d40feae0))
+* handle an empty Scorecard catalog ([#142](https://github.com/echohello-dev/backstage/issues/142)) ([399b14b](https://github.com/echohello-dev/backstage/commit/399b14be2402d771a7050dd42c03452e6cedc4b5))
+* identify Pulse Check metrics as sample data ([#140](https://github.com/echohello-dev/backstage/issues/140)) ([e840211](https://github.com/echohello-dev/backstage/commit/e8402115c3dbb82a9b8351a7f60fdb32bc591673))
+* make showcase filters accessible and resettable ([#132](https://github.com/echohello-dev/backstage/issues/132)) ([48e4714](https://github.com/echohello-dev/backstage/commit/48e4714836681c5e36a7943f4854391accda6587))
+* remove stale demo catalog locations ([#129](https://github.com/echohello-dev/backstage/issues/129)) ([2cdb9eb](https://github.com/echohello-dev/backstage/commit/2cdb9ebd7ee370a3fd448539c99a1d53b0fb046d))
+
 ## [2026.8.364](https://github.com/echohello-dev/backstage/compare/v2026.1.323...v2026.8.364) (2026-08-24)
 
 
