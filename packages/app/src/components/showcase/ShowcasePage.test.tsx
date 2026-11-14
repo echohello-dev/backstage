@@ -4,6 +4,30 @@ import { ShowcasePage } from './ShowcasePage';
 import { showcaseItems, countByCategory } from './showcaseConfig';
 
 describe('ShowcasePage', () => {
+  it('explains guest preview access before linking to templates', async () => {
+    await renderInTestApp(<ShowcasePage />);
+
+    expect(screen.getByText(/Guest access is read-only/)).toHaveTextContent(
+      'You can preview template forms and steps. Running a template to create a repository or pull request requires developer permissions.',
+    );
+    const templateLinks = screen.getAllByRole('link', {
+      name: 'Preview template',
+    });
+    expect(templateLinks).toHaveLength(8);
+    templateLinks.forEach(link => {
+      expect(link).toHaveAttribute(
+        'href',
+        expect.stringMatching(/^\/self-service\/templates\/default\//),
+      );
+    });
+    expect(
+      screen.getByRole('link', { name: 'Browse templates' }),
+    ).toHaveAttribute('href', '/self-service');
+    expect(
+      screen.queryByRole('link', { name: /Use template|Create component/ }),
+    ).not.toBeInTheDocument();
+  });
+
   it('labels search and exposes the active category and result count', async () => {
     await renderInTestApp(<ShowcasePage />);
 
@@ -69,9 +93,9 @@ describe('ShowcasePage', () => {
 
     fireEvent.click(screen.getByText(/^Answer Engine \(/));
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'The demo does not generate answers.',
-    );
+    expect(
+      screen.getByText(/The demo does not generate answers/),
+    ).toHaveTextContent('The demo does not generate answers.');
     const search = within(
       screen.getByTestId('showcase-card-answer-engine-search'),
     );
@@ -89,7 +113,7 @@ describe('ShowcasePage', () => {
       extension.getByText(/your own document index and AI Hub/),
     ).toBeInTheDocument();
     expect(
-      extension.getByRole('link', { name: 'Use template' }),
+      extension.getByRole('link', { name: 'Preview template' }),
     ).toHaveAttribute(
       'href',
       '/self-service/templates/default/answer-engine-worker',

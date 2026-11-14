@@ -50,11 +50,17 @@ export const ShowcasePage = () => {
             What this portal can do
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Start a new service from a proven template, publish it to GitHub,
-            and make it findable through the catalog and docs search. Pick a
-            card to explore a portal feature or preview a software template.
+            Explore how templates, GitHub integration and catalog search fit
+            together. Pick a card to try a portal feature or preview a software
+            template.
           </Typography>
         </Box>
+
+        <Alert severity="info" sx={{ mb: 2 }}>
+          Guest access is read-only. You can preview template forms and steps.
+          Running a template to create a repository or pull request requires
+          developer permissions.
+        </Alert>
 
         <Alert severity="info" sx={{ mb: 3 }}>
           Catalog and TechDocs keyword search runs in this portal. Generated
