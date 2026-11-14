@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
 import { Page, Header, Content } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
@@ -21,6 +22,14 @@ import {
 } from './SystemHealthCard';
 import { IncidentTimeline, Incident } from './IncidentTimeline';
 import { DeploymentMetrics, DeploymentStats } from './DeploymentMetrics';
+
+const SampleDataNotice = () => (
+  <Alert severity="info" sx={{ mb: 3 }}>
+    Sample data only. Service names come from the catalog. Health and uptime are
+    simulated; incidents and deployment metrics are examples. This page does not
+    report live service status.
+  </Alert>
+);
 
 const getSystemMessage = (status: HealthStatus): string | undefined => {
   if (status === 'degraded') {
@@ -138,9 +147,10 @@ export const PulseCheckPage = () => {
       <Page themeId="tool">
         <Header
           title="Pulse Check"
-          subtitle="Monitor the health and status of your services"
+          subtitle="Explore a service health dashboard with sample data"
         />
         <Content>
+          <SampleDataNotice />
           <Box
             sx={{
               display: 'flex',
@@ -161,9 +171,10 @@ export const PulseCheckPage = () => {
       <Page themeId="tool">
         <Header
           title="Pulse Check"
-          subtitle="Monitor the health and status of your services"
+          subtitle="Explore a service health dashboard with sample data"
         />
         <Content>
+          <SampleDataNotice />
           <Box sx={{ textAlign: 'center', py: 4 }}>
             <Typography color="error">
               Error loading services: {error.message}
@@ -178,9 +189,10 @@ export const PulseCheckPage = () => {
     <Page themeId="tool">
       <Header
         title="Pulse Check"
-        subtitle="Monitor the health and status of your services"
+        subtitle="Explore a service health dashboard with sample data"
       />
       <Content>
+        <SampleDataNotice />
         <Box sx={{ mb: 5 }}>
           <Box
             sx={{
