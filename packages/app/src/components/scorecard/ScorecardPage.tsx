@@ -9,8 +9,10 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { styled } from '@mui/material/styles';
-import { Page, Header, Content } from '@backstage/core-components';
+import { Page, Header, Content, Link } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { Entity } from '@backstage/catalog-model';
@@ -166,6 +168,25 @@ export const ScorecardPage = () => {
               Error loading entities: {error.message}
             </Typography>
           </Box>
+        </Content>
+      </Page>
+    );
+  }
+
+  if (entities.length === 0) {
+    return (
+      <Page themeId="tool">
+        <Header
+          title="Scorecard"
+          subtitle="Track the health and quality of your software catalog"
+        />
+        <Content>
+          <Alert severity="info">
+            <AlertTitle>No catalog entities to score</AlertTitle>
+            Scorecards use components, APIs and systems from the catalog. Scores
+            will appear once these entities are available.{' '}
+            <Link to="/catalog">Browse the catalog</Link>
+          </Alert>
         </Content>
       </Page>
     );
