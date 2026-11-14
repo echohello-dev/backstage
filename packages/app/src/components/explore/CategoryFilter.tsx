@@ -21,6 +21,8 @@ export const CategoryFilter = ({
 
   return (
     <Box
+      role="group"
+      aria-label="Tool categories"
       sx={{
         display: 'flex',
         gap: 1.5,
@@ -30,6 +32,7 @@ export const CategoryFilter = ({
     >
       <Chip
         label={`All${categoryCounts ? ` (${categoryCounts.all})` : ''}`}
+        aria-pressed={selectedCategory === 'all'}
         onClick={() => onCategoryChange('all')}
         variant={selectedCategory === 'all' ? 'filled' : 'outlined'}
         color={selectedCategory === 'all' ? 'primary' : 'default'}
@@ -45,6 +48,7 @@ export const CategoryFilter = ({
         return (
           <Chip
             key={category}
+            aria-pressed={isSelected}
             label={`${categoryLabels[category]}${
               count !== undefined ? ` (${count})` : ''
             }`}

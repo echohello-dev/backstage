@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { Page, Header, Content } from '@backstage/core-components';
 import SearchIcon from '@mui/icons-material/Search';
@@ -25,6 +26,7 @@ const SearchContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const ExplorePage = () => {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<
     ToolCategory | 'all'
@@ -121,11 +123,13 @@ export const ExplorePage = () => {
 
         <SearchContainer sx={{ mb: 4 }}>
           <TextField
+            label="Search tools"
             placeholder="Search tools..."
+            inputRef={searchInputRef}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             size="small"
-            sx={{ minWidth: 300, maxWidth: 400 }}
+            sx={{ width: '100%', maxWidth: 400 }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -134,7 +138,7 @@ export const ExplorePage = () => {
               ),
             }}
           />
-          <Typography variant="body2" color="text.secondary">
+          <Typography role="status" variant="body2" color="text.secondary">
             {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}{' '}
             available
           </Typography>
@@ -147,39 +151,51 @@ export const ExplorePage = () => {
           categoryCounts={categoryCounts}
         />
 
-        {selectedCategory === 'all' ? (
-          // Show grouped by category
-          Object.entries(groupedTools)
-            .sort(([a], [b]) =>
-              categoryLabels[a as ToolCategory].localeCompare(
-                categoryLabels[b as ToolCategory],
-              ),
-            )
-            .map(([category, tools]) => (
-              <Box key={category} sx={{ mb: 5 }}>
-                <Typography
-                  variant="h6"
-                  sx={{ mb: 3, color: 'text.secondary' }}
-                >
-                  {categoryLabels[category as ToolCategory]}
-                </Typography>
-                <ToolGrid tools={tools} />
-              </Box>
-            ))
-        ) : (
-          // Show flat list for selected category
-          <ToolGrid tools={filteredTools} />
-        )}
-
         {filteredTools.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography color="text.secondary">
-              No tools found matching "{searchTerm}"
+              No tools found matching &quot;{searchTerm}&quot;
               {selectedCategory !== 'all' &&
                 ` in ${categoryLabels[selectedCategory]}`}
             </Typography>
+            <Button
+              sx={{ mt: 2 }}
+              variant="outlined"
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('all');
+                searchInputRef.current?.focus();
+              }}
+            >
+              Clear filters
+            </Button>
           </Box>
         )}
+
+        {filteredTools.length > 0 &&
+          (selectedCategory === 'all' ? (
+            // Show grouped by category
+            Object.entries(groupedTools)
+              .sort(([a], [b]) =>
+                categoryLabels[a as ToolCategory].localeCompare(
+                  categoryLabels[b as ToolCategory],
+                ),
+              )
+              .map(([category, tools]) => (
+                <Box key={category} sx={{ mb: 5 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ mb: 3, color: 'text.secondary' }}
+                  >
+                    {categoryLabels[category as ToolCategory]}
+                  </Typography>
+                  <ToolGrid tools={tools} />
+                </Box>
+              ))
+          ) : (
+            // Show flat list for selected category
+            <ToolGrid tools={filteredTools} />
+          ))}
       </Content>
     </Page>
   );
