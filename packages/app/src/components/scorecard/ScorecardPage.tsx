@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { Page, Header, Content, Link } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
@@ -78,6 +79,7 @@ const calculateEntityScore = (entity: Entity): EntityScore => {
 };
 
 export const ScorecardPage = () => {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const catalogApi = useApi(catalogApiRef);
   const [entities, setEntities] = useState<Entity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -111,16 +113,16 @@ export const ScorecardPage = () => {
     ...new Set(entities.map(e => e.spec?.type as string).filter(Boolean)),
   ];
 
+  const searchQuery = searchTerm.trim().toLowerCase();
+  const hasFilters =
+    searchTerm !== '' || kindFilter !== 'all' || typeFilter !== 'all';
+
   // Filter entities
   const filteredScores = entityScores.filter(es => {
     const matchesSearch =
-      searchTerm === '' ||
-      es.entity.metadata.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      es.entity.metadata.description
-        ?.toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      searchQuery === '' ||
+      es.entity.metadata.name.toLowerCase().includes(searchQuery) ||
+      es.entity.metadata.description?.toLowerCase().includes(searchQuery);
     const matchesKind = kindFilter === 'all' || es.entity.kind === kindFilter;
     const matchesType =
       typeFilter === 'all' || es.entity.spec?.type === typeFilter;
@@ -226,7 +228,9 @@ export const ScorecardPage = () => {
 
         <FilterContainer sx={{ mb: 4 }}>
           <TextField
+            label="Search entities"
             placeholder="Search entities..."
+            inputRef={searchInputRef}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             size="small"
@@ -240,8 +244,10 @@ export const ScorecardPage = () => {
             }}
           />
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Kind</InputLabel>
+            <InputLabel id="scorecard-kind-label">Kind</InputLabel>
             <Select
+              labelId="scorecard-kind-label"
+              id="scorecard-kind"
               value={kindFilter}
               label="Kind"
               onChange={e => setKindFilter(e.target.value)}
@@ -255,8 +261,10 @@ export const ScorecardPage = () => {
             </Select>
           </FormControl>
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Type</InputLabel>
+            <InputLabel id="scorecard-type-label">Type</InputLabel>
             <Select
+              labelId="scorecard-type-label"
+              id="scorecard-type"
               value={typeFilter}
               label="Type"
               onChange={e => setTypeFilter(e.target.value)}
@@ -269,7 +277,29 @@ export const ScorecardPage = () => {
               ))}
             </Select>
           </FormControl>
+          {hasFilters && (
+            <Button
+              onClick={() => {
+                setSearchTerm('');
+                setKindFilter('all');
+                setTypeFilter('all');
+                searchInputRef.current?.focus();
+              }}
+            >
+              Clear filters
+            </Button>
+          )}
         </FilterContainer>
+
+        <Typography
+          role="status"
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          {sortedScores.length}{' '}
+          {sortedScores.length === 1 ? 'entity' : 'entities'} found
+        </Typography>
 
         <Grid container spacing={3}>
           {sortedScores.map(entityScore => (
