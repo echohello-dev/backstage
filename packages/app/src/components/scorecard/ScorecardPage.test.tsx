@@ -11,6 +11,12 @@ describe('ScorecardPage', () => {
     metadata: { name: 'demo-service', description: 'A demo service' },
     spec: { type: 'service', lifecycle: 'experimental', owner: 'guest' },
   };
+  const demoApi = {
+    ...demoService,
+    kind: 'API',
+    metadata: { name: 'demo-api', description: 'Public endpoint' },
+    spec: { ...demoService.spec, type: 'openapi' },
+  };
 
   const renderPage = () =>
     renderInTestApp(
@@ -80,6 +86,84 @@ describe('ScorecardPage', () => {
       screen.queryByText('No catalog entities to score'),
     ).not.toBeInTheDocument();
   });
+
+  it('labels every filter and announces the matching entity count', async () => {
+    getEntities.mockResolvedValue({ items: [demoService, demoApi] });
+
+    await renderPage();
+
+    expect(
+      screen.getByRole('textbox', { name: 'Search entities' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Kind' })).toHaveTextContent(
+      'All',
+    );
+    expect(screen.getByRole('combobox', { name: 'Type' })).toHaveTextContent(
+      'All',
+    );
+    expect(screen.getByRole('status')).toHaveTextContent('2 entities found');
+    expect(
+      screen.queryByRole('button', { name: 'Clear filters' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('combines all filters and clears them with focus even when no entities match', async () => {
+    getEntities.mockResolvedValue({ items: [demoService, demoApi] });
+
+    await renderPage();
+    const search = screen.getByRole('textbox', { name: 'Search entities' });
+
+    fireEvent.change(search, { target: { value: 'demo' } });
+    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Kind' }));
+    fireEvent.click(screen.getByRole('option', { name: 'Component' }));
+
+    expect(screen.getByRole('status')).toHaveTextContent('1 entity found');
+    expect(screen.getByText('demo-service')).toBeInTheDocument();
+    expect(screen.queryByText('demo-api')).not.toBeInTheDocument();
+
+    fireEvent.mouseDown(screen.getByRole('combobox', { name: 'Type' }));
+    fireEvent.click(screen.getByRole('option', { name: 'openapi' }));
+
+    expect(screen.getByRole('status')).toHaveTextContent('0 entities found');
+    expect(
+      screen.getByText('No entities found matching your filters.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Across 2 entities')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(search).toHaveValue('');
+    expect(search).toHaveFocus();
+    expect(screen.getByRole('combobox', { name: 'Kind' })).toHaveTextContent(
+      'All',
+    );
+    expect(screen.getByRole('combobox', { name: 'Type' })).toHaveTextContent(
+      'All',
+    );
+    expect(screen.getByRole('status')).toHaveTextContent('2 entities found');
+    expect(screen.getByText('demo-service')).toBeInTheDocument();
+    expect(screen.getByText('demo-api')).toBeInTheDocument();
+    expect(
+      screen.queryByText('No entities found matching your filters.'),
+    ).not.toBeInTheDocument();
+  });
+
+  it.each(['  PUBLIC  ', '   '])(
+    'normalises search whitespace and case for %j',
+    async term => {
+      getEntities.mockResolvedValue({ items: [demoService, demoApi] });
+
+      await renderPage();
+      fireEvent.change(screen.getByRole('textbox', { name: 'Search entities' }), {
+        target: { value: term },
+      });
+
+      expect(screen.getByText('demo-api')).toBeInTheDocument();
+      expect(screen.getByRole('status')).toHaveTextContent(
+        term.trim() ? '1 entity found' : '2 entities found',
+      );
+    },
+  );
 
   it('waits for the catalog before showing an empty state', async () => {
     getEntities.mockReturnValue(new Promise(() => {}));
