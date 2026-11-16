@@ -6,6 +6,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { Page, Header, Content } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
@@ -116,23 +118,35 @@ export const PulseCheckPage = () => {
   const [entities, setEntities] = useState<Entity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
   useEffect(() => {
+    let active = true;
     const fetchEntities = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
         const response = await catalogApi.getEntities({
           filter: [{ kind: 'component', 'spec.type': 'service' }],
         });
-        setEntities(response.items);
+        if (active) setEntities(response.items);
       } catch (err) {
-        setError(err as Error);
+        if (active) {
+          setError(
+            err instanceof Error
+              ? err
+              : new Error('The catalog is unavailable.'),
+          );
+        }
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
     fetchEntities();
-  }, [catalogApi]);
+    return () => {
+      active = false;
+    };
+  }, [catalogApi, loadAttempt]);
 
   const healthData = entities.map(generateMockHealth);
 
@@ -159,7 +173,7 @@ export const PulseCheckPage = () => {
               minHeight: 400,
             }}
           >
-            <CircularProgress />
+            <CircularProgress aria-label="Loading services" />
           </Box>
         </Content>
       </Page>
@@ -175,11 +189,23 @@ export const PulseCheckPage = () => {
         />
         <Content>
           <SampleDataNotice />
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography color="error">
-              Error loading services: {error.message}
-            </Typography>
-          </Box>
+          <Alert
+            severity="error"
+            aria-labelledby="pulse-check-load-error"
+            action={
+              <Button
+                color="inherit"
+                onClick={() => setLoadAttempt(attempt => attempt + 1)}
+              >
+                Retry
+              </Button>
+            }
+          >
+            <AlertTitle id="pulse-check-load-error">
+              Could not load services
+            </AlertTitle>
+            {error.message}
+          </Alert>
         </Content>
       </Page>
     );
