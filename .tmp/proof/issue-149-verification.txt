@@ -43,7 +43,7 @@ The test excerpt above contains the complete PulseCheckPage result block and ove
 $ BROWSER=none MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run dev
 [0] Rspack compiled successfully
 [1] 2026-11-16T09:13:39.229Z backstage info Plugin initialization complete, newly initialized: 'notifications', 'scaffolder', 'catalog' type="initialization"
-[1] 2026-11-16T09:13:40.323Z signals warn Event subscribe request failed with status 404, events backend not found. Will only receive events that were sent locally on this process. 
+[1] 2026-11-16T09:13:40.323Z signals warn Event subscribe request failed with status 404, events backend not found. Will only receive events that were sent locally on this process.
 [1] yarn start-backend exited with code 0
 [0] yarn start exited with code 0
 The stack was stopped with Ctrl+C after verification.
