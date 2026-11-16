@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { ScorecardPage } from './ScorecardPage';
@@ -154,9 +154,12 @@ describe('ScorecardPage', () => {
       getEntities.mockResolvedValue({ items: [demoService, demoApi] });
 
       await renderPage();
-      fireEvent.change(screen.getByRole('textbox', { name: 'Search entities' }), {
-        target: { value: term },
-      });
+      fireEvent.change(
+        screen.getByRole('textbox', { name: 'Search entities' }),
+        {
+          target: { value: term },
+        },
+      );
 
       expect(screen.getByText('demo-api')).toBeInTheDocument();
       expect(screen.getByRole('status')).toHaveTextContent(
@@ -170,7 +173,9 @@ describe('ScorecardPage', () => {
 
     await renderPage();
 
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(
+      screen.getByRole('progressbar', { name: 'Loading scorecards' }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByText('No catalog entities to score'),
     ).not.toBeInTheDocument();
@@ -181,12 +186,94 @@ describe('ScorecardPage', () => {
 
     await renderPage();
 
-    expect(
-      screen.getByText('Error loading entities: Catalog unavailable'),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Could not load scorecards',
+    );
+    expect(screen.getByRole('alert')).toHaveTextContent('Catalog unavailable');
+    expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument();
     expect(
       screen.queryByText('No catalog entities to score'),
     ).not.toBeInTheDocument();
     expect(screen.queryByText('Average Score')).not.toBeInTheDocument();
+  });
+
+  it('retries a failed catalog load and shows scorecards after a pending request', async () => {
+    let resolveRetry: () => void;
+    const retry = new Promise<{ items: (typeof demoService)[] }>(resolve => {
+      resolveRetry = () => resolve({ items: [demoService] });
+    });
+    getEntities
+      .mockRejectedValueOnce(new Error('Catalog unavailable'))
+      .mockReturnValueOnce(retry);
+
+    await renderPage();
+    fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
+
+    expect(
+      screen.getByRole('progressbar', { name: 'Loading scorecards' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Retry' }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Average Score')).not.toBeInTheDocument();
+    expect(getEntities).toHaveBeenCalledTimes(2);
+    expect(getEntities).toHaveBeenLastCalledWith({
+      filter: [{ kind: 'component' }, { kind: 'api' }, { kind: 'system' }],
+    });
+
+    await act(async () => resolveRetry());
+
+    expect(screen.getByText('demo-service')).toBeInTheDocument();
+    expect(screen.getByText('Average Score')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('1 entity found');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('progressbar', { name: 'Loading scorecards' }),
+    ).not.toBeInTheDocument();
+    expect(getEntities).toHaveBeenCalledTimes(2);
+  });
+
+  it('offers another retry after a second failure and handles an empty recovery', async () => {
+    getEntities
+      .mockRejectedValueOnce(new Error('Catalog unavailable'))
+      .mockRejectedValueOnce(new Error('Still unavailable'))
+      .mockResolvedValueOnce({ items: [] });
+
+    await renderPage();
+    fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
+
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent('Still unavailable'),
+    );
+    expect(screen.queryByText('Catalog unavailable')).not.toBeInTheDocument();
+    expect(screen.queryByText('Average Score')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('No catalog entities to score'),
+    ).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
+
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        'No catalog entities to score',
+      ),
+    );
+    expect(screen.queryByText('Still unavailable')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Retry' }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Average Score')).not.toBeInTheDocument();
+    expect(getEntities).toHaveBeenCalledTimes(3);
+  });
+
+  it('offers retry when the catalog rejects without an Error object', async () => {
+    getEntities.mockRejectedValue(null);
+
+    await renderPage();
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'The catalog is unavailable.',
+    );
+    expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument();
   });
 });

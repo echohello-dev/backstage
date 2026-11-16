@@ -1,0 +1,49 @@
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run install
+➤ YN0000: └ Completed in 133m 52s
+➤ YN0000: · Done with warnings in 134m 12s
+Finished in 897.68s
+
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run lint
+[lint] $ ./scripts/lint
+Checked   2 files in packages/backend 2.60s
+(node:3702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   3 files in plugins/permission-backend-module-default 0.10s
+Checked   1 files in packages/backstage-theme-github 3.91s
+(node:3702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   8 files in plugins/plausible 3.98s
+(node:3702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked  54 files in packages/app 4.93s
+(node:3702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run test -- --runInBand --verbose
+PASS app packages/app/src/components/scorecard/ScorecardPage.test.tsx (17.797 s)
+  ScorecardPage
+    ✓ shows a catalog link instead of invalid metrics when the catalog is empty (253 ms)
+    ✓ renders metrics and scorecards when catalog entities are available (341 ms)
+    ✓ keeps catalog metrics when search filters have no matches (169 ms)
+    ✓ labels every filter and announces the matching entity count (153 ms)
+    ✓ combines all filters and clears them with focus even when no entities match (985 ms)
+    ✓ normalises search whitespace and case for "  PUBLIC  " (221 ms)
+    ✓ normalises search whitespace and case for "   " (211 ms)
+    ✓ waits for the catalog before showing an empty state (48 ms)
+    ✓ reports catalog failures instead of showing an empty state (115 ms)
+    ✓ retries a failed catalog load and shows scorecards after a pending request (219 ms)
+    ✓ offers another retry after a second failure and handles an empty recovery (217 ms)
+    ✓ offers retry when the catalog rejects without an Error object (54 ms)
+
+Test Suites: 1 skipped, 10 passed, 10 of 11 total
+Tests:       1 skipped, 68 passed, 69 total
+Snapshots:   0 total
+Time:        56.671 s
+Ran all test suites in 4 projects.
+
+$ BROWSER=none MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run dev
+Starting the server at http://localhost:3000
+[0] Rspack compiled successfully
+
+$ curl --fail --silent --output /tmp/backstage-147-page.html --write-out 'Frontend HTTP %{http_code}\n' http://localhost:3000/scorecard
+Frontend HTTP 200
