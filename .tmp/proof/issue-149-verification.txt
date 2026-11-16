@@ -1,0 +1,59 @@
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run install
+➤ YN0000: · Done with warnings in 28m 41s
+Finished in 325.23s
+exit 0; no lockfile changes
+
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run lint
+[lint] $ ./scripts/lint
+Checked   2 files in packages/backend 3.98s
+(node:70265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   3 files in plugins/permission-backend-module-default 0.16s
+Checked   1 files in packages/backstage-theme-github 5.10s
+(node:70265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   8 files in plugins/plausible 5.51s
+(node:70265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked  54 files in packages/app 7.88s
+(node:70265) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit 0
+
+$ MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run test -- --runInBand --verbose
+PASS app packages/app/src/components/pulse-check/PulseCheckPage.test.tsx (11.484 s)
+  PulseCheckPage
+    ✓ identifies simulated health and fixture metrics on the populated dashboard (959 ms)
+    ✓ keeps the sample-data notice visible while services load (211 ms)
+    ✓ keeps the sample-data notice visible when the catalog fails (740 ms)
+    ✓ retries a failed catalog load and restores the dashboard after a pending request (1073 ms)
+    ✓ offers another retry after a second failure and handles an empty recovery (988 ms)
+    ✓ offers retry when the catalog rejects without an Error object (329 ms)
+    ✓ identifies example metrics even when the catalog has no services (425 ms)
+
+Test Suites: 1 skipped, 10 passed, 10 of 11 total
+Tests:       1 skipped, 71 passed, 72 total
+Snapshots:   0 total
+Time:        141.774 s
+Ran all test suites in 4 projects.
+exit 0
+
+The test excerpt above contains the complete PulseCheckPage result block and overall totals. Existing jsdom stylesheet and React/MUI warnings are omitted.
+
+$ BROWSER=none MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run dev
+[0] Rspack compiled successfully
+[1] 2026-11-16T09:13:39.229Z backstage info Plugin initialization complete, newly initialized: 'notifications', 'scaffolder', 'catalog' type="initialization"
+[1] 2026-11-16T09:13:40.323Z signals warn Event subscribe request failed with status 404, events backend not found. Will only receive events that were sent locally on this process.
+[1] yarn start-backend exited with code 0
+[0] yarn start exited with code 0
+The stack was stopped with Ctrl+C after verification.
+
+$ curl --silent --output /dev/null --write-out "GET /pulse-check -> HTTP %{http_code}\n" http://localhost:3000/pulse-check
+GET /pulse-check -> HTTP 200
+
+Screenshot method (a) was blocked. Attempting to open http://localhost:3000/pulse-check with the browser tool returned "The browser access host is unavailable". No screenshot was captured and browser rendering remains unverified. Method (b) succeeded with the regression-test output above.
+
+$ git diff --check
+exit 0
+
+mise run build was not run locally. This slice changes frontend controls and component tests only; backend and packaging are unchanged. The PR Build workflow runs all four mise gates including the Docker image build.
