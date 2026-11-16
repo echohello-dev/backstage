@@ -1,0 +1,75 @@
+Verification for issue #151
+
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run install
+Passed. Dependency installation completed with existing peer-dependency warnings.
+No dependency manifest or lockfile changes.
+
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run lint
+[lint] $ ./scripts/lint
+Checked   2 files in packages/backend 1.15s
+(node:19149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   3 files in plugins/permission-backend-module-default 0.05s
+Checked   1 files in packages/backstage-theme-github 1.48s
+(node:19149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked   8 files in plugins/plausible 1.52s
+(node:19149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checked  55 files in packages/app 2.30s
+(node:19149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run test -- --runInBand --verbose
+PASS app packages/app/src/components/home/HomePage.test.tsx
+  HomePage component lifecycles
+    ✓ counts component lifecycles, including custom and missing values, without claiming health (184 ms)
+    ✓ explains the data source while loading and does not show zero counts (98 ms)
+    ✓ distinguishes an empty component catalog from unavailable data (93 ms)
+    ✓ reports unavailable data after a catalog failure without showing empty or zero counts (111 ms)
+    ✓ keeps loaded lifecycle counts when a later template request fails (91 ms)
+
+Test Suites: 1 skipped, 11 passed, 11 of 12 total
+Tests:       1 skipped, 76 passed, 77 total
+Snapshots:   0 total
+Time:        25.398 s
+Ran all test suites in 4 projects.
+
+Existing test warnings included jsdom stylesheet parsing and React/MUI warnings.
+
+BROWSER=none MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run dev
+Rspack compiled successfully. Frontend / returned HTTP 200.
+Backend /.backstage/health/v1/readiness returned HTTP 200.
+The dev stack was stopped after verification.
+
+Paseo browser capture was blocked: No browser automation host is connected.
+The local Playwright CLI fallback succeeded using Chrome and Guest > Enter.
+It was invoked through a temporary mise task named proof-browser, which wrapped
+/Users/johnny/.agents/skills/playwright/scripts/playwright_cli.sh with the session
+backstage-issue-151. The temporary task was removed after capture.
+
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser open http://localhost:3000 --browser chrome
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser click e18
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser resize 1440 1200
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser snapshot
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser screenshot e401 --filename=.tmp/proof/issue-151-component-lifecycles.png
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser screenshot --full-page --filename=.tmp/proof/issue-151-home.png
+MISE_TRUSTED_CONFIG_PATHS="$PWD" mise run proof-browser click e425
+
+The section capture includes its heading, explanation, all four lifecycle counts
+and Browse components. The home capture shows the surrounding page at 1440x1200;
+the page uses an internal scroll area, so it is a viewport rather than the entire
+home-page content. The local catalog had 13 production components and zero in
+the other three groups. Browse components opened the catalog with kind=component
+and All Components (13). No responses were mocked for the browser captures.
+
+Browser warnings included the existing signals WebSocket 404, React Router future
+flags and React deprecations. The backend also reported missing TechDocs search
+indexes. These are outside this slice.
+
+mise run build was not run locally because this slice changes frontend UI and
+component tests only. The PR Build workflow runs install, lint, test and the Docker
+build without publishing an image.
+
+git diff --check
+Passed.
