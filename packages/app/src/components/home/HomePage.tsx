@@ -10,10 +10,6 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SpeedIcon from '@mui/icons-material/Speed';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CodeIcon from '@mui/icons-material/Code';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -41,7 +37,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
-import LinearProgress from '@mui/material/LinearProgress';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useApi } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { useNavigate } from 'react-router-dom';
@@ -130,11 +127,11 @@ interface OnboardingDoc {
   tags: string[];
 }
 
-interface HealthStatus {
-  healthy: number;
-  warning: number;
-  critical: number;
-  unknown: number;
+interface ComponentLifecycles {
+  production: number;
+  experimental: number;
+  deprecated: number;
+  other: number;
 }
 
 const SectionHeader = ({
@@ -183,12 +180,8 @@ export const HomePage = () => {
   const [recentEntities, setRecentEntities] = useState<RecentEntity[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
   const [onboardingDocs, setOnboardingDocs] = useState<OnboardingDoc[]>([]);
-  const [healthStatus, setHealthStatus] = useState<HealthStatus>({
-    healthy: 0,
-    warning: 0,
-    critical: 0,
-    unknown: 0,
-  });
+  const [componentLifecycles, setComponentLifecycles] =
+    useState<ComponentLifecycles>();
   const [loadingRecent, setLoadingRecent] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
   const [loadingDocs, setLoadingDocs] = useState(true);
@@ -232,20 +225,20 @@ export const HomePage = () => {
           loading: false,
         });
 
-        const healthCounts: HealthStatus = {
-          healthy: 0,
-          warning: 0,
-          critical: 0,
-          unknown: 0,
+        const lifecycleCounts: ComponentLifecycles = {
+          production: 0,
+          experimental: 0,
+          deprecated: 0,
+          other: 0,
         };
         components.items.forEach((entity: Entity) => {
-          const lifecycle = entity.spec?.lifecycle as string;
-          if (lifecycle === 'production') healthCounts.healthy++;
-          else if (lifecycle === 'experimental') healthCounts.warning++;
-          else if (lifecycle === 'deprecated') healthCounts.critical++;
-          else healthCounts.unknown++;
+          const lifecycle = entity.spec?.lifecycle;
+          if (lifecycle === 'production') lifecycleCounts.production++;
+          else if (lifecycle === 'experimental') lifecycleCounts.experimental++;
+          else if (lifecycle === 'deprecated') lifecycleCounts.deprecated++;
+          else lifecycleCounts.other++;
         });
-        setHealthStatus(healthCounts);
+        setComponentLifecycles(lifecycleCounts);
 
         const allEntities = [
           ...components.items,
@@ -401,20 +394,50 @@ export const HomePage = () => {
     },
   ];
 
-  const totalHealth =
-    healthStatus.healthy +
-    healthStatus.warning +
-    healthStatus.critical +
-    healthStatus.unknown;
-  const healthPercentage =
-    totalHealth > 0
-      ? Math.round((healthStatus.healthy / totalHealth) * 100)
-      : 0;
-  let healthBarColor = theme.palette.error.main;
-  if (healthPercentage >= 80) {
-    healthBarColor = theme.palette.success.main;
-  } else if (healthPercentage >= 50) {
-    healthBarColor = theme.palette.warning.main;
+  let lifecycleContent: ReactNode;
+  if (stats.loading) {
+    lifecycleContent = (
+      <Box role="status" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <CircularProgress size={20} aria-hidden="true" />
+        <Typography>Loading component lifecycles...</Typography>
+      </Box>
+    );
+  } else if (!componentLifecycles) {
+    lifecycleContent = (
+      <Alert severity="warning">
+        Component lifecycle data is unavailable. Try reloading the page.
+      </Alert>
+    );
+  } else if (stats.components === 0) {
+    lifecycleContent = (
+      <Typography color="text.secondary">
+        No components found in the catalog.
+      </Typography>
+    );
+  } else {
+    const lifecycles = [
+      { label: 'Production', count: componentLifecycles.production },
+      { label: 'Experimental', count: componentLifecycles.experimental },
+      { label: 'Deprecated', count: componentLifecycles.deprecated },
+      { label: 'Other or unspecified', count: componentLifecycles.other },
+    ];
+    lifecycleContent = (
+      <Box component="dl" sx={{ m: 0 }}>
+        {lifecycles.map(({ label, count }) => (
+          <Box
+            key={label}
+            sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}
+          >
+            <Typography component="dt" color="text.secondary">
+              {label}
+            </Typography>
+            <Typography component="dd" sx={{ m: 0, fontWeight: 600 }}>
+              {count}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    );
   }
 
   let templatesContent: ReactNode;
@@ -502,7 +525,9 @@ export const HomePage = () => {
   } else {
     templatesContent = (
       <Paper sx={{ p: 3, textAlign: 'center' }}>
-        <InfoOutlinedIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+        <InfoOutlinedIcon
+          sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }}
+        />
         <Typography color="text.secondary">
           No templates available yet.{' '}
           <Box
@@ -587,7 +612,9 @@ export const HomePage = () => {
   } else {
     onboardingDocsContent = (
       <Paper sx={{ p: 3, textAlign: 'center' }}>
-        <InfoOutlinedIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+        <InfoOutlinedIcon
+          sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }}
+        />
         <Typography color="text.secondary">
           No onboarding docs tagged yet. Tag a docs entity with{' '}
           <Box component="span" sx={{ fontWeight: 'bold' }}>
@@ -637,9 +664,15 @@ export const HomePage = () => {
                 </ListItemIcon>
                 <ListItemText
                   primary={entity.name}
-                  secondary={`${entity.kind}${entity.type ? ` · ${entity.type}` : ''}`}
+                  secondary={`${entity.kind}${
+                    entity.type ? ` · ${entity.type}` : ''
+                  }`}
                 />
-                <Chip label={entity.kind} size="small" sx={{ fontSize: '0.7rem' }} />
+                <Chip
+                  label={entity.kind}
+                  size="small"
+                  sx={{ fontSize: '0.7rem' }}
+                />
               </ListItemButton>
             </ListItem>
             {index < recentEntities.length - 1 && <Divider />}
@@ -866,9 +899,7 @@ export const HomePage = () => {
                   </Button>
                 }
               />
-              <Paper sx={{ overflow: 'hidden' }}>
-                {recentEntitiesContent}
-              </Paper>
+              <Paper sx={{ overflow: 'hidden' }}>{recentEntitiesContent}</Paper>
             </Box>
           </Grid>
 
@@ -876,179 +907,30 @@ export const HomePage = () => {
             <Box sx={{ mb: 4 }}>
               <SectionHeader
                 icon={
-                  <SpeedIcon
-                    sx={{ fontSize: 28, color: theme.palette.warning.main }}
+                  <CategoryIcon
+                    sx={{ fontSize: 28, color: theme.palette.info.main }}
                   />
                 }
-                title="System Health"
+                title="Component lifecycles"
               />
-              <Card>
+              <Card component="section" aria-label="Component lifecycles">
                 <CardContent>
-                  <Box sx={{ mb: 3 }}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        mb: 1,
-                      }}
-                    >
-                      <Typography variant="body2" color="text.secondary">
-                        Overall Health
-                      </Typography>
-                      <Typography variant="body2" fontWeight={600}>
-                        {stats.loading ? (
-                          <Skeleton width={30} />
-                        ) : (
-                          `${healthPercentage}%`
-                        )}
-                      </Typography>
-                    </Box>
-                    <LinearProgress
-                      variant="determinate"
-                      value={healthPercentage}
-                      sx={{
-                        height: 8,
-                        borderRadius: 4,
-                        bgcolor: theme.palette.grey[200],
-                        '& .MuiLinearProgress-bar': {
-                          bgcolor: healthBarColor,
-                        },
-                      }}
-                    />
-                  </Box>
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                          p: 1.5,
-                          bgcolor: `${theme.palette.success.main}10`,
-                          borderRadius: 1,
-                        }}
-                      >
-                        <CheckCircleOutlineIcon
-                          sx={{ color: theme.palette.success.main }}
-                        />
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 600, lineHeight: 1 }}
-                          >
-                            {stats.loading ? (
-                              <Skeleton width={20} />
-                            ) : (
-                              healthStatus.healthy
-                            )}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Production
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                          p: 1.5,
-                          bgcolor: `${theme.palette.warning.main}10`,
-                          borderRadius: 1,
-                        }}
-                      >
-                        <WarningAmberIcon
-                          sx={{ color: theme.palette.warning.main }}
-                        />
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 600, lineHeight: 1 }}
-                          >
-                            {stats.loading ? (
-                              <Skeleton width={20} />
-                            ) : (
-                              healthStatus.warning
-                            )}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Experimental
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                          p: 1.5,
-                          bgcolor: `${theme.palette.error.main}10`,
-                          borderRadius: 1,
-                        }}
-                      >
-                        <ErrorOutlineIcon
-                          sx={{ color: theme.palette.error.main }}
-                        />
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 600, lineHeight: 1 }}
-                          >
-                            {stats.loading ? (
-                              <Skeleton width={20} />
-                            ) : (
-                              healthStatus.critical
-                            )}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Deprecated
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                          p: 1.5,
-                          bgcolor: theme.palette.grey[100],
-                          borderRadius: 1,
-                        }}
-                      >
-                        <InfoOutlinedIcon
-                          sx={{ color: theme.palette.grey[500] }}
-                        />
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 600, lineHeight: 1 }}
-                          >
-                            {stats.loading ? (
-                              <Skeleton width={20} />
-                            ) : (
-                              healthStatus.unknown
-                            )}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Other
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                  </Grid>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    Counts use component lifecycle metadata from the catalog.
+                    They do not report live service health.
+                  </Typography>
+                  {lifecycleContent}
                   <Button
                     fullWidth
                     sx={{ mt: 2 }}
                     endIcon={<ArrowForwardIcon />}
-                    onClick={() => navigate('/pulse-check')}
+                    onClick={() => navigate('/catalog?filters[kind]=component')}
                   >
-                    View Pulse Check
+                    Browse components
                   </Button>
                 </CardContent>
               </Card>
