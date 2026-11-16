@@ -84,26 +84,38 @@ export const ScorecardPage = () => {
   const [entities, setEntities] = useState<Entity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [kindFilter, setKindFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
   useEffect(() => {
+    let active = true;
     const fetchEntities = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
         const response = await catalogApi.getEntities({
           filter: [{ kind: 'component' }, { kind: 'api' }, { kind: 'system' }],
         });
-        setEntities(response.items);
+        if (active) setEntities(response.items);
       } catch (err) {
-        setError(err as Error);
+        if (active) {
+          setError(
+            err instanceof Error
+              ? err
+              : new Error('The catalog is unavailable.'),
+          );
+        }
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
     fetchEntities();
-  }, [catalogApi]);
+    return () => {
+      active = false;
+    };
+  }, [catalogApi, loadAttempt]);
 
   const entityScores = entities.map(calculateEntityScore);
 
@@ -150,7 +162,7 @@ export const ScorecardPage = () => {
               minHeight: 400,
             }}
           >
-            <CircularProgress />
+            <CircularProgress aria-label="Loading scorecards" />
           </Box>
         </Content>
       </Page>
@@ -165,11 +177,20 @@ export const ScorecardPage = () => {
           subtitle="Track the health and quality of your software catalog"
         />
         <Content>
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography color="error">
-              Error loading entities: {error.message}
-            </Typography>
-          </Box>
+          <Alert
+            severity="error"
+            action={
+              <Button
+                color="inherit"
+                onClick={() => setLoadAttempt(attempt => attempt + 1)}
+              >
+                Retry
+              </Button>
+            }
+          >
+            <AlertTitle>Could not load scorecards</AlertTitle>
+            {error.message}
+          </Alert>
         </Content>
       </Page>
     );
